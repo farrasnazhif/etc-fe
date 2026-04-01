@@ -16,10 +16,10 @@ export default function Home() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(14,165,233,0.15),transparent_45%),radial-gradient(circle_at_80%_80%,rgba(249,115,22,0.15),transparent_40%)]" />
       <div className="relative mx-auto flex w-full max-w-5xl flex-col gap-10">
         <div className="space-y-6">
-          <Badge className="rounded-full px-3 py-1 text-xs tracking-wide uppercase">
+          <Badge className="rounded-full p-3 text-xs tracking-wide uppercase">
             Next.js 16 Starter
           </Badge>
-          <h1 className="max-w-3xl text-4xl leading-tight font-semibold tracking-tight text-balance sm:text-6xl">
+          <h1 className="max-w-5xl text-4xl leading-tight font-semibold tracking-tight text-balance sm:text-6xl">
             Ship faster with a production-ready Next.js starter.
           </h1>
           <p className="max-w-2xl text-base text-slate-700 sm:text-lg">
@@ -45,10 +45,7 @@ export default function Home() {
             </Button>
           </div>
         </div>
-        <section
-          id="features"
-          className="grid gap-4 md:grid-cols-3"
-        >
+        <section id="features" className="grid gap-4 md:grid-cols-3">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">

@@ -1,36 +1,146 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next Starter Kit
 
-## Getting Started
+Production-oriented Next.js starter built with App Router, shadcn/ui, React Query, Husky pre-commit checks, and SEO metadata routes.
 
-First, run the development server:
+## Features
+
+- Next.js 16 + React 19 + TypeScript + Tailwind CSS v4
+- Starter landing page at `/`
+- Component sandbox directory at `/sandbox`
+- Dedicated sandbox pages:
+  - `/sandbox/button`
+  - `/sandbox/input`
+  - `/sandbox/card`
+- shadcn/ui initialized and ready to extend
+- React Query provider configured globally with Devtools
+- Husky + lint-staged pre-commit workflow (`eslint --fix`)
+- SEO files:
+  - `src/app/sitemap.ts`
+  - `src/app/robots.ts`
+- Custom 404 page: `src/app/not-found.tsx`
+
+## Tech Stack
+
+- `next@16.2.2`
+- `react@19.2.4`
+- `typescript@5`
+- `tailwindcss@4`
+- `@tanstack/react-query`
+- `shadcn`
+- `husky` + `lint-staged`
+
+## Project Structure
+
+```text
+src/
+  app/
+    layout.tsx
+    page.tsx
+    not-found.tsx
+    robots.ts
+    sitemap.ts
+    sandbox/
+      page.tsx
+      button/page.tsx
+      input/page.tsx
+      card/page.tsx
+    api/
+      sandbox-stats/route.ts
+  components/
+    providers/query-provider.tsx
+    sandbox/live-query-card.tsx
+    ui/
+      button.tsx
+      input.tsx
+      card.tsx
+      ...
+```
+
+## Quick Start
+
+1. Clone the repository.
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - run dev server
+- `npm run build` - production build
+- `npm run start` - run production server
+- `npm run lint` - run ESLint
 
-## Learn More
+## How To Use This Repo
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Build product pages from the landing starter
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Edit hero/content in `src/app/page.tsx`.
+- Keep UI primitives in `src/components/ui` reusable.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 2. Prototype components safely in sandbox routes
 
-## Deploy on Vercel
+Use sandbox pages before integrating components into main pages:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `/sandbox/button` for button variants/sizes/states
+- `/sandbox/input` for form inputs and common rows
+- `/sandbox/card` for card composition patterns
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 3. Add new shadcn components
+
+```bash
+npx shadcn@latest add <component-name>
+```
+
+Example:
+
+```bash
+npx shadcn@latest add dialog
+```
+
+### 4. Use React Query for server-state data
+
+- Global provider is wired in `src/app/layout.tsx` via `QueryProvider`.
+- Example query implementation lives in:
+  - `src/components/sandbox/live-query-card.tsx`
+  - `src/app/api/sandbox-stats/route.ts`
+
+### 5. Respect commit checks
+
+On commit, Husky runs `lint-staged` and auto-fixes lint issues for staged JS/TS files.
+
+## SEO and Metadata
+
+- `src/app/sitemap.ts` generates the sitemap.
+- `src/app/robots.ts` generates robots rules and references sitemap URL.
+- Set this env var in production so generated URLs are correct:
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://your-domain.com
+```
+
+If `NEXT_PUBLIC_SITE_URL` is not set, metadata routes fallback to `http://localhost:3000`.
+
+## Deployment
+
+Deploy on Vercel (recommended) or any Node-compatible platform.
+
+Typical production flow:
+
+1. Set environment variables (at least `NEXT_PUBLIC_SITE_URL`).
+2. Run `npm run build`.
+3. Run `npm run start`.
+
+## Notes
+
+- This project uses Inter as the global sans font via `next/font/google` in `src/app/layout.tsx`.
+- Button components that render links use `nativeButton={false}` to preserve proper semantics and avoid Base UI warnings.

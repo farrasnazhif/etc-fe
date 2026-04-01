@@ -1,7 +1,7 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { RefreshCcw } from "lucide-react";
+import { useRandomQuote } from "@/hooks/use-random-quote";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,32 +11,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-type SandboxStats = {
-  timestamp: string;
-  status: string;
-  build: string;
-};
-
-async function getSandboxStats() {
-  const response = await fetch("/api/sandbox-stats");
-  if (!response.ok) {
-    throw new Error("Failed to load sandbox stats");
-  }
-  return (await response.json()) as SandboxStats;
-}
-
 export function LiveQueryCard() {
-  const { data, isPending, isError, error, refetch, isFetching } = useQuery({
-    queryKey: ["sandbox-stats"],
-    queryFn: getSandboxStats,
-  });
+  const { data, isPending, isError, error, refetch, isFetching } =
+    useRandomQuote();
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>React Query Live Fetch</CardTitle>
+        <CardTitle>React Query + Axios</CardTitle>
         <CardDescription>
-          This card fetches data from a local API route with caching enabled.
+          Fetches a random quote from a free public API using `src/lib/api.ts`.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
@@ -47,13 +31,13 @@ export function LiveQueryCard() {
         {data && (
           <div className="rounded-lg border bg-muted/50 p-3 text-sm">
             <p>
-              <span className="font-medium">Status:</span> {data.status}
+              <span className="font-medium">Quote:</span> {data.quote}
             </p>
             <p>
-              <span className="font-medium">Build:</span> {data.build}
+              <span className="font-medium">Author:</span> {data.author}
             </p>
             <p>
-              <span className="font-medium">Fetched at:</span> {data.timestamp}
+              <span className="font-medium">ID:</span> {data.id}
             </p>
           </div>
         )}

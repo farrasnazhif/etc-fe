@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
@@ -9,9 +8,6 @@ export default function Home() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(14,165,233,0.15),transparent_45%),radial-gradient(circle_at_80%_80%,rgba(249,115,22,0.15),transparent_40%)]" />
       <div className="relative mx-auto flex w-full max-w-5xl flex-col gap-10">
         <div className="space-y-6">
-          <Badge className="rounded-full p-3 text-xs tracking-wide uppercase">
-            Next Starter
-          </Badge>
           <h1 className="max-w-5xl text-4xl leading-tight font-semibold tracking-tight text-balance sm:text-6xl">
             Ship faster with a production-ready Next.js starter.
           </h1>

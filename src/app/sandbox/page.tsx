@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,9 +15,6 @@ export default function SandboxPage() {
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="space-y-2">
-            <Badge className="rounded-full p-3 text-xs tracking-wide uppercase">
-              Sandbox Directory
-            </Badge>
             <h1 className="text-3xl font-semibold tracking-tight">
               Component sandbox pages
             </h1>

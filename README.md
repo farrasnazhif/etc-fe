@@ -26,16 +26,16 @@ pnpm dev
 
 - path: /sandbox/button
 
-  ![Button Sandbox](/images/docs/button-sandbox.png)
+  ![Button Sandbox](public/images/docs/button-sandbox.png)
 
 2. Input Sandbox
 
 - path: /sandbox/input
 
-  ![Button Sandbox](/images/docs/button-sandbox.png)
+  ![Input Sandbox](public/images/docs/input-sandbox.png)
 
 3. Toaster Sandbox
 
 - path: /sandbox/toaster
 
-  ![Button Sandbox](/images/docs/button-sandbox.png)
+  ![Toaster Sandbox](public/images/docs/toaster-sandbox.png)

@@ -2,15 +2,16 @@
 
 ### Clone the Repository
 
-````bash
+```bash
 git clone https://github.com/farrasnazhif/etc-fe.git
 cd etc-fe
+```
 
 1. Install dependencies:
 
 ```bash
 pnpm install
-````
+```
 
 2. Start development server:
 

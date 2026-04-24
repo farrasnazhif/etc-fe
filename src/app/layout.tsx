@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
 import { QueryProvider } from "@/components/providers/query-provider";
 import "./globals.css";
+import { ToastProvider } from "@/components/ui/toaster";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -30,7 +31,9 @@ export default function RootLayout({
       className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <ToastProvider>{children}</ToastProvider>
+        </QueryProvider>
       </body>
     </html>
   );

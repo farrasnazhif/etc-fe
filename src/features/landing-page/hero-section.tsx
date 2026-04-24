@@ -12,9 +12,9 @@ export default function HeroSection() {
   ];
 
   return (
-    <section className="flex flex-col items-center justify-center px-4 md:px-16 lg:px-24">
+    <section className="relative flex flex-col items-center justify-center px-4 md:px-16 lg:px-24">
       <svg
-        className="absolute inset-0 -z-10 size-full max-md:hidden"
+        className="absolute inset-0  size-full max-md:hidden"
         width="1440"
         height="720"
         viewBox="0 0 1440 720"
@@ -54,43 +54,45 @@ export default function HeroSection() {
         />
       </svg>
 
-      <Link
-        href="/explore"
-        className="mt-32 flex items-center gap-2 rounded-full border border-gray-200 bg-blue-200/30 px-3 py-1 text-sm font-medium transition hover:bg-blue-100/80"
-      >
-        <p className="flex items-center gap-1">
-          <span>Temukan tim atau rekrut anggota</span>
-          <ChevronRight className="size-4" />
-        </p>
-      </Link>
-
-      <h1 className="mt-4 max-w-3xl scale-105 bg-gradient-to-r from-black to-[#748298] bg-clip-text text-center text-4xl/12 font-bold text-transparent md:scale-100 md:text-6xl/20">
-        Temukan tim dan bangun kolaborasi dengan{" "}
-        <span className="text-blue-500">ETC</span>.
-      </h1>
-
-      <p className="mt-2 max-w-xl text-center text-base/7 text-gray-700">
-        ETC membantu mahasiswa menemukan tim dan membangun kolaborasi untuk
-        berbagai kebutuhan.
-      </p>
-
-      <Link href="/explore">
-        <Button
-          className="mt-8 rounded-full"
-          rightIcon={ArrowRightIcon}
-          size="lg"
+      <div className="flex flex-col items-center justify-center z-10">
+        <Link
+          href="/explore"
+          className="mt-32 flex items-center gap-2 rounded-full border border-gray-200 bg-blue-200/30 px-3 py-1 text-sm font-medium transition hover:bg-blue-100/80"
         >
-          Mulai Sekarang
-        </Button>
-      </Link>
-
-      <div className="mt-12 flex flex-wrap items-center justify-center gap-4 text-gray-500 md:gap-14">
-        {specialFeatures.map((feature, index) => (
-          <p className="flex items-center gap-2" key={index}>
-            <CheckIcon className="size-5" />
-            <span>{feature}</span>
+          <p className="flex items-center gap-1">
+            <span>Temukan tim atau rekrut anggota</span>
+            <ChevronRight className="size-4" />
           </p>
-        ))}
+        </Link>
+
+        <h1 className="mt-4 max-w-3xl scale-105 bg-gradient-to-r from-black to-[#748298] bg-clip-text text-center text-4xl/12 font-bold text-transparent md:scale-100 md:text-6xl/20">
+          Temukan tim dan bangun kolaborasi dengan{" "}
+          <span className="text-blue-500">ETC</span>.
+        </h1>
+
+        <p className="mt-2 max-w-xl text-center text-base/7 text-gray-700">
+          ETC membantu mahasiswa menemukan tim dan membangun kolaborasi untuk
+          berbagai kebutuhan.
+        </p>
+
+        <Link href="/explore">
+          <Button
+            className="mt-8 rounded-full"
+            rightIcon={ArrowRightIcon}
+            size="lg"
+          >
+            Mulai Sekarang
+          </Button>
+        </Link>
+
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-4 text-gray-500 md:gap-14">
+          {specialFeatures.map((feature, index) => (
+            <p className="flex items-center gap-2" key={index}>
+              <CheckIcon className="size-5" />
+              <span>{feature}</span>
+            </p>
+          ))}
+        </div>
       </div>
     </section>
   );

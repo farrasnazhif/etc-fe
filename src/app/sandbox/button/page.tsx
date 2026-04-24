@@ -1,116 +1,103 @@
-import Link from "next/link";
-import { ArrowRight, Download, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+"use client";
+
+import Button from "@/components/ui/button";
+import { ArrowRight, Home } from "lucide-react";
+
+type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "accent"
+  | "neutral"
+  | "outline"
+  | "ghost"
+  | "success"
+  | "error"
+  | "warning";
+
+function Section({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="space-y-4">
+      <h2 className="text-xl font-semibold text-base-content">{title}</h2>
+      {children}
+    </section>
+  );
+}
+
+function ButtonGroup({ variant }: { variant: ButtonVariant }) {
+  return (
+    <div className="flex flex-wrap gap-3">
+      <Button variant={variant} size="lg">
+        Continue
+      </Button>
+      <Button variant={variant}>Continue</Button>
+      <Button variant={variant} size="sm">
+        Continue
+      </Button>
+      <Button variant={variant} disabled>
+        Disabled
+      </Button>
+      <Button variant={variant} isLoading>
+        Loading
+      </Button>
+    </div>
+  );
+}
+
+function ButtonWithIconGroup({ variant }: { variant: ButtonVariant }) {
+  return (
+    <div className="flex flex-wrap gap-3">
+      <Button variant={variant} leftIcon={Home}>
+        Home
+      </Button>
+      <Button variant={variant} rightIcon={ArrowRight}>
+        Next
+      </Button>
+      <Button variant={variant} leftIcon={Home} isLoading>
+        Loading
+      </Button>
+    </div>
+  );
+}
 
 export default function ButtonSandboxPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-100 to-slate-50 px-6 py-12">
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-semibold tracking-tight">
-              Button component playground
-            </h1>
-            <p className="text-muted-foreground">
-              Validate button variants, sizes, states, and icon patterns.
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              nativeButton={false}
-              render={<Link href="/sandbox" />}
-            >
-              All sandboxes
-            </Button>
-            <Button
-              variant="outline"
-              nativeButton={false}
-              render={<Link href="/" />}
-            >
-              Back to landing
-            </Button>
-          </div>
-        </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Variants</CardTitle>
-            <CardDescription>
-              Compare all available visual styles.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-wrap gap-3">
-            <Button>Default</Button>
-            <Button variant="secondary">Secondary</Button>
-            <Button variant="outline">Outline</Button>
-            <Button variant="ghost">Ghost</Button>
-            <Button variant="destructive">Destructive</Button>
-            <Button variant="link">Link</Button>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Sizes</CardTitle>
-            <CardDescription>
-              Check spacing and hierarchy by size.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-wrap items-center gap-3">
-            <Button size="xs">Extra Small</Button>
-            <Button size="sm">Small</Button>
-            <Button size="default">Default</Button>
-            <Button size="lg">Large</Button>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Icon Buttons</CardTitle>
-            <CardDescription>
-              Common patterns for icon-only and icon-with-label actions.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-wrap items-center gap-3">
-            <Button size="icon" aria-label="Create item">
-              <Plus className="size-4" />
-            </Button>
-            <Button size="icon-sm" variant="outline" aria-label="Download">
-              <Download className="size-4" />
-            </Button>
-            <Button className="gap-2">
-              Create project <ArrowRight className="size-4" />
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>States</CardTitle>
-            <CardDescription>
-              Preview disabled and busy interactions.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-wrap items-center gap-3">
-            <Button disabled>Disabled</Button>
-            <Button variant="outline" disabled>
-              Disabled Outline
-            </Button>
-            <Button className="gap-2" disabled>
-              <span className="size-3 animate-spin rounded-full border-2 border-current border-t-transparent" />
-              Loading...
-            </Button>
-          </CardContent>
-        </Card>
+    <main
+      data-theme="light"
+      className="min-h-screen bg-base-200 px-8 py-16 space-y-12 flex flex-col justify-center items-center"
+    >
+      <div className="text-center space-y-2">
+        <h1 className="text-3xl font-bold text-base-content">
+          ETC Button Sandbox
+        </h1>
+        <p className="text-base-content/70">
+          Preview semua variasi button memakai daisyUI
+        </p>
       </div>
+
+      <Section title="Variants">
+        <ButtonGroup variant="primary" />
+        <ButtonGroup variant="secondary" />
+        <ButtonGroup variant="accent" />
+        <ButtonGroup variant="neutral" />
+        <ButtonGroup variant="outline" />
+        <ButtonGroup variant="ghost" />
+        <ButtonGroup variant="success" />
+        <ButtonGroup variant="error" />
+        <ButtonGroup variant="warning" />
+      </Section>
+
+      <Section title="With Icons">
+        <ButtonWithIconGroup variant="primary" />
+        <ButtonWithIconGroup variant="secondary" />
+        <ButtonWithIconGroup variant="accent" />
+        <ButtonWithIconGroup variant="outline" />
+      </Section>
     </main>
   );
 }

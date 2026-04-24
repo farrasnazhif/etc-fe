@@ -3,6 +3,7 @@ import { Geist_Mono, Inter } from "next/font/google";
 import { QueryProvider } from "@/components/providers/query-provider";
 import "./globals.css";
 import { ToastProvider } from "@/components/ui/toaster";
+import { BASE_METADATA } from "@/contents/metadata";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -15,9 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Next Starter Kit",
-  description:
-    "Starter landing page with shadcn/ui sandbox, Husky, and React Query.",
+  ...BASE_METADATA,
 };
 
 export default function RootLayout({

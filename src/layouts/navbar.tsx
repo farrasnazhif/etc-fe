@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/ui/button";
 import {
   MenuIcon,
   XIcon,
@@ -10,7 +11,6 @@ import {
   LayoutDashboard,
   type LucideIcon,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -70,13 +70,7 @@ export default function Navbar() {
     <>
       <nav className="sticky top-0 z-50 flex w-full items-center justify-between border-b border-gray-200/70 bg-white/70 px-4 py-3.5 backdrop-blur-md md:px-16 lg:px-24">
         <Link href="/">
-          <Image
-            src="/assets/logo.svg"
-            alt="ETC logo"
-            className="h-7.5 w-auto"
-            width={205}
-            height={48}
-          />
+          <h1 className="font-bold text-2xl">ETC</h1>
         </Link>
 
         {/* desktop */}
@@ -143,11 +137,10 @@ export default function Navbar() {
         </div>
 
         {/* cta */}
-        <Link
-          href="/explore"
-          className="hidden rounded-full bg-gray-900 px-6 py-2 text-sm font-medium text-white transition hover:opacity-90 md:inline-block"
-        >
-          Mulai Sekarang
+        <Link href="/explore">
+          <Button className="hidden rounded-full  md:inline-block">
+            Mulai Sekarang
+          </Button>
         </Link>
 
         {/* mobile button */}

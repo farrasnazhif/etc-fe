@@ -34,7 +34,7 @@ export default function HowItWorksSection() {
         {data.map((item, index) => (
           <div
             key={index}
-            className="rounded-[14px] bg-gray-200/80 p-0.5 pt-4 transition-all duration-300 hover:-translate-y-1"
+            className="rounded-[14px] bg-blue-200/80 p-0.5 pt-4 transition-all duration-300 hover:-translate-y-1"
           >
             <div className="relative flex max-w-80 flex-col items-center rounded-xl bg-white p-6 pb-10">
               <div className="absolute -top-6 rounded-full bg-gray-800 p-3">

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Button from "@/components/ui/button";
 import Link from "next/link";
 
 export default function Footer() {
@@ -7,13 +7,7 @@ export default function Footer() {
       <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:gap-16">
         <div className="flex-1">
           <Link href="/">
-            <Image
-              src="/assets/logo.svg"
-              alt="ETC logo"
-              className="h-7.5 w-auto"
-              width={205}
-              height={48}
-            />
+            <h1 className="font-bold text-2xl">ETC</h1>
           </Link>
           <p className="mt-6 max-w-sm text-sm/6">
             ETC adalah platform untuk menemukan tim, mencari partner dengan visi
@@ -67,9 +61,9 @@ export default function Footer() {
                   placeholder="Email kamu..."
                   required
                 />
-                <button className="rounded bg-gray-800 px-4 py-2 text-white transition hover:opacity-90">
+                <Button className="rounded  px-4 py-2 text-white transition">
                   Join
-                </button>
+                </Button>
               </form>
             </div>
           </div>
@@ -91,12 +85,6 @@ export default function Footer() {
             className="transition duration-200 hover:text-black"
           >
             Terms of Service
-          </Link>
-          <Link
-            href="/cookie-policy"
-            className="transition duration-200 hover:text-black"
-          >
-            Cookie Policy
           </Link>
         </div>
       </div>

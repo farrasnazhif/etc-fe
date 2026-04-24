@@ -1,5 +1,9 @@
+"use client";
+
+import Button from "@/components/ui/button";
 import SectionTitle from "@/components/ui/section-title";
 import { ArrowRightIcon } from "lucide-react";
+import Link from "next/link";
 
 export default function CallToActionSection() {
   return (
@@ -8,13 +12,16 @@ export default function CallToActionSection() {
         title="Mulai Bangun Tim Sekarang"
         description="Temukan tim atau rekrut anggota tim untuk berbagai kebutuhan, mulai dari lomba hingga proyek kolaboratif."
       />
-      <a
-        href="/explore"
-        className="mt-4 flex items-center gap-2 rounded-full bg-gray-900 px-8 py-2.5 font-medium text-white transition hover:opacity-90"
-      >
-        Mulai Sekarang
-        <ArrowRightIcon className="size-5" />
-      </a>
+
+      <Link href="/explore">
+        <Button
+          className="mt-8 rounded-full"
+          rightIcon={ArrowRightIcon}
+          size="lg"
+        >
+          Mulai Sekarang
+        </Button>
+      </Link>
     </section>
   );
 }

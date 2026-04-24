@@ -1,3 +1,6 @@
+"use client";
+
+import Button from "@/components/ui/button";
 import { ArrowRightIcon, CheckIcon, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
@@ -53,7 +56,7 @@ export default function HeroSection() {
 
       <Link
         href="/explore"
-        className="mt-32 flex items-center gap-2 rounded-full border border-gray-200 bg-blue-200/30 px-3 py-1 text-sm font-medium transition hover:bg-gray-100/80"
+        className="mt-32 flex items-center gap-2 rounded-full border border-gray-200 bg-blue-200/30 px-3 py-1 text-sm font-medium transition hover:bg-blue-100/80"
       >
         <p className="flex items-center gap-1">
           <span>Temukan tim atau rekrut anggota</span>
@@ -62,7 +65,8 @@ export default function HeroSection() {
       </Link>
 
       <h1 className="mt-4 max-w-3xl scale-105 bg-gradient-to-r from-black to-[#748298] bg-clip-text text-center text-4xl/12 font-bold text-transparent md:scale-100 md:text-6xl/20">
-        Temukan tim dan bangun kolaborasi dengan ETC.
+        Temukan tim dan bangun kolaborasi dengan{" "}
+        <span className="text-blue-500">ETC</span>.
       </h1>
 
       <p className="mt-2 max-w-xl text-center text-base/7 text-gray-700">
@@ -70,12 +74,14 @@ export default function HeroSection() {
         berbagai kebutuhan.
       </p>
 
-      <Link
-        href="/explore"
-        className="mt-8 flex items-center gap-2 rounded-full bg-gray-900 px-8 py-2.5 font-medium text-white transition hover:opacity-90"
-      >
-        <span>Mulai Sekarang</span>
-        <ArrowRightIcon className="size-5" />
+      <Link href="/explore">
+        <Button
+          className="mt-8 rounded-full"
+          rightIcon={ArrowRightIcon}
+          size="lg"
+        >
+          Mulai Sekarang
+        </Button>
       </Link>
 
       <div className="mt-12 flex flex-wrap items-center justify-center gap-4 text-gray-500 md:gap-14">

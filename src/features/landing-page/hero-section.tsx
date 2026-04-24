@@ -3,9 +3,9 @@ import Link from "next/link";
 
 export default function HeroSection() {
   const specialFeatures = [
-    "No credit card",
-    "30 days free trial",
-    "Setup in 10 minutes",
+    "Temukan tim sesuai minat dan keahlian",
+    "Rekrut anggota secara efisien",
+    "Mulai kolaborasi dengan lebih terstruktur",
   ];
 
   return (
@@ -50,29 +50,31 @@ export default function HeroSection() {
           strokeOpacity=".5"
         />
       </svg>
+
       <Link
-        href="https://prebuiltui.com"
+        href="/explore"
         className="mt-32 flex items-center gap-2 rounded-full border border-gray-200 bg-blue-200/30 px-3 py-1 text-sm font-medium transition hover:bg-gray-100/80"
       >
         <p className="flex items-center gap-1">
-          <span>Sign up now and get 200 credits free!</span>
+          <span>Temukan tim atau rekrut anggota</span>
           <ChevronRight className="size-4" />
         </p>
       </Link>
 
       <h1 className="mt-4 max-w-3xl scale-105 bg-gradient-to-r from-black to-[#748298] bg-clip-text text-center text-4xl/12 font-bold text-transparent md:scale-100 md:text-6xl/20">
-        Turn thoughts into slides instantly, with AI.
+        Temukan tim dan bangun kolaborasi dengan ETC.
       </h1>
+
       <p className="mt-2 max-w-xl text-center text-base/7 text-gray-700">
-        Effortlessly convert rough notes into clear, professional
-        emails—perfectly formatted and ready to send in seconds.
+        ETC membantu mahasiswa menemukan tim dan membangun kolaborasi untuk
+        berbagai kebutuhan.
       </p>
 
       <Link
-        href="/"
+        href="/explore"
         className="mt-8 flex items-center gap-2 rounded-full bg-gray-900 px-8 py-2.5 font-medium text-white transition hover:opacity-90"
       >
-        <span>get started</span>
+        <span>Mulai Sekarang</span>
         <ArrowRightIcon className="size-5" />
       </Link>
 

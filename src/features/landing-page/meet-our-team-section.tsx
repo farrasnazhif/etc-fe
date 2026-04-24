@@ -33,7 +33,7 @@ export default function MeetOurTeamSection() {
     <section className="flex flex-col items-center justify-center">
       <SectionTitle
         title="Meet Our Team"
-        description="Meet our team and discover how we can help you create the perfect slide using latest AI technologies."
+        description="Kenali tim di balik ETC dan bagaimana kami membantu mahasiswa membangun kolaborasi."
       />
       <div className="mt-12 flex flex-wrap items-center justify-center gap-8">
         {data.map((item, index) => (

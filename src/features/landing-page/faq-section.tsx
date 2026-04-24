@@ -14,42 +14,42 @@ export default function FaqSection() {
 
   const data: FaqItem[] = [
     {
-      question: "Do I need coding or design experience to use PrebuiltUI?",
+      question: "Apa itu ETC dan siapa yang bisa menggunakannya?",
       answer:
-        "Basic coding knowledge (HTML/CSS, Tailwind) helps, but advanced design skills aren't required. You can use components as-is or customize them.",
+        "ETC adalah platform yang membantu mahasiswa menemukan tim, mencari partner, serta merekrut anggota untuk berbagai kebutuhan seperti lomba, proyek kampus, dan side project.",
     },
     {
-      question:
-        "What is PrebuiltUI and how does it help developers and designers?",
+      question: "Apakah saya bisa bergabung dengan tim yang sudah ada?",
       answer:
-        "PrebuiltUI provides ready-to-use, customizable UI components and templates, saving time for developers and designers.",
+        "Ya, kamu dapat mencari tim yang sesuai dengan minat dan keahlianmu, kemudian mengajukan permohonan untuk bergabung.",
     },
     {
-      question: "Can I use PrebuiltUI components in my existing project?",
+      question: "Bagaimana cara merekrut anggota tim?",
       answer:
-        "Yes, components can be integrated into HTML, React, Next.js, Vue, and other projects using Tailwind CSS.",
+        "Kamu dapat membuat posting kebutuhan tim dan menentukan kriteria yang dibutuhkan, sehingga anggota yang sesuai dapat mendaftar.",
     },
     {
-      question: "How customizable are the generated components?",
+      question: "Apakah ETC gratis digunakan?",
       answer:
-        "Components are highly customizable with Tailwind utility classes, theming, and structural adjustments.",
+        "ETC dapat digunakan secara gratis untuk membantu mahasiswa membangun dan bergabung dalam tim.",
     },
     {
-      question: "Does PrebuiltUI support team collaboration?",
+      question: "Apakah saya bisa mengelola anggota tim?",
       answer:
-        "There's no clear documentation on built-in collaboration features. Check their support for team options.",
+        "Ya, sebagai pembuat tim kamu dapat mengelola anggota, seperti menerima, menolak, atau mengatur komposisi tim.",
     },
     {
-      question: "Can I try PrebuiltUI before purchasing a plan?",
-      answer: "Yes, you can try PrebuiltUI with full access to features.",
+      question: "Bagaimana jika tim sudah penuh?",
+      answer:
+        "Tim yang telah mencapai kapasitas dapat ditandai sebagai penuh atau tidak lagi ditampilkan dalam pencarian umum.",
     },
   ];
 
   return (
     <section className="flex flex-col items-center justify-center">
       <SectionTitle
-        title="FAQ's"
-        description="Looking for answers to your frequently asked questions? Check out our FAQ's section below to find."
+        title="FAQ"
+        description="Temukan jawaban seputar penggunaan ETC."
       />
 
       <div className="mx-auto mt-12 w-full max-w-xl">

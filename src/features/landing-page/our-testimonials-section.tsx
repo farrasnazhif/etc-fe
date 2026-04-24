@@ -6,8 +6,8 @@ export default function OurTestimonialSection() {
   const data = [
     {
       review:
-        "Super clean and easy to use. These Tailwind + React components saved me hours of dev time and countless lines of extra code!",
-      name: "Richard Nelson",
+        "Sangat membantu saat mencari tim untuk lomba. Prosesnya cepat dan saya bisa menemukan anggota dengan skill yang sesuai.",
+      name: "Rizky Pratama",
       date: "12 Jan 2025",
       rating: 5,
       image:
@@ -15,8 +15,8 @@ export default function OurTestimonialSection() {
     },
     {
       review:
-        "The design quality is top-notch. Perfect balance between simplicity and style. Highly recommend for any creative developer!",
-      name: "Sophia Martinez",
+        "Dengan ETC, saya tidak perlu lagi mencari anggota tim secara manual. Semua sudah terorganisir dan lebih efisien.",
+      name: "Alya Putri",
       date: "15 Mar 2025",
       rating: 5,
       image:
@@ -24,8 +24,8 @@ export default function OurTestimonialSection() {
     },
     {
       review:
-        "Absolutely love the reusability of these components. My workflow feels 10x faster now with cleaner and more consistent layouts.",
-      name: "Ethan Roberts",
+        "Fitur pencarian tim sangat membantu. Saya bisa menemukan project yang sesuai dengan minat dan langsung bergabung.",
+      name: "Dimas Saputra",
       date: "20 Feb 2025",
       rating: 5,
       image:
@@ -33,8 +33,8 @@ export default function OurTestimonialSection() {
     },
     {
       review:
-        "Clean, elegant, and efficient. These components are a dream for any modern web developer who values beautiful code.",
-      name: "Isabella Kim",
+        "Platform ini memudahkan saya untuk merekrut anggota dengan kriteria tertentu. Sangat cocok untuk project kampus.",
+      name: "Nadia Rahma",
       date: "20 Sep 2025",
       rating: 5,
       image:
@@ -42,8 +42,8 @@ export default function OurTestimonialSection() {
     },
     {
       review:
-        "I've tried dozens of UI kits, but this one just feels right. Everything works seamlessly and looks incredibly polished.",
-      name: "Liam Johnson",
+        "Saya berhasil menemukan tim untuk side project melalui ETC. Prosesnya jelas dan mudah dipahami.",
+      name: "Fajar Hidayat",
       date: "04 Oct 2025",
       rating: 5,
       image:
@@ -51,8 +51,8 @@ export default function OurTestimonialSection() {
     },
     {
       review:
-        "Brilliantly structured components with clean, modern styling. Makes development a joy and design updates super quick.",
-      name: "Ava Patel",
+        "Interface-nya sederhana dan mudah digunakan. Sangat membantu dalam mengelola tim dan kolaborasi.",
+      name: "Siti Maharani",
       date: "01 Nov 2025",
       rating: 5,
       image:
@@ -63,8 +63,8 @@ export default function OurTestimonialSection() {
   return (
     <section className="flex flex-col items-center justify-center">
       <SectionTitle
-        title="Our Testimonials"
-        description="Hear from our satisfied customers about the benefits of using SlideX. We love hearing from our customers."
+        title="Testimoni Pengguna"
+        description="Pengalaman mahasiswa dalam menggunakan ETC untuk menemukan tim dan membangun kolaborasi."
       />
 
       <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">

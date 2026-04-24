@@ -1,34 +1,33 @@
 import SectionTitle from "@/components/ui/section-title";
-import {
-  ChartNoAxesCombinedIcon,
-  KeyRoundIcon,
-  SquareDashedMousePointerIcon,
-} from "lucide-react";
+import { UsersIcon, SearchIcon, UserPlusIcon } from "lucide-react";
 
 export default function HowItWorksSection() {
   const data = [
     {
-      title: "Sign Up Instantly",
-      description: "Create an account in seconds and no credit card required.",
-      icon: KeyRoundIcon,
-    },
-    {
-      title: "Connect Your Tools",
+      title: "Buat Profil",
       description:
-        "Easily integrate with your apps like Slack, Stripe or Notion.",
-      icon: SquareDashedMousePointerIcon,
+        "Lengkapi profil untuk menampilkan minat, keahlian, dan pengalamanmu.",
+      icon: UsersIcon,
     },
     {
-      title: "Get Real-Time Insights",
-      description: "Track performance, automate tasks and make decisions",
-      icon: ChartNoAxesCombinedIcon,
+      title: "Temukan atau Buat Tim",
+      description:
+        "Cari tim yang sesuai atau buat rekrutmen untuk menemukan anggota yang dibutuhkan.",
+      icon: SearchIcon,
+    },
+    {
+      title: "Mulai Kolaborasi",
+      description:
+        "Bergabung dengan tim dan mulai mengerjakan proyek secara terstruktur.",
+      icon: UserPlusIcon,
     },
   ];
+
   return (
     <section className="flex flex-col items-center justify-center">
       <SectionTitle
-        title="How It Works"
-        description="SlideX is a powerful AI-powered platform that allows you to create and edit slides effortlessly with AI."
+        title="Cara Kerja ETC"
+        description="Mulai dari menemukan tim hingga membangun kolaborasi dalam beberapa langkah sederhana."
       />
 
       <div className="mt-20 flex flex-wrap items-center justify-center gap-10">

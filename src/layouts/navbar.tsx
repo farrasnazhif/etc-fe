@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 
 type SubLink = {
   name: string;
@@ -153,65 +154,111 @@ export default function Navbar() {
       </nav>
 
       {/* mobile menu */}
-      <div
-        className={`fixed inset-0 z-50 flex flex-col items-center justify-center gap-6 bg-white/30 text-lg font-medium backdrop-blur-xl transition md:hidden ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        {links.map((link) => (
-          <div key={link.name} className="text-center">
-            {link.subLinks ? (
-              <>
-                <button
-                  onClick={() =>
-                    setOpenDropdown(
-                      openDropdown === link.name ? null : link.name,
-                    )
-                  }
-                  className="flex items-center gap-1"
-                >
-                  {link.name}
-                  <ChevronDown
-                    className={`size-4 transition ${
-                      openDropdown === link.name ? "rotate-180" : ""
-                    }`}
-                  />
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className="fixed inset-0 z-50 md:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            {/* backdrop */}
+            <motion.div
+              onClick={() => setIsOpen(false)}
+              initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+              animate={{ opacity: 1, backdropFilter: "blur(8px)" }}
+              exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+              transition={{
+                duration: 1,
+                ease: "easeOut",
+              }}
+              className="absolute inset-0 bg-black/30"
+            />
+
+            {/* sidebar panel */}
+            <motion.div
+              initial={{ x: "-100%", scale: 0.96 }}
+              animate={{ x: 0, scale: 1 }}
+              exit={{ x: "-100%", scale: 0.96 }}
+              transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 22,
+              }}
+              className="absolute left-0 top-0 h-full w-[80%] max-w-xs bg-white shadow-xl p-6 flex flex-col"
+            >
+              {/* header */}
+              <div className="flex items-center justify-between mb-6">
+                <h1 className="font-bold text-xl">ETC</h1>
+
+                <button onClick={() => setIsOpen(false)}>
+                  <XIcon className="size-5" />
                 </button>
+              </div>
 
-                {openDropdown === link.name && (
-                  <div className="mt-2 flex flex-col gap-2 text-sm">
-                    {link.subLinks.map((sub) => (
+              {/* menu */}
+              <div className="flex flex-col gap-4">
+                {links.map((link) => (
+                  <div key={link.name}>
+                    {link.subLinks ? (
+                      <>
+                        <button
+                          onClick={() =>
+                            setOpenDropdown(
+                              openDropdown === link.name ? null : link.name,
+                            )
+                          }
+                          className="flex items-center justify-between w-full font-medium"
+                        >
+                          {link.name}
+
+                          <ChevronDown
+                            className={`size-4 transition ${
+                              openDropdown === link.name ? "rotate-180" : ""
+                            }`}
+                          />
+                        </button>
+
+                        {openDropdown === link.name && (
+                          <div className="mt-2 ml-2 flex flex-col gap-2 text-sm">
+                            {link.subLinks.map((sub: SubLink) => (
+                              <Link
+                                key={sub.name}
+                                href={sub.href}
+                                onClick={() => setIsOpen(false)}
+                                className="text-gray-600 hover:text-black"
+                              >
+                                {sub.name}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    ) : (
                       <Link
-                        key={sub.name}
-                        href={sub.href}
+                        href={link.href!}
                         onClick={() => setIsOpen(false)}
-                        className="text-gray-600 hover:text-black"
+                        className="font-medium"
                       >
-                        {sub.name}
+                        {link.name}
                       </Link>
-                    ))}
+                    )}
                   </div>
-                )}
-              </>
-            ) : (
-              <Link href={link.href!} onClick={() => setIsOpen(false)}>
-                {link.name}
-              </Link>
-            )}
-          </div>
-        ))}
+                ))}
+              </div>
 
-        <Link href="/explore" onClick={() => setIsOpen(false)}>
-          <Button className="rounded-full">Mulai </Button>
-        </Link>
-
-        <button
-          onClick={() => setIsOpen(false)}
-          className="rounded-md bg-blue-500 p-2 text-white"
-        >
-          <XIcon />
-        </button>
-      </div>
+              {/* bottom section */}
+              <div className="mt-auto pt-6">
+                <Link href="/explore" onClick={() => setIsOpen(false)}>
+                  <Button className="w-full rounded-full">
+                    Mulai Sekarang
+                  </Button>
+                </Link>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

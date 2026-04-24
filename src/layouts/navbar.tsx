@@ -201,17 +201,13 @@ export default function Navbar() {
           </div>
         ))}
 
-        <Link
-          href="/explore"
-          className="rounded-full bg-gray-900 px-6 py-2 text-white"
-          onClick={() => setIsOpen(false)}
-        >
-          Mulai
+        <Link href="/explore" onClick={() => setIsOpen(false)}>
+          <Button className="rounded-full">Mulai </Button>
         </Link>
 
         <button
           onClick={() => setIsOpen(false)}
-          className="rounded-md bg-gray-900 p-2 text-white"
+          className="rounded-md bg-blue-500 p-2 text-white"
         >
           <XIcon />
         </button>

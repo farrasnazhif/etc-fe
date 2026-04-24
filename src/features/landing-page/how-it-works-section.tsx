@@ -1,5 +1,9 @@
+"use client";
+
 import SectionTitle from "@/components/ui/section-title";
 import { UsersIcon, SearchIcon, UserPlusIcon } from "lucide-react";
+import { motion } from "motion/react";
+import { container, item } from "./constants/animation";
 
 export default function HowItWorksSection() {
   const data = [
@@ -30,26 +34,34 @@ export default function HowItWorksSection() {
         description="Mulai dari menemukan tim hingga membangun kolaborasi dalam beberapa langkah sederhana."
       />
 
-      <div className="mt-20 flex flex-wrap items-center justify-center gap-10">
-        {data.map((item, index) => (
-          <div
+      <motion.div
+        className="mt-20 flex flex-wrap items-center justify-center gap-10"
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        {data.map((itemData, index) => (
+          <motion.div
             key={index}
-            className="rounded-[14px] bg-blue-200/80 p-0.5 pt-4 transition-all duration-300 hover:-translate-y-1"
+            variants={item}
+            whileHover={{ y: -4 }}
+            className="rounded-[14px] bg-blue-200/80 p-0.5 pt-4  "
           >
-            <div className="relative flex max-w-80 flex-col items-center rounded-xl bg-white p-6 pb-10">
+            <div className="relative flex max-w-80 flex-col items-center rounded-xl bg-white p-6 pb-10 ">
               <div className="absolute -top-6 rounded-full bg-gray-800 p-3">
-                <item.icon className="size-6 text-white" />
+                <itemData.icon className="size-6 text-white" />
               </div>
               <h3 className="mt-10 text-center text-base font-medium">
-                {item.title}
+                {itemData.title}
               </h3>
               <p className="mt-6 text-center text-gray-500">
-                {item.description}
+                {itemData.description}
               </p>
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 }

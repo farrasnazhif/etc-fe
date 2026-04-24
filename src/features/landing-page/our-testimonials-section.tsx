@@ -1,6 +1,9 @@
+"use client";
+
 import SectionTitle from "@/components/ui/section-title";
 import { StarIcon } from "lucide-react";
 import Image from "next/image";
+import { motion } from "motion/react";
 
 export default function OurTestimonialSection() {
   const data = [
@@ -60,45 +63,72 @@ export default function OurTestimonialSection() {
     },
   ];
 
+  // duplicate for seamless loop
+  const loopData = [...data, ...data];
+
   return (
-    <section className="flex flex-col items-center justify-center">
+    <section className="flex flex-col items-center justify-center overflow-hidden">
       <SectionTitle
         title="Testimoni Pengguna"
         description="Pengalaman mahasiswa dalam menggunakan ETC untuk menemukan tim dan membangun kolaborasi."
       />
 
-      <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {data.map((item, index) => (
-          <div
-            key={index}
-            className="w-full max-w-88 space-y-4 rounded-md border border-gray-200 bg-white p-3 text-gray-500 transition-all duration-300 hover:-translate-y-1"
+      <div className="mt-12 w-full overflow-hidden">
+        <motion.div
+          className="mt-12 w-full overflow-visible"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 100,
+            damping: 20,
+          }}
+          viewport={{ once: true }}
+        >
+          <motion.div
+            className="flex gap-6"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{
+              repeat: Infinity,
+              duration: 20,
+              ease: "linear",
+            }}
           >
-            <div className="flex items-center justify-between">
-              <div className="flex gap-1">
-                {Array(item.rating)
-                  .fill("")
-                  .map((_, index) => (
-                    <StarIcon
-                      key={index}
-                      className="size-4 fill-gray-800 text-gray-800"
-                    />
-                  ))}
+            {loopData.map((item, index) => (
+              <div
+                key={index}
+                className="min-w-[300px] max-w-[300px] space-y-4 rounded-md border border-gray-200 bg-white p-4 text-gray-500 transition-all duration-300 hover:-translate-y-1"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex gap-1">
+                    {Array(item.rating)
+                      .fill("")
+                      .map((_, index) => (
+                        <StarIcon
+                          key={index}
+                          className="size-4 fill-gray-800 text-gray-800"
+                        />
+                      ))}
+                  </div>
+                  <p>{item.date}</p>
+                </div>
+
+                <p>“{item.review}”</p>
+
+                <div className="flex items-center gap-2 pt-3">
+                  <Image
+                    className="h-8 w-8 rounded-full"
+                    src={item.image}
+                    alt={item.name}
+                    width={100}
+                    height={100}
+                  />
+                  <p className="font-medium text-gray-800">{item.name}</p>
+                </div>
               </div>
-              <p>{item.date}</p>
-            </div>
-            <p>“{item.review}”</p>
-            <div className="flex items-center gap-2 pt-3">
-              <Image
-                className="h-8 w-8 rounded-full"
-                src={item.image}
-                alt={item.name}
-                width={100}
-                height={100}
-              />
-              <p className="font-medium text-gray-800">{item.name}</p>
-            </div>
-          </div>
-        ))}
+            ))}
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

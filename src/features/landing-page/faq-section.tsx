@@ -3,6 +3,8 @@
 import SectionTitle from "@/components/ui/section-title";
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
+import { motion } from "motion/react";
+import { container, item } from "./constants/animation";
 
 type FaqItem = {
   question: string;
@@ -52,20 +54,27 @@ export default function FaqSection() {
         description="Temukan jawaban seputar penggunaan ETC."
       />
 
-      <div className="mx-auto mt-12 w-full max-w-xl">
-        {data.map((item, index) => {
+      <motion.div
+        className="mx-auto mt-12 w-full max-w-xl"
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        {data.map((itemData, index) => {
           const isActive = isOpen === index;
 
           return (
-            <div
+            <motion.div
               key={index}
+              variants={item}
               className="flex flex-col border-b border-gray-200 bg-white"
             >
               <h3
                 className="flex cursor-pointer items-start justify-between gap-4 py-4 font-medium"
                 onClick={() => setIsOpen(isActive ? null : index)}
               >
-                {item.question}
+                {itemData.question}
                 {isActive ? (
                   <MinusIcon className="size-5 text-gray-500" />
                 ) : (
@@ -73,17 +82,25 @@ export default function FaqSection() {
                 )}
               </h3>
 
-              <p
-                className={`pb-4 text-sm/6 text-gray-500 ${
-                  isActive ? "block" : "hidden"
-                }`}
+              <motion.p
+                initial={false}
+                animate={
+                  isActive
+                    ? { height: "auto", opacity: 1 }
+                    : { height: 0, opacity: 0 }
+                }
+                transition={{
+                  duration: 0.25,
+                  ease: "easeInOut",
+                }}
+                className="overflow-hidden pb-4 text-sm/6 text-gray-500"
               >
-                {item.answer}
-              </p>
-            </div>
+                {itemData.answer}
+              </motion.p>
+            </motion.div>
           );
         })}
-      </div>
+      </motion.div>
     </section>
   );
 }

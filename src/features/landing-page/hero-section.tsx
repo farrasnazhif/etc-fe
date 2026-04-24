@@ -3,6 +3,8 @@
 import Button from "@/components/ui/button";
 import { ArrowRightIcon, CheckIcon, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { motion } from "motion/react";
+import { container, item } from "./constants/animation";
 
 export default function HeroSection() {
   const specialFeatures = [
@@ -54,46 +56,69 @@ export default function HeroSection() {
         />
       </svg>
 
-      <div className="flex flex-col items-center justify-center z-10">
-        <Link
-          href="/explore"
-          className="mt-32 flex items-center gap-2 rounded-full border border-gray-200 bg-blue-200/30 px-3 py-1 text-sm font-medium transition hover:bg-blue-100/80"
-        >
-          <p className="flex items-center gap-1">
-            <span>Temukan tim atau rekrut anggota</span>
-            <ChevronRight className="size-4" />
-          </p>
-        </Link>
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="flex flex-col items-center justify-center z-10"
+      >
+        <motion.div variants={item}>
+          <Link
+            href="/explore"
+            className="mt-32 flex items-center gap-2 rounded-full border border-gray-200 bg-blue-200/30 px-3 py-1 text-sm font-medium transition hover:bg-blue-100/80"
+          >
+            <p className="flex items-center gap-1">
+              <span>Temukan tim atau rekrut anggota</span>
+              <ChevronRight className="size-4" />
+            </p>
+          </Link>
+        </motion.div>
 
-        <h1 className="mt-4 max-w-3xl scale-105 bg-gradient-to-r from-black to-[#748298] bg-clip-text text-center text-4xl/12 font-bold text-transparent md:scale-100 md:text-6xl/20">
+        <motion.h1
+          variants={item}
+          className="mt-4 max-w-3xl scale-105 bg-gradient-to-r from-black to-[#748298] bg-clip-text text-center text-4xl/12 font-bold text-transparent md:scale-100 md:text-6xl/20"
+        >
           Temukan tim dan bangun kolaborasi dengan{" "}
           <span className="text-blue-500">ETC</span>.
-        </h1>
+        </motion.h1>
 
-        <p className="mt-2 max-w-xl text-center text-base/7 text-gray-700">
+        <motion.p
+          variants={item}
+          className="mt-2 max-w-xl text-center text-base/7 text-gray-700"
+        >
           ETC membantu mahasiswa menemukan tim dan membangun kolaborasi untuk
           berbagai kebutuhan.
-        </p>
+        </motion.p>
 
-        <Link href="/explore">
-          <Button
-            className="mt-8 rounded-full"
-            rightIcon={ArrowRightIcon}
-            size="lg"
-          >
-            Mulai Sekarang
-          </Button>
-        </Link>
+        <motion.div variants={item}>
+          <Link href="/explore">
+            <Button
+              className="mt-8 rounded-full"
+              rightIcon={ArrowRightIcon}
+              size="lg"
+            >
+              Mulai Sekarang
+            </Button>
+          </Link>
+        </motion.div>
 
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-4 text-gray-500 md:gap-14">
+        <motion.div
+          variants={container}
+          className="mt-12 flex flex-wrap items-center justify-center gap-4 text-gray-500 md:gap-14"
+        >
           {specialFeatures.map((feature, index) => (
-            <p className="flex items-center gap-2" key={index}>
+            <motion.p
+              variants={item}
+              className="flex items-center gap-2"
+              key={index}
+            >
               <CheckIcon className="size-5" />
               <span>{feature}</span>
-            </p>
+            </motion.p>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

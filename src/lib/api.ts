@@ -34,12 +34,12 @@ api.interceptors.request.use((config) => {
     if (!isBrowser) {
       if (!context) {
         throw new Error(
-          "Api Context not found. You must call `setApiContext(context)` before calling api on server-side."
+          "Api Context not found. You must call `setApiContext(context)` before calling api on server-side.",
         );
       }
 
       const cookies = new Cookies(context.req?.headers.cookie);
-      token = cookies.get("@next-starter/token");
+      token = cookies.get("@etc/token");
     } else {
       token = getToken();
     }
@@ -58,7 +58,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;

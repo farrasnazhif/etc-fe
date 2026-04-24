@@ -1,6 +1,6 @@
 import Cookies from "universal-cookie";
 
-const TOKEN_KEY = "@next-starter/token";
+const TOKEN_KEY = "@etc/token";
 
 export function getToken(): string | undefined {
   const cookies = new Cookies();

@@ -43,10 +43,10 @@ export default function Navbar() {
           description: "Temukan tim sesuai minat dan keahlian",
         },
         {
-          name: "Buat Tim",
+          name: "Tim Saya",
           href: "/create-team",
           icon: UserPlus,
-          description: "Rekrut anggota untuk kebutuhan tim",
+          description: "Kelola tim kamu dan pantau anggota yang bergabung",
         },
         {
           name: "Manajemen Tim",

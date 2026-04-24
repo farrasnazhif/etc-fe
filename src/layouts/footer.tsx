@@ -16,33 +16,41 @@ export default function Footer() {
           </p>
         </div>
 
-        <div className="flex flex-col items-start justify-around gap-8 md:flex-1 md:flex-row md:gap-20">
+        <div className="flex flex-col items-start justify-around gap-8 md:flex-1 md:flex-row  md:gap-20 text-sm/6">
           <div className="flex flex-col">
             <h2 className="mb-5 font-semibold text-gray-800">Explore</h2>
-            <Link
-              href="/"
-              className="py-1.5 transition duration-200 hover:text-black"
-            >
-              Home
-            </Link>
-            <Link
-              href="/explore"
-              className="py-1.5 transition duration-200 hover:text-black"
-            >
-              Cari Tim
-            </Link>
-            <Link
-              href="/create-team"
-              className="py-1.5 transition duration-200 hover:text-black"
-            >
-              Buat Tim
-            </Link>
-            <Link
-              href="/profile"
-              className="py-1.5 transition duration-200 hover:text-black"
-            >
-              Profil Saya
-            </Link>
+            <div className="flex flex-col gap-y-2">
+              <Link
+                href="/"
+                className=" transition duration-200 hover:text-black"
+              >
+                Home
+              </Link>
+              <Link
+                href="/explore"
+                className=" transition duration-200 hover:text-black"
+              >
+                Cari Tim
+              </Link>
+              <Link
+                href="/tim-saya"
+                className=" transition duration-200 hover:text-black"
+              >
+                Tim Saya
+              </Link>
+              <Link
+                href="/dashboard"
+                className=" transition duration-200 hover:text-black"
+              >
+                Dashboard
+              </Link>
+              <Link
+                href="/profile"
+                className=" transition duration-200 hover:text-black"
+              >
+                Profil Saya
+              </Link>
+            </div>
           </div>
 
           <div>

@@ -23,12 +23,8 @@ export default function CallToActionSection() {
         className="flex flex-col items-center"
       >
         <motion.div variants={item}>
-          <Link href="/explore">
-            <Button
-              className="mt-8 rounded-full"
-              rightIcon={ArrowRightIcon}
-              size="lg"
-            >
+          <Link href="/feed">
+            <Button className="mt-8" rightIcon={ArrowRightIcon} size="lg">
               Mulai Sekarang
             </Button>
           </Link>

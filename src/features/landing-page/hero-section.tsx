@@ -65,7 +65,7 @@ export default function HeroSection() {
       >
         <motion.div variants={item}>
           <Link
-            href="/explore"
+            href="/feed"
             className="mt-32 flex items-center gap-2 rounded-full border border-gray-200 bg-blue-200/30 px-3 py-1 text-sm font-medium transition hover:bg-blue-100/80"
           >
             <p className="flex items-center gap-1">
@@ -92,12 +92,8 @@ export default function HeroSection() {
         </motion.p>
 
         <motion.div variants={item}>
-          <Link href="/explore">
-            <Button
-              className="mt-8 rounded-full"
-              rightIcon={ArrowRightIcon}
-              size="lg"
-            >
+          <Link href="/feed">
+            <Button className="mt-8" rightIcon={ArrowRightIcon} size="lg">
               Mulai Sekarang
             </Button>
           </Link>

@@ -39,27 +39,27 @@ export default function Navbar() {
       subLinks: [
         {
           name: "Cari Tim",
-          href: "/explore",
+          href: "/feed",
           icon: Search,
           description: "Temukan tim sesuai minat dan keahlian",
         },
         {
           name: "Tim Saya",
-          href: "/create-team",
-          icon: UserPlus,
+          href: "/tim-saya",
+          icon: Users,
           description: "Kelola tim kamu dan pantau anggota yang bergabung",
         },
         {
           name: "Manajemen Tim",
-          href: "/team",
-          icon: Users,
+          href: "/tim-saya",
+          icon: UserPlus,
           description: "Kelola anggota dan aktivitas tim",
         },
         {
-          name: "Dashboard",
-          href: "/dashboard",
+          name: "Buat Postingan",
+          href: "/buat-postingan",
           icon: LayoutDashboard,
-          description: "Pantau aktivitas dan progres tim",
+          description: "Buat dan bagikan postingan untuk merekrut anggota tim",
         },
       ],
     },
@@ -139,9 +139,7 @@ export default function Navbar() {
 
         {/* cta */}
         <Link href="/explore">
-          <Button className="hidden rounded-full  md:inline-block">
-            Login
-          </Button>
+          <Button className="hidden md:inline-block">Login</Button>
         </Link>
 
         {/* mobile button */}

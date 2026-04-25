@@ -6,7 +6,7 @@ export default function Banner() {
     <div className="flex w-full flex-wrap items-center justify-center bg-gradient-to-b from-blue-500 to-blue-600 py-2 text-center font-medium text-white">
       <p>Bangun tim di ETC!</p>
       <Link
-        href="/explore"
+        href="/feed"
         className="ml-3 flex items-center gap-1 rounded-md bg-white px-3 py-1 text-xs text-blue-600 transition hover:bg-slate-200 active:scale-95"
       >
         Cari Tim Sekarang

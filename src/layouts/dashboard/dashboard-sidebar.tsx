@@ -61,7 +61,7 @@ function DesktopSidebar({ onClose }: { onClose?: () => void }) {
 
         {/* cta */}
         <div className="p-4">
-          <Button className="w-full">New Project</Button>
+          <Button className="w-full">Create Post</Button>
         </div>
 
         {/* menu */}

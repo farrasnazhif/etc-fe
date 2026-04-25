@@ -66,9 +66,9 @@ export default function DashboardNavbar() {
 
         {/* right */}
         <div className="flex items-center gap-2 md:gap-4">
-          <div className="hidden sm:block">
+          {/* <div className="hidden sm:block">
             <Button>Create Post</Button>
-          </div>
+          </div> */}
 
           {/* notification */}
           <button className="p-2 rounded-full hover:bg-gray-100 transition">
@@ -173,7 +173,7 @@ export default function DashboardNavbar() {
 
             {/* bottom section */}
             <div className="mt-auto space-y-3">
-              <Button className="w-full">Create Post</Button>
+              {/* <Button className="w-full">Create Post</Button> */}
 
               <Button
                 onClick={() => {

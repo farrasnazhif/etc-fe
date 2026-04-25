@@ -25,7 +25,7 @@ export default function DashboardSidebar() {
         <div className="fixed inset-0 z-50 md:hidden">
           {/* backdrop */}
           <div
-            className="absolute inset-0 bg-black/30"
+            className="absolute inset-0 bg-black/30 backdrop-blur-md"
             onClick={() => setOpen(false)}
           />
 

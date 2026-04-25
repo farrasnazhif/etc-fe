@@ -135,12 +135,12 @@ export default function DashboardNavbar() {
         <div className="fixed inset-0 z-50 md:hidden">
           {/* backdrop */}
           <div
-            className="absolute inset-0 bg-black/30"
+            className="absolute inset-0 bg-black/30 backdrop-blur-md"
             onClick={() => setMobileOpen(false)}
           />
 
           {/* drawer */}
-          <div className="absolute left-0 top-0 h-full w-72 bg-white shadow-lg p-6 flex flex-col">
+          <div className="absolute right-0 top-0 h-full w-72 bg-white shadow-lg p-6 flex flex-col">
             {/* header */}
             <div className="flex items-center justify-between mb-6">
               <h1 className="font-bold text-lg">ETC</h1>

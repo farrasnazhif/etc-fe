@@ -140,7 +140,7 @@ export default function Navbar() {
         {/* cta */}
         <Link href="/explore">
           <Button className="hidden rounded-full  md:inline-block">
-            Mulai Sekarang
+            Login
           </Button>
         </Link>
 
@@ -250,9 +250,7 @@ export default function Navbar() {
               {/* bottom section */}
               <div className="mt-auto pt-6">
                 <Link href="/explore" onClick={() => setIsOpen(false)}>
-                  <Button className="w-full rounded-full">
-                    Mulai Sekarang
-                  </Button>
+                  <Button className="w-full rounded-full">Login</Button>
                 </Link>
               </div>
             </motion.div>

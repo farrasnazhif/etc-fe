@@ -1,69 +1,76 @@
 "use client";
 
 import Link from "next/link";
-import { Folder, Settings, HelpCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Folder, Settings, HelpCircle, X, PanelRight } from "lucide-react";
 import Button from "@/components/ui/button";
+import { useState } from "react";
 
-// const menu = [
-//   { name: "Active Projects", href: "/projects", icon: Folder },
-//   { name: "Team Chat", href: "/chat", icon: MessageSquare },
-//   { name: "Shared Files", href: "/files", icon: FileText },
-//   { name: "Milestones", href: "/milestones", icon: Flag },
-// ];
-
+// mobile sidebar
 export default function DashboardSidebar() {
-  // const pathname = usePathname();
+  const [open, setOpen] = useState(false);
 
   return (
-    <aside className="w-64 h-auto border-r bg-white flex flex-col justify-between">
+    <div className="border-r-2 border-gray-100">
+      <button onClick={() => setOpen(true)} className="md:hidden p-2">
+        <PanelRight />
+      </button>
+
+      {/* desktop */}
+      <div className="hidden md:block h-full">
+        <DesktopSidebar />
+      </div>
+
+      {/* mobile sidebar */}
+      {open && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          {/* backdrop */}
+          <div
+            className="absolute inset-0 bg-black/30"
+            onClick={() => setOpen(false)}
+          />
+
+          {/* drawer */}
+          <div className="absolute left-0 top-0 h-full w-64 bg-white shadow-lg">
+            <DesktopSidebar onClose={() => setOpen(false)} />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function DesktopSidebar({ onClose }: { onClose?: () => void }) {
+  return (
+    <aside className="w-64 h-full bg-white flex flex-col justify-between">
       {/* top */}
       <div>
         {/* header */}
-        <div className="p-4 border-b">
-          <h2 className="font-semibold text-blue-600">Project Hub</h2>
-          <p className="text-sm text-gray-500">Academic Workspace</p>
+        <div className="p-4 border-b flex justify-between items-center">
+          <div>
+            <h2 className="font-semibold text-blue-600">Project Hub</h2>
+            <p className="text-sm text-gray-500">Academic Workspace</p>
+          </div>
+
+          {/* close button (mobile only) */}
+          {onClose && (
+            <button onClick={onClose} className="md:hidden">
+              <X className="size-5" />
+            </button>
+          )}
         </div>
 
         {/* cta */}
         <div className="p-4">
-          <Button className="w-full ">New Project</Button>
+          <Button className="w-full">New Project</Button>
         </div>
 
         {/* menu */}
         <nav className="px-4">
-          <div
-            className={cn(
-              "flex items-center gap-3 px-3 py-3 rounded-md text-sm transition",
-              "bg-blue-50 text-blue-600 font-medium",
-              "border-l-4 border-blue-500",
-            )}
-          >
+          <div className="flex items-center gap-3 px-3 py-3 rounded-md text-sm bg-blue-50 text-blue-600 font-medium border-l-4 border-blue-500">
             <Folder className="size-4" />
             Projects
           </div>
         </nav>
-        {/* <nav className="px-2">
-          {menu.map((item) => {
-            const isActive = pathname === item.href;
-
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  "flex items-center gap-3 px-3 py-2 rounded-md text-sm transition",
-                  isActive
-                    ? "bg-blue-50 text-blue-600 font-medium"
-                    : "text-gray-600 hover:bg-gray-100",
-                )}
-              >
-                <item.icon className="size-4" />
-                {item.name}
-              </Link>
-            );
-          })}
-        </nav> */}
       </div>
 
       {/* bottom */}

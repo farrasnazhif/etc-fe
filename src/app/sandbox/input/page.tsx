@@ -1,5 +1,7 @@
 "use client";
 
+import DropzoneInput from "@/components/ui/dropzone-input";
+import FileUpload from "@/components/ui/file-upload";
 import Input from "@/components/ui/input";
 import { Mail, Lock, Search } from "lucide-react";
 
@@ -41,6 +43,10 @@ export default function InputSandboxPage() {
         <Input label="Email" placeholder="email@example.com" />
       </Section>
 
+      <Section title="With Label Required">
+        <Input label="Email" placeholder="email@example.com" required />
+      </Section>
+
       <Section title="With Icons">
         <Input label="Email" placeholder="email@example.com" leftIcon={Mail} />
 
@@ -72,6 +78,34 @@ export default function InputSandboxPage() {
 
       <Section title="Disabled">
         <Input label="Disabled" placeholder="Tidak bisa diisi" disabled />
+      </Section>
+
+      <Section title="File Upload">
+        <FileUpload
+          label="Upload Proposal"
+          required
+          helperText="Format PDF, maksimal 5MB"
+        />
+
+        <FileUpload label="Upload CV" accept=".pdf" />
+
+        <FileUpload label="Upload Gambar" accept="image/*" />
+
+        <FileUpload label="Error State" error="File wajib diupload" />
+
+        <FileUpload label="Disabled" disabled />
+      </Section>
+
+      <Section title="Dropzone Input">
+        <DropzoneInput
+          label="Upload Proposal"
+          required
+          helperText="Format PDF, max 5MB"
+        />
+
+        <DropzoneInput label="Upload CV" accept=".pdf" />
+
+        <DropzoneInput label="Error State" error="File wajib diupload" />
       </Section>
     </main>
   );

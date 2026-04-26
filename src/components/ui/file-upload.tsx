@@ -2,29 +2,22 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { LucideProps } from "lucide-react";
 
-type LucideIconType = React.ComponentType<LucideProps>;
-
-type InputProps = {
+type FileUploadProps = {
   label?: string;
   required?: boolean;
   error?: string;
   helperText?: string;
-  leftIcon?: LucideIconType;
-  rightIcon?: LucideIconType;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
-export default function Input({
+export default function FileUpload({
   label,
   required,
   error,
   helperText,
-  leftIcon: LeftIcon,
-  rightIcon: RightIcon,
   className,
   ...props
-}: InputProps) {
+}: FileUploadProps) {
   return (
     <div className="form-control w-full max-w-md">
       {/* label */}
@@ -37,25 +30,18 @@ export default function Input({
         </label>
       )}
 
-      {/* input wrapper */}
-      <div
+      {/* input */}
+      <input
+        type="file"
         className={cn(
-          "input input-bordered flex items-center gap-2",
-          error && "input-error",
+          "file-input file-input-bordered w-full",
+          error && "file-input-error",
           className,
         )}
-      >
-        {LeftIcon && <LeftIcon className="size-4 opacity-60" />}
+        {...props}
+      />
 
-        <input
-          className="grow bg-transparent outline-none"
-          required={required}
-          {...props}
-        />
-
-        {RightIcon && <RightIcon className="size-4 opacity-60" />}
-      </div>
-
+      {/* helper / error */}
       {(helperText || error) && (
         <label className="label">
           <span

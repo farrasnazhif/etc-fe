@@ -26,6 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
+      data-theme="light"
       lang="en"
       className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
     >

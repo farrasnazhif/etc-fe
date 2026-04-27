@@ -27,9 +27,9 @@ export default function LoginPage() {
   return (
     <main
       data-theme="light"
-      className="min-h-screen flex items-center justify-center  px-4 bg-white"
+      className="min-h-screen flex items-center justify-center  px-4 bg-gradient-to-b from-blue-100 via-blue-50 to-white"
     >
-      <div className="w-full max-w-md bg-white p-6 rounded-xl shadow-sm space-y-6">
+      <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-sm space-y-6">
         <div className="text-center">
           <h1 className="text-2xl font-bold">Masuk ke ETC</h1>
           <p className="text-sm text-gray-500">

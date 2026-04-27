@@ -6,6 +6,7 @@ import { GraduationCap, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Button from "@/components/ui/button";
 import { OnboardingFormData } from "@/types/onboarding";
+import { motion } from "motion/react";
 
 export default function Form1Page({
   setStep,
@@ -25,65 +26,118 @@ export default function Form1Page({
   };
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center px-4">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="flex min-h-screen w-full items-center justify-center px-4"
+    >
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="
-          flex w-full max-w-md flex-col items-center
-          p-8 text-center
-        "
+        className="flex w-full max-w-md flex-col items-center p-8 text-center"
       >
         {/* header */}
-        <h1 className="text-2xl font-semibold text-neutral-900">
+        <motion.h1
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.05 }}
+          className="text-2xl font-semibold text-neutral-900"
+        >
           Anda mahasiswa atau dosen?
-        </h1>
+        </motion.h1>
 
-        <p className="mt-2 text-sm text-neutral-500">
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+          className="mt-2 text-sm text-neutral-500"
+        >
           Pilih peran untuk melanjutkan
-        </p>
+        </motion.p>
 
         {/* options */}
-        <div className="mt-6 grid w-full grid-cols-2 gap-4">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.08,
+                delayChildren: 0.1,
+              },
+            },
+          }}
+          className="mt-6 grid w-full grid-cols-2 gap-4"
+        >
           {/* mahasiswa */}
-          <button
+          <motion.button
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1 },
+            }}
+            transition={{ duration: 0.25 }}
+            animate={{
+              scale: role === "mahasiswa" ? 1.02 : 1,
+            }}
             type="button"
             onClick={() => setValue("role", "mahasiswa")}
             className={cn(
               "flex flex-col items-center justify-center gap-2 p-5 rounded-xl border transition",
               role === "mahasiswa"
-                ? "border-blue-500 bg-blue-50"
-                : "border-neutral-300 hover:bg-neutral-50",
+                ? "border-blue-500 bg-blue-50 shadow-sm"
+                : "border-neutral-300 hover:bg-blue-100",
             )}
           >
             <GraduationCap className="size-6 text-blue-600" />
             <span className="text-sm font-medium">Mahasiswa</span>
-          </button>
+          </motion.button>
 
           {/* dosen */}
-          <button
+          <motion.button
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1 },
+            }}
+            transition={{ duration: 0.25 }}
+            animate={{
+              scale: role === "dosen" ? 1.02 : 1,
+            }}
             type="button"
             onClick={() => setValue("role", "dosen")}
             className={cn(
               "flex flex-col items-center justify-center gap-2 p-5 rounded-xl border transition",
               role === "dosen"
-                ? "border-blue-500 bg-blue-50"
-                : "border-neutral-300 hover:bg-neutral-50",
+                ? "border-blue-500 bg-blue-50 shadow-sm"
+                : "border-neutral-300 hover:bg-blue-100",
             )}
           >
             <User className="size-6 text-blue-600" />
             <span className="text-sm font-medium">Dosen</span>
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
 
         {/* action */}
-        <Button type="submit" className="mt-6 w-full" disabled={!role}>
-          Lanjutkan
-        </Button>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.2 }}
+          className="w-full"
+        >
+          <Button type="submit" className="mt-6 w-full" disabled={!role}>
+            Lanjutkan
+          </Button>
+        </motion.div>
 
-        <p className="mt-4 text-xs text-neutral-400">
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.25 }}
+          className="mt-4 text-xs text-neutral-400"
+        >
           Anda dapat mengubahnya nanti
-        </p>
+        </motion.p>
       </form>
-    </div>
+    </motion.div>
   );
 }

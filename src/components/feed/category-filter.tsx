@@ -17,11 +17,11 @@ export default function CategoryFilter() {
   };
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+    <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
-        <SlidersHorizontal className="h-4 w-4 text-violet-600" />
-        <h3 className="text-sm font-semibold text-gray-800">Kategori</h3>
+        <SlidersHorizontal className="h-4 w-4 text-primary" />
+        <h3 className="text-sm font-semibold text-foreground">Kategori</h3>
       </div>
 
       {/* Category list */}
@@ -35,14 +35,14 @@ export default function CategoryFilter() {
               className={cn(
                 "h-[18px] w-[18px] rounded-[5px] border-2 flex items-center justify-center transition-all duration-200",
                 category.checked
-                  ? "bg-violet-600 border-violet-600"
-                  : "border-gray-300 group-hover:border-violet-400",
+                  ? "bg-primary border-primary"
+                  : "border-muted-foreground/40 group-hover:border-primary/60",
               )}
               onClick={() => toggleCategory(category.id)}
             >
               {category.checked && (
                 <svg
-                  className="h-3 w-3 text-white"
+                  className="h-3 w-3 text-primary-foreground"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -60,8 +60,8 @@ export default function CategoryFilter() {
               className={cn(
                 "text-sm transition-colors duration-200",
                 category.checked
-                  ? "text-gray-900 font-medium"
-                  : "text-gray-600 group-hover:text-gray-800",
+                  ? "text-foreground font-medium"
+                  : "text-muted-foreground group-hover:text-foreground",
               )}
             >
               {category.label}

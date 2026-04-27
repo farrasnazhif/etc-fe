@@ -42,14 +42,14 @@ export default function TypewriterSubtitle() {
     <AnimatePresence mode="wait">
       <motion.p
         key={currentIndex}
-        className="text-gray-500 text-sm md:text-base mt-1"
+        className="text-muted-foreground text-sm md:text-base mt-1"
         initial={{ opacity: 0.8 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
         {displayedText}
         <motion.span
-          className="inline-block w-[2px] h-4 bg-violet-500 ml-0.5 align-middle"
+          className="inline-block w-[2px] h-4 bg-primary ml-0.5 align-middle"
           animate={{ opacity: [1, 0] }}
           transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
         />

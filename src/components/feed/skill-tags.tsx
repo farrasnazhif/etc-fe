@@ -16,8 +16,8 @@ export default function SkillTags() {
   };
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-      <h3 className="text-sm font-semibold text-gray-800 mb-4">
+    <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+      <h3 className="text-sm font-semibold text-foreground mb-4">
         Keahlian Populer
       </h3>
 
@@ -29,8 +29,8 @@ export default function SkillTags() {
             className={cn(
               "px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 border cursor-pointer",
               skill.active
-                ? "bg-violet-100 text-violet-700 border-violet-300 shadow-sm"
-                : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100 hover:border-gray-300",
+                ? "bg-primary/10 text-primary border-primary/30 shadow-sm"
+                : "bg-muted text-muted-foreground border-border hover:bg-accent hover:border-accent-foreground/20",
             )}
           >
             {skill.label}

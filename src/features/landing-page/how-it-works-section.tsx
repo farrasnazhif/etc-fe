@@ -46,7 +46,7 @@ export default function HowItWorksSection() {
             key={index}
             variants={item}
             whileHover={{ y: -4 }}
-            className="rounded-[14px] bg-blue-200/80 p-0.5 pt-4  "
+            className="rounded-[14px] bg-blue-400/50 p-0.5 pt-4  "
           >
             <div className="relative flex max-w-80 flex-col items-center rounded-xl bg-white p-6 pb-10 ">
               <div className="absolute -top-6 rounded-full bg-gray-800 p-3">

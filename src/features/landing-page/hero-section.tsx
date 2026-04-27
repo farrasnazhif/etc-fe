@@ -80,7 +80,7 @@ export default function HeroSection() {
           className="mt-4 max-w-3xl scale-105 bg-gradient-to-r from-black to-[#748298] bg-clip-text text-center text-4xl/12 font-bold text-transparent md:scale-100 md:text-6xl/20"
         >
           Temukan tim dan bangun kolaborasi dengan{" "}
-          <span className="text-blue-500">ETC</span>.
+          <span className="text-blue-600">ETC</span>.
         </motion.h1>
 
         <motion.p

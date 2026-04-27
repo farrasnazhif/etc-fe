@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Banner() {
   return (
-    <div className="flex w-full flex-wrap items-center justify-center bg-gradient-to-b from-blue-500 to-blue-600 py-2 text-center font-medium text-white">
+    <div className="flex w-full flex-wrap items-center justify-center bg-gradient-to-b from-blue-600 to-blue-700 py-2 text-center font-medium text-white">
       <p>Bangun tim di ETC!</p>
       <Link
         href="/feed"

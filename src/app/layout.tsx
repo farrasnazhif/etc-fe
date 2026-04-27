@@ -26,11 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      data-theme="light"
       lang="en"
       className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body data-theme="light" className="min-h-full flex flex-col">
         <QueryProvider>
           <ToastProvider>{children}</ToastProvider>
         </QueryProvider>

@@ -30,11 +30,11 @@ export default function Form1Page({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="flex min-h-screen w-full items-center justify-center px-4"
+      className="flex min-h-screen w-full items-center justify-center md:px-4"
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex w-full max-w-md flex-col items-center p-8 text-center"
+        className="flex w-full max-w-md flex-col items-center md:p-8 text-center"
       >
         {/* header */}
         <motion.h1

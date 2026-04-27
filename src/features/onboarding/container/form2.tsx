@@ -14,8 +14,11 @@ export default function Form2Page({
   const {
     handleSubmit,
     register,
+    watch,
     formState: { errors },
   } = useFormContext<OnboardingFormData>();
+
+  const role = watch("role");
 
   const onSubmit = () => {
     setStep(3);
@@ -33,7 +36,7 @@ export default function Form2Page({
           Lengkapi data diri
         </h1>
 
-        <p className="mt-3 text-sm text-neutral-500">
+        <p className="mt-2 text-sm text-neutral-500">
           Masukkan nama dan NRP Anda
         </p>
 
@@ -51,19 +54,55 @@ export default function Form2Page({
           />
         </div>
 
-        {/* input nrp */}
+        {/* input jurusan */}
+        {role !== "dosen" && (
+          <div className="mt-6 w-full">
+            <Input
+              label="Jurusan"
+              placeholder="Masukkan jurusan"
+              {...register("jurusan", {
+                required: "Jurusan wajib diisi",
+              })}
+              error={errors.jurusan?.message}
+              className="w-full"
+              required
+            />
+          </div>
+        )}
+
+        {/* input nomor pengenal */}
         <div className="mt-4 w-full">
           <Input
-            label="NRP"
-            placeholder="Contoh: 5025221234"
+            label={role === "dosen" ? "NIND" : "NRP"}
+            placeholder={role === "dosen" ? "Masukkan NIND" : "Masukkan NRP"}
             {...register("nomor_pengenal", {
-              required: "NRP wajib diisi",
+              required:
+                role === "dosen" ? "NIND wajib diisi" : "NRP wajib diisi",
+
               pattern: {
                 value: /^[0-9]+$/,
-                message: "NRP hanya boleh angka",
+
+                message:
+                  role === "dosen"
+                    ? "NIND hanya boleh angka"
+                    : "NRP hanya boleh angka",
               },
             })}
             error={errors.nomor_pengenal?.message}
+            className="w-full"
+            required
+          />
+        </div>
+
+        {/* input na hp */}
+        <div className="mt-6 w-full">
+          <Input
+            label="Nomor Telepon"
+            placeholder="Masukkan nomor telepon"
+            {...register("no_hp", {
+              required: "Nomor telepon wajib diisi",
+            })}
+            error={errors.name?.message}
             className="w-full"
             required
           />
@@ -81,9 +120,13 @@ export default function Form2Page({
           </Button>
 
           <Button type="submit" className="flex-1">
-            Lanjutkan
+            Submit
           </Button>
         </div>
+
+        <p className="mt-4 text-xs text-neutral-400">
+          Anda dapat mengubahnya nanti
+        </p>
       </form>
     </div>
   );

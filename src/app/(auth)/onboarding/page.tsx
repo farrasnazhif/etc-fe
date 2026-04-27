@@ -1,7 +1,6 @@
 "use client";
 
 import Button from "@/components/ui/button";
-import StepIndicator from "@/features/onboarding/components/step";
 import Form1Page from "@/features/onboarding/container/form1";
 import Form2Page from "@/features/onboarding/container/form2";
 import { OnboardingFormData } from "@/types/onboarding";
@@ -15,30 +14,43 @@ export default function OnboardingPage() {
     defaultValues: {
       role: null,
       name: "",
+      jurusan: "",
       nomor_pengenal: null,
+      no_hp: null,
     },
   });
 
   return (
     <section className="min-h-screen flex overflow-hidden">
       {/* left section (step indicator) */}
-      <aside className="w-[340px] hidden lg:flex flex-col  bg-blue-500/60 px-8 py-10">
+      <aside className="w-[340px] hidden lg:flex flex-col  bg-blue-400/60 px-8 py-10">
         {/* stepper */}
-        <div className="mt-8 flex-1 flex justify-center">
-          <StepIndicator activeStep={step} />
+        <div className=" flex justify-start">
+          <h1 className="font-bold text-2xl leading-none">ETC</h1>
+        </div>
+
+        <div className="flex-1 flex flex-col justify-center">
+          <h1 className="text-3xl font-semibold leading-snug text-blue-900">
+            Beberapa langkah lagi untuk membangun
+            <br />
+            kolaborasimu.
+          </h1>
+
+          <p className="mt-3 text-neutral-800/70 text-sm leading-relaxed">
+            Temukan tim yang sesuai.
+            <br />
+            Mulai kolaborasi dengan lebih mudah.
+          </p>
         </div>
 
         {/* help card */}
         <div className="mt-8 space-y-3">
-          <h1 className="font-bold text-xl leading-none">ETC</h1>
-
           <p className="font-medium text-neutral-900 dark:text-neutral-100">
-            Need help?
+            Butuh bantuan?
           </p>
 
-          <p className="text-sm text-neutral-900 dark:text-neutral-100">
-            If something doesn’t feel right, we’re here to help you move
-            forward.
+          <p className="text-sm text-neutral-800/70 dark:text-neutral-100">
+            Jika ada kendala, kami siap membantu Anda melanjutkan proses ini.
           </p>
 
           <div className="flex gap-2 items-center mt-4">

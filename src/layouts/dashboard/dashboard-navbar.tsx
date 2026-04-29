@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Bell, LogOut, User, Menu as MenuIcon, X as XIcon } from "lucide-react";
 import Button from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useState, useRef, useEffect } from "react";
+import { useAuth } from "@/hooks/use-auth";
 
 const navItems = [
   { name: "Feed Rekrutmen", href: "/feed" },
@@ -16,6 +17,9 @@ const navItems = [
 
 export default function DashboardNavbar() {
   const pathname = usePathname();
+
+  const { logout } = useAuth();
+  const router = useRouter();
 
   const [open, setOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -32,6 +36,11 @@ export default function DashboardNavbar() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  function handleLogout() {
+    logout();
+    router.push("/login");
+  }
 
   return (
     <>
@@ -108,7 +117,7 @@ export default function DashboardNavbar() {
                 <Button
                   onClick={() => {
                     setOpen(false);
-                    // TODO: logout logic
+                    handleLogout();
                   }}
                   variant="error"
                   className="w-full text-left text-sm py-4 mt-2"
@@ -179,7 +188,7 @@ export default function DashboardNavbar() {
               <Button
                 onClick={() => {
                   setOpen(false);
-                  // TODO: logout logic
+                  handleLogout();
                 }}
                 variant="error"
                 className="w-full text-left text-sm py-4 "

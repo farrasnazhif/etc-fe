@@ -4,45 +4,72 @@ import { useState } from "react";
 import Input from "@/components/ui/input";
 import Button from "@/components/ui/button";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
+  const [noPengenal, setNoPengenal] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  const router = useRouter();
+  const { login } = useAuth();
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!email || !password) {
+    if (!noPengenal || !password) {
       setError("Semua field wajib diisi");
       return;
     }
 
-    setError("");
+    try {
+      setError("");
 
-    // TODO: handle login
-    console.log({ email, password });
+      // const result = await login.mutateAsync({
+      //   no_pengenal: noPengenal,
+      //   password,
+      // });
+
+      await login.mutateAsync({
+        no_pengenal: noPengenal,
+        password,
+      });
+
+      // // redirect berdasarkan role
+      // if (result?.role === "dosen") {
+      //   router.push("/profile");
+      //   return;
+      // }
+
+      router.push("/feed");
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Login gagal. Coba lagi.";
+
+      setError(message);
+    }
   }
 
   return (
     <main
       data-theme="light"
-      className="min-h-screen flex items-center justify-center  px-4 bg-gradient-to-b from-blue-100 via-blue-50 to-white"
+      className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-b from-blue-100 via-blue-50 to-white"
     >
       <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-sm space-y-6">
         <div className="text-center">
           <h1 className="text-2xl font-bold">Masuk ke ETC</h1>
           <p className="text-sm text-gray-500">
-            Masukkan email dan password kamu
+            Masukkan nomor pengenal dan password Anda
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
-            label="Email"
-            placeholder="email@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            label="Nomor Pengenal"
+            placeholder="Masukkan NRP / NIND"
+            value={noPengenal}
+            onChange={(e) => setNoPengenal(e.target.value)}
             className="w-full"
             required
           />
@@ -59,8 +86,8 @@ export default function LoginPage() {
 
           {error && <p className="text-sm text-error">{error}</p>}
 
-          <Button className="w-full" type="submit">
-            Login
+          <Button className="w-full" type="submit" disabled={login.isPending}>
+            {login.isPending ? "Memproses..." : "Login"}
           </Button>
         </form>
 

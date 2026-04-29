@@ -2,16 +2,24 @@
 
 import { Dispatch, SetStateAction } from "react";
 import { useFormContext } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { motion } from "motion/react";
+
 import Input from "@/components/ui/input";
 import Button from "@/components/ui/button";
 import { OnboardingFormData } from "@/types/onboarding";
-import { motion } from "motion/react";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function Form2Page({
   setStep,
 }: {
   setStep: Dispatch<SetStateAction<number>>;
 }) {
+  const router = useRouter();
+
+  // alias biar tidak bentrok dengan register dari react-hook-form
+  const { register: registerUser } = useAuth();
+
   const {
     handleSubmit,
     register,
@@ -21,10 +29,29 @@ export default function Form2Page({
 
   const role = watch("role");
 
-  const onSubmit = () => {
+  async function handleFinalSubmit(data: OnboardingFormData) {
+    try {
+      await registerUser.mutateAsync({
+        nama: data.nama,
+        password: data.password,
+        role: data.role!,
+        jurusan: data.role === "dosen" ? undefined : data.jurusan,
+        no_pengenal: data.nomor_pengenal,
+        no_telp: data.no_hp,
+      });
+
+      sessionStorage.removeItem("register-draft");
+
+      router.push("/dashboard");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function handleNextStep() {
     setStep(3);
     window.scrollTo(0, 0);
-  };
+  }
 
   return (
     <motion.div
@@ -34,8 +61,12 @@ export default function Form2Page({
       className="flex min-h-screen w-full items-center justify-center md:px-4"
     >
       <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex w-full max-w-md flex-col justify-center items-center md:p-8 text-start"
+        onSubmit={
+          role === "dosen"
+            ? handleSubmit(handleFinalSubmit)
+            : handleSubmit(handleNextStep)
+        }
+        className="flex w-full max-w-md flex-col items-center justify-center text-start md:p-8"
       >
         {/* header */}
         <motion.h1
@@ -53,7 +84,7 @@ export default function Form2Page({
           transition={{ duration: 0.3, delay: 0.05 }}
           className="mt-2 text-sm text-neutral-500"
         >
-          Masukkan nama dan NRP Anda
+          Masukkan data identitas Anda
         </motion.p>
 
         {/* fields */}
@@ -71,27 +102,7 @@ export default function Form2Page({
           }}
           className="w-full"
         >
-          {/* input nama */}
-          <motion.div
-            variants={{
-              hidden: { opacity: 0 },
-              visible: { opacity: 1 },
-            }}
-            className="mt-6 w-full"
-          >
-            <Input
-              label="Nama"
-              placeholder="Masukkan nama lengkap"
-              {...register("name", {
-                required: "Nama wajib diisi",
-              })}
-              error={errors.name?.message}
-              className="w-full"
-              required
-            />
-          </motion.div>
-
-          {/* input jurusan */}
+          {/* jurusan */}
           {role !== "dosen" && (
             <motion.div
               variants={{
@@ -113,7 +124,7 @@ export default function Form2Page({
             </motion.div>
           )}
 
-          {/* input nomor pengenal */}
+          {/* nomor pengenal */}
           <motion.div
             variants={{
               hidden: { opacity: 0 },
@@ -141,7 +152,7 @@ export default function Form2Page({
             />
           </motion.div>
 
-          {/* input no hp */}
+          {/* no hp */}
           <motion.div
             variants={{
               hidden: { opacity: 0 },
@@ -167,7 +178,7 @@ export default function Form2Page({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, delay: 0.2 }}
-          className="mt-6 flex gap-3 w-full"
+          className="mt-6 flex w-full gap-3"
         >
           <Button
             type="button"
@@ -178,8 +189,16 @@ export default function Form2Page({
             Kembali
           </Button>
 
-          <Button type="submit" className="flex-1">
-            Submit
+          <Button
+            type="submit"
+            className="flex-1"
+            disabled={registerUser.isPending}
+          >
+            {registerUser.isPending
+              ? "Memproses..."
+              : role === "dosen"
+                ? "Submit"
+                : "Lanjutkan"}
           </Button>
         </motion.div>
 

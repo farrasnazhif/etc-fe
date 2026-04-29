@@ -9,6 +9,7 @@ import {
   Menu as MenuIcon,
   X as XIcon,
   Plus,
+  LogIn,
 } from "lucide-react";
 import Button from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -26,7 +27,7 @@ const navItems = [
 export default function DashboardNavbar() {
   const pathname = usePathname();
 
-  const { logout } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   const router = useRouter();
   const { addToast } = useToast();
 
@@ -96,50 +97,62 @@ export default function DashboardNavbar() {
           </button>
 
           {/* profile dropdown */}
-          <div className="relative hidden md:block" ref={dropdownRef}>
-            <button
-              onClick={() => setOpen((prev) => !prev)}
-              className="p-2 rounded-full hover:bg-gray-100 transition"
+          {isAuthenticated ? (
+            <div className="relative hidden md:block" ref={dropdownRef}>
+              <button
+                onClick={() => setOpen((prev) => !prev)}
+                className="p-2 rounded-full hover:bg-gray-100 transition"
+              >
+                <User className="size-5 text-gray-600" />
+              </button>
+
+              {open && (
+                <div className="absolute right-0 mt-2 w-44 rounded-md border bg-white shadow-md py-2 px-2 z-50">
+                  <Link
+                    href="/profile"
+                    className="block px-4 py-2 text-sm hover:bg-gray-100"
+                    onClick={() => setOpen(false)}
+                  >
+                    Profile
+                  </Link>
+
+                  <Link
+                    href="/settings"
+                    className="block px-4 py-2 text-sm hover:bg-gray-100 mb-2"
+                    onClick={() => setOpen(false)}
+                  >
+                    Settings
+                  </Link>
+
+                  <div className="my-1 border-t" />
+
+                  <Button
+                    onClick={() => {
+                      setOpen(false);
+                      handleLogout();
+                    }}
+                    variant="error"
+                    className="w-full text-left text-sm py-4 mt-2"
+                    leftIcon={LogOut}
+                    size="sm"
+                    data-theme="light"
+                  >
+                    Logout
+                  </Button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Button
+              onClick={() => {
+                router.push("/login");
+              }}
+              className="hidden md:block"
+              data-theme="light"
             >
-              <User className="size-5 text-gray-600" />
-            </button>
-
-            {open && (
-              <div className="absolute right-0 mt-2 w-44 rounded-md border bg-white shadow-md py-2 px-2 z-50">
-                <Link
-                  href="/profile"
-                  className="block px-4 py-2 text-sm hover:bg-gray-100"
-                  onClick={() => setOpen(false)}
-                >
-                  Profile
-                </Link>
-
-                <Link
-                  href="/settings"
-                  className="block px-4 py-2 text-sm hover:bg-gray-100 mb-2"
-                  onClick={() => setOpen(false)}
-                >
-                  Settings
-                </Link>
-
-                <div className="my-1 border-t" />
-
-                <Button
-                  onClick={() => {
-                    setOpen(false);
-                    handleLogout();
-                  }}
-                  variant="error"
-                  className="w-full text-left text-sm py-4 mt-2"
-                  leftIcon={LogOut}
-                  size="sm"
-                  data-theme="light"
-                >
-                  Logout
-                </Button>
-              </div>
-            )}
-          </div>
+              Login
+            </Button>
+          )}
 
           {/* mobile menu button */}
           <button
@@ -206,18 +219,32 @@ export default function DashboardNavbar() {
                 </Button>
               </Link>
 
-              <Button
-                onClick={() => {
-                  setOpen(false);
-                  handleLogout();
-                }}
-                variant="error"
-                className="w-full text-left text-sm py-4 "
-                leftIcon={LogOut}
-                data-theme="light"
-              >
-                Logout
-              </Button>
+              {isAuthenticated ? (
+                <Button
+                  onClick={() => {
+                    setOpen(false);
+                    handleLogout();
+                  }}
+                  variant="error"
+                  className="w-full text-left text-sm py-4 "
+                  leftIcon={LogOut}
+                  data-theme="light"
+                >
+                  Logout
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => {
+                    router.push("/login");
+                  }}
+                  className="w-full text-left text-sm py-4 "
+                  leftIcon={LogIn}
+                  data-theme="light"
+                  variant="accent"
+                >
+                  Login
+                </Button>
+              )}
             </div>
           </div>
         </div>

@@ -46,8 +46,11 @@ export default function Form2Page({
 
       addToast("Berhasil membuat akun!", "success");
       router.push("/dashboard");
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Login gagal. Coba lagi.";
+
+      addToast(message, "error");
     }
   }
 

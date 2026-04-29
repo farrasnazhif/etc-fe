@@ -50,7 +50,7 @@ export default function LoginPage() {
       const message =
         err instanceof Error ? err.message : "Login gagal. Coba lagi.";
 
-      setError(message);
+      addToast(message, "error");
     }
   }
 

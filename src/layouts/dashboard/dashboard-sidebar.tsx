@@ -61,7 +61,9 @@ function DesktopSidebar({ onClose }: { onClose?: () => void }) {
 
         {/* cta */}
         <div data-theme="light" className="p-4">
-          <Button className="w-full">Buat Postingan</Button>
+          <Link href="/buat-postingan">
+            <Button className="w-full">Buat Postingan</Button>
+          </Link>
         </div>
 
         {/* menu */}

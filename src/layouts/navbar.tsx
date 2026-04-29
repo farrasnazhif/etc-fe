@@ -138,7 +138,7 @@ export default function Navbar() {
         </div>
 
         {/* cta */}
-        <Link href="/explore">
+        <Link href="/login">
           <Button className="hidden md:inline-block">Login</Button>
         </Link>
 
@@ -247,7 +247,7 @@ export default function Navbar() {
 
               {/* bottom section */}
               <div className="mt-auto pt-6">
-                <Link href="/explore" onClick={() => setIsOpen(false)}>
+                <Link href="/login" onClick={() => setIsOpen(false)}>
                   <Button className="w-full rounded-full">Login</Button>
                 </Link>
               </div>

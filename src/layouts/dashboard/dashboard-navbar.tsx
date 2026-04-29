@@ -41,7 +41,7 @@ export default function DashboardNavbar() {
 
   function handleLogout() {
     logout();
-    addToast("Berhasil logout!", "success");
+    addToast("Logout berhasil!", "success");
     router.push("/login");
   }
 

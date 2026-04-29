@@ -5,10 +5,11 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 
-import Button from "@/components/ui/button";
 import Form1Page from "@/features/onboarding/container/form1";
 import Form2Page from "@/features/onboarding/container/form2";
 import { OnboardingFormData } from "@/types/onboarding";
+import Form3Page from "@/features/onboarding/container/form3";
+import Button from "@/components/ui/button";
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(1);
@@ -49,7 +50,7 @@ export default function OnboardingPage() {
 
   return (
     <FormProvider {...methods}>
-      <section className="min-h-screen flex overflow-hidden">
+      <section data-theme="light" className="min-h-screen flex overflow-hidden">
         {/* left section */}
         <aside className="hidden w-[340px] lg:flex flex-col bg-blue-400/60 px-8 py-10">
           <motion.div
@@ -125,7 +126,7 @@ export default function OnboardingPage() {
             </p>
 
             <div className="mt-4 flex items-center gap-2">
-              <Button type="button">Contact us</Button>
+              <Button>Contact us</Button>
             </div>
           </motion.div>
         </aside>
@@ -136,20 +137,8 @@ export default function OnboardingPage() {
           className="flex-1 flex items-center justify-center bg-gradient-to-b from-blue-100 via-blue-50 to-white px-8"
         >
           {step === 1 && <Form1Page setStep={setStep} />}
-
           {step === 2 && <Form2Page setStep={setStep} />}
-
-          {/* {step === 2 && (
-            <div className="fixed bottom-8 left-1/2 w-full max-w-md -translate-x-1/2 px-8">
-              <Button
-                className="w-full"
-                onClick={methods.handleSubmit(handleFinalSubmit)}
-                disabled={register.isPending}
-              >
-                {register.isPending ? "Memproses..." : "Selesaikan Registrasi"}
-              </Button>
-            </div>
-          )} */}
+          {step === 3 && <Form3Page setStep={setStep} />}
         </main>
       </section>
     </FormProvider>

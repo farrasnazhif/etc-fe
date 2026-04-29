@@ -10,6 +10,7 @@ import Button from "@/components/ui/button";
 import { OnboardingFormData } from "@/types/onboarding";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/components/ui/toaster";
+import Select from "@/components/ui/select";
 
 export default function Form2Page({
   setStep,
@@ -117,9 +118,23 @@ export default function Form2Page({
               }}
               className="mt-6 w-full"
             >
-              <Input
+              <Select
                 label="Jurusan"
-                placeholder="Masukkan jurusan"
+                placeholder="Pilih jurusan"
+                options={[
+                  {
+                    label: "Teknik Informatika",
+                    value: "Teknik Informatika",
+                  },
+                  {
+                    label: "Rekayasa Perangkat Lunak",
+                    value: "Rekayasa Perangkat Lunak",
+                  },
+                  {
+                    label: "Rekayasa Kecerdasan Artificial",
+                    value: "Rekayasa Kecerdasan Artificial",
+                  },
+                ]}
                 {...register("jurusan", {
                   required: "Jurusan wajib diisi",
                 })}

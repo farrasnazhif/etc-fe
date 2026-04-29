@@ -6,4 +6,5 @@ export type OnboardingFormData = {
   jurusan: string;
   nomor_pengenal: string;
   no_hp: string;
+  spesialisasi?: string[] | null;
 };

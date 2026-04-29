@@ -2,7 +2,14 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Bell, LogOut, User, Menu as MenuIcon, X as XIcon } from "lucide-react";
+import {
+  Bell,
+  LogOut,
+  User,
+  Menu as MenuIcon,
+  X as XIcon,
+  Plus,
+} from "lucide-react";
 import Button from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useState, useRef, useEffect } from "react";
@@ -188,6 +195,16 @@ export default function DashboardNavbar() {
             {/* bottom section */}
             <div className="mt-auto space-y-3">
               {/* <Button className="w-full">Create Post</Button> */}
+
+              <Link href="/buat-postingan">
+                <Button
+                  className="w-full text-left text-sm py-4 mb-2"
+                  leftIcon={Plus}
+                  data-theme="light"
+                >
+                  Buat Postingan
+                </Button>
+              </Link>
 
               <Button
                 onClick={() => {

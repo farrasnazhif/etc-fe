@@ -6,6 +6,7 @@ import Button from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/use-auth";
+import { useToast } from "@/components/ui/toaster";
 
 export default function LoginPage() {
   const [noPengenal, setNoPengenal] = useState("");
@@ -14,6 +15,7 @@ export default function LoginPage() {
 
   const router = useRouter();
   const { login } = useAuth();
+  const { addToast } = useToast();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -42,6 +44,7 @@ export default function LoginPage() {
       //   return;
       // }
 
+      addToast("Login berhasil!", "success");
       router.push("/feed");
     } catch (err) {
       const message =

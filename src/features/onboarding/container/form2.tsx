@@ -9,6 +9,7 @@ import Input from "@/components/ui/input";
 import Button from "@/components/ui/button";
 import { OnboardingFormData } from "@/types/onboarding";
 import { useAuth } from "@/hooks/use-auth";
+import { useToast } from "@/components/ui/toaster";
 
 export default function Form2Page({
   setStep,
@@ -16,6 +17,7 @@ export default function Form2Page({
   setStep: Dispatch<SetStateAction<number>>;
 }) {
   const router = useRouter();
+  const { addToast } = useToast();
 
   // alias biar tidak bentrok dengan register dari react-hook-form
   const { register: registerUser } = useAuth();
@@ -42,6 +44,7 @@ export default function Form2Page({
 
       sessionStorage.removeItem("register-draft");
 
+      addToast("Berhasil membuat akun!", "success");
       router.push("/dashboard");
     } catch (error) {
       console.error(error);

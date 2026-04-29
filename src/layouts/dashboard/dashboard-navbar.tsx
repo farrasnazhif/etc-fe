@@ -7,6 +7,7 @@ import Button from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
+import { useToast } from "@/components/ui/toaster";
 
 const navItems = [
   { name: "Feed Rekrutmen", href: "/feed" },
@@ -20,6 +21,7 @@ export default function DashboardNavbar() {
 
   const { logout } = useAuth();
   const router = useRouter();
+  const { addToast } = useToast();
 
   const [open, setOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -39,6 +41,7 @@ export default function DashboardNavbar() {
 
   function handleLogout() {
     logout();
+    addToast("Berhasil logout!", "success");
     router.push("/login");
   }
 

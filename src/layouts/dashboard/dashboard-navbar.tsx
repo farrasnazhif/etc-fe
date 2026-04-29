@@ -126,6 +126,7 @@ export default function DashboardNavbar() {
                   className="w-full text-left text-sm py-4 mt-2"
                   leftIcon={LogOut}
                   size="sm"
+                  data-theme="light"
                 >
                   Logout
                 </Button>
@@ -196,6 +197,7 @@ export default function DashboardNavbar() {
                 variant="error"
                 className="w-full text-left text-sm py-4 "
                 leftIcon={LogOut}
+                data-theme="light"
               >
                 Logout
               </Button>

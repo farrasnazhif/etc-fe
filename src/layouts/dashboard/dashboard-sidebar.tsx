@@ -60,7 +60,7 @@ function DesktopSidebar({ onClose }: { onClose?: () => void }) {
         </div>
 
         {/* cta */}
-        <div className="p-4">
+        <div data-theme="light" className="p-4">
           <Button className="w-full">Buat Postingan</Button>
         </div>
 

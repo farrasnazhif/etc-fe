@@ -41,10 +41,10 @@ export default function RegisterPage() {
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-100 via-blue-50 to-white px-4">
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-sm">
+      <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-sm">
         <div className="mb-6 text-center">
           <h1 className="text-2xl font-bold">Daftar ke ETC</h1>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm mt-2 text-gray-500">
             Buat akun untuk mulai berkolaborasi
           </p>
         </div>

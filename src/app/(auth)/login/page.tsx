@@ -62,8 +62,8 @@ export default function LoginPage() {
       <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-sm space-y-6">
         <div className="text-center">
           <h1 className="text-2xl font-bold">Masuk ke ETC</h1>
-          <p className="text-sm text-gray-500">
-            Masukkan nomor pengenal dan password Anda
+          <p className="text-sm text-gray-500 mt-2">
+            Masukkan NRP/NIND dan password Anda
           </p>
         </div>
 

@@ -3,6 +3,7 @@
 import DropzoneInput from "@/components/ui/dropzone-input";
 import FileUpload from "@/components/ui/file-upload";
 import Input from "@/components/ui/input";
+import Select from "@/components/ui/select";
 import { Mail, Lock, Search } from "lucide-react";
 
 function Section({
@@ -78,6 +79,108 @@ export default function InputSandboxPage() {
 
       <Section title="Disabled">
         <Input label="Disabled" placeholder="Tidak bisa diisi" disabled />
+      </Section>
+
+      <Section title="Select Input">
+        <Select
+          label="Jurusan"
+          placeholder="Pilih jurusan"
+          options={[
+            {
+              label: "Teknik Informatika",
+
+              value: "Teknik Informatika",
+            },
+
+            {
+              label: "Rekayasa Perangkat Lunak",
+
+              value: "Rekayasa Perangkat Lunak",
+            },
+
+            {
+              label: "Rekayasa Kecerdasan Artificial",
+
+              value: "Rekayasa Kecerdasan Artificial",
+            },
+          ]}
+        />
+
+        <Select
+          label="Jurusan Required"
+          placeholder="Pilih jurusan"
+          required
+          options={[
+            {
+              label: "Teknik Informatika",
+
+              value: "Teknik Informatika",
+            },
+
+            {
+              label: "Rekayasa Perangkat Lunak",
+
+              value: "Rekayasa Perangkat Lunak",
+            },
+
+            {
+              label: "Rekayasa Kecerdasan Artificial",
+
+              value: "Rekayasa Kecerdasan Artificial",
+            },
+          ]}
+        />
+
+        <Select
+          label="Error State"
+          placeholder="Pilih jurusan"
+          error="Jurusan wajib dipilih"
+          options={[
+            {
+              label: "Teknik Informatika",
+
+              value: "Teknik Informatika",
+            },
+
+            {
+              label: "Rekayasa Perangkat Lunak",
+
+              value: "Rekayasa Perangkat Lunak",
+            },
+          ]}
+        />
+
+        <Select
+          label="Helper Text"
+          placeholder="Pilih jurusan"
+          helperText="Pilih sesuai program studi Anda"
+          options={[
+            {
+              label: "Teknik Informatika",
+
+              value: "Teknik Informatika",
+            },
+
+            {
+              label: "Rekayasa Perangkat Lunak",
+
+              value: "Rekayasa Perangkat Lunak",
+            },
+          ]}
+        />
+
+        <Select
+          label="Disabled"
+          placeholder="Tidak tersedia"
+          disabled
+          options={[
+            {
+              label: "Teknik Informatika",
+
+              value: "Teknik Informatika",
+            },
+          ]}
+        />
       </Section>
 
       <Section title="File Upload">

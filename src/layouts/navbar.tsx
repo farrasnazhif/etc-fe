@@ -138,8 +138,8 @@ export default function Navbar() {
         </div>
 
         {/* cta */}
-        <Link href="/explore">
-          <Button className="hidden md:inline-block">Login</Button>
+        <Link href="/feed">
+          <Button className="hidden md:inline-block">Cari Tim</Button>
         </Link>
 
         {/* mobile button */}
@@ -247,8 +247,8 @@ export default function Navbar() {
 
               {/* bottom section */}
               <div className="mt-auto pt-6">
-                <Link href="/explore" onClick={() => setIsOpen(false)}>
-                  <Button className="w-full rounded-full">Login</Button>
+                <Link href="/feed" onClick={() => setIsOpen(false)}>
+                  <Button className="w-full">Login</Button>
                 </Link>
               </div>
             </motion.div>

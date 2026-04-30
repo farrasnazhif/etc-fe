@@ -15,11 +15,11 @@ export default function Layout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <main data-theme="light">
       {withBanner && <Banner />}
       {withNavbar && <Navbar />}
       {children}
       {withFooter && <Footer />}
-    </>
+    </main>
   );
 }

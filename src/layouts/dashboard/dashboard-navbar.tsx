@@ -1,20 +1,35 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Bell, LogOut, User, Menu as MenuIcon, X as XIcon } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  Bell,
+  LogOut,
+  User,
+  Menu as MenuIcon,
+  X as XIcon,
+  Plus,
+  LogIn,
+} from "lucide-react";
 import Button from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useState, useRef, useEffect } from "react";
+import { useAuth } from "@/hooks/use-auth";
+import { useToast } from "@/components/ui/toaster";
 
 const navItems = [
   { name: "Feed Rekrutmen", href: "/feed" },
+  { name: "Buat Postingan", href: "/buat-postingan" },
   { name: "Tim Saya", href: "/tim-saya" },
   { name: "Profile", href: "/profile" },
 ];
 
 export default function DashboardNavbar() {
   const pathname = usePathname();
+
+  const { isAuthenticated, logout } = useAuth();
+  const router = useRouter();
+  const { addToast } = useToast();
 
   const [open, setOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -31,6 +46,12 @@ export default function DashboardNavbar() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  function handleLogout() {
+    logout();
+    addToast("Logout berhasil!", "success");
+    router.push("/login");
+  }
 
   return (
     <>
@@ -76,49 +97,62 @@ export default function DashboardNavbar() {
           </button>
 
           {/* profile dropdown */}
-          <div className="relative hidden md:block" ref={dropdownRef}>
-            <button
-              onClick={() => setOpen((prev) => !prev)}
-              className="p-2 rounded-full hover:bg-gray-100 transition"
+          {isAuthenticated ? (
+            <div className="relative hidden md:block" ref={dropdownRef}>
+              <button
+                onClick={() => setOpen((prev) => !prev)}
+                className="p-2 rounded-full hover:bg-gray-100 transition"
+              >
+                <User className="size-5 text-gray-600" />
+              </button>
+
+              {open && (
+                <div className="absolute right-0 mt-2 w-44 rounded-md border bg-white shadow-md py-2 px-2 z-50">
+                  <Link
+                    href="/profile"
+                    className="block px-4 py-2 text-sm hover:bg-gray-100"
+                    onClick={() => setOpen(false)}
+                  >
+                    Profile
+                  </Link>
+
+                  <Link
+                    href="/settings"
+                    className="block px-4 py-2 text-sm hover:bg-gray-100 mb-2"
+                    onClick={() => setOpen(false)}
+                  >
+                    Settings
+                  </Link>
+
+                  <div className="my-1 border-t" />
+
+                  <Button
+                    onClick={() => {
+                      setOpen(false);
+                      handleLogout();
+                    }}
+                    variant="error"
+                    className="w-full text-left text-sm py-4 mt-2"
+                    leftIcon={LogOut}
+                    size="sm"
+                    data-theme="light"
+                  >
+                    Logout
+                  </Button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Button
+              onClick={() => {
+                router.push("/login");
+              }}
+              className="hidden md:block"
+              data-theme="light"
             >
-              <User className="size-5 text-gray-600" />
-            </button>
-
-            {open && (
-              <div className="absolute right-0 mt-2 w-44 rounded-md border bg-white shadow-md py-2 px-2 z-50">
-                <Link
-                  href="/profile"
-                  className="block px-4 py-2 text-sm hover:bg-gray-100"
-                  onClick={() => setOpen(false)}
-                >
-                  Profile
-                </Link>
-
-                <Link
-                  href="/settings"
-                  className="block px-4 py-2 text-sm hover:bg-gray-100 mb-2"
-                  onClick={() => setOpen(false)}
-                >
-                  Settings
-                </Link>
-
-                <div className="my-1 border-t" />
-
-                <Button
-                  onClick={() => {
-                    setOpen(false);
-                    // TODO: logout logic
-                  }}
-                  variant="error"
-                  className="w-full text-left text-sm py-4 mt-2"
-                  leftIcon={LogOut}
-                  size="sm"
-                >
-                  Logout
-                </Button>
-              </div>
-            )}
-          </div>
+              Login
+            </Button>
+          )}
 
           {/* mobile menu button */}
           <button
@@ -175,17 +209,42 @@ export default function DashboardNavbar() {
             <div className="mt-auto space-y-3">
               {/* <Button className="w-full">Create Post</Button> */}
 
-              <Button
-                onClick={() => {
-                  setOpen(false);
-                  // TODO: logout logic
-                }}
-                variant="error"
-                className="w-full text-left text-sm py-4 "
-                leftIcon={LogOut}
-              >
-                Logout
-              </Button>
+              <Link href="/buat-postingan">
+                <Button
+                  className="w-full text-left text-sm py-4 mb-2"
+                  leftIcon={Plus}
+                  data-theme="light"
+                >
+                  Buat Postingan
+                </Button>
+              </Link>
+
+              {isAuthenticated ? (
+                <Button
+                  onClick={() => {
+                    setOpen(false);
+                    handleLogout();
+                  }}
+                  variant="error"
+                  className="w-full text-left text-sm py-4 "
+                  leftIcon={LogOut}
+                  data-theme="light"
+                >
+                  Logout
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => {
+                    router.push("/login");
+                  }}
+                  className="w-full text-left text-sm py-4 "
+                  leftIcon={LogIn}
+                  data-theme="light"
+                  variant="accent"
+                >
+                  Login
+                </Button>
+              )}
             </div>
           </div>
         </div>

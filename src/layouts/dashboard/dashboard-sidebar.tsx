@@ -10,7 +10,7 @@ export default function DashboardSidebar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="border-r-2 border-gray-100">
+    <div className="hidden md:block border-r-2 border-gray-100">
       <button onClick={() => setOpen(true)} className="md:hidden p-2">
         <PanelRight />
       </button>
@@ -60,8 +60,10 @@ function DesktopSidebar({ onClose }: { onClose?: () => void }) {
         </div>
 
         {/* cta */}
-        <div className="p-4">
-          <Button className="w-full">Buat Postingan</Button>
+        <div data-theme="light" className="p-4">
+          <Link href="/buat-postingan">
+            <Button className="w-full">Buat Postingan</Button>
+          </Link>
         </div>
 
         {/* menu */}

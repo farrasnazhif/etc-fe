@@ -11,7 +11,7 @@ export function setApiContext(newContext: GetServerSidePropsContext) {
 }
 
 export const baseURL =
-  process.env.NEXT_PUBLIC_API_URL ??
+  process.env.NEXT_PUBLIC_API_URL ||
   (process.env.NEXT_PUBLIC_RUN_MODE === "production"
     ? process.env.NEXT_PUBLIC_API_URL_PROD
     : process.env.NEXT_PUBLIC_API_URL_DEV);
@@ -39,7 +39,7 @@ api.interceptors.request.use((config) => {
       }
 
       const cookies = new Cookies(context.req?.headers.cookie);
-      token = cookies.get("@etc/token");
+      token = cookies.get("@next-starter/token");
     } else {
       token = getToken();
     }

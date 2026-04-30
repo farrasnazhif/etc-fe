@@ -13,7 +13,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex flex-col">
+    <main className="min-h-screen flex flex-col">
       {withNavbar && <DashboardNavbar />}
 
       <div className="flex flex-1">
@@ -21,6 +21,6 @@ export default function DashboardLayout({
 
         <main className="flex-1 bg-gray-50 p-6">{children}</main>
       </div>
-    </div>
+    </main>
   );
 }

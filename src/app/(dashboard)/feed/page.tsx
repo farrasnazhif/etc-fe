@@ -5,11 +5,11 @@ import { Search, Users, ClipboardList, Sparkles } from "lucide-react";
 import DashboardLayout from "@/layouts/dashboard/dashboard-layout";
 import Input from "@/components/ui/input";
 import Button from "@/components/ui/button";
-import TypewriterSubtitle from "@/components/feed/typewriter-subtitle";
-import CategoryFilter from "@/components/feed/category-filter";
-import SkillTags from "@/components/feed/skill-tags";
-import RecruitmentCard from "@/components/feed/recruitment-card";
-import FeaturedRecruitmentCard from "@/components/feed/featured-recruitment-card";
+import TypewriterSubtitle from "@/features/feed/typewriter-subtitle";
+import CategoryFilter from "@/features/feed/category-filter";
+import SkillTags from "@/features/feed/skill-tags";
+import RecruitmentCard from "@/features/feed/recruitment-card";
+import FeaturedRecruitmentCard from "@/features/feed/featured-recruitment-card";
 import {
   mockRecruitments,
   mockFeaturedRecruitment,

@@ -110,7 +110,7 @@ export default function FeedDetailPage() {
         data-theme="light"
         className="min-h-screen bg-slate-50 text-slate-900"
       >
-        <div className="mx-auto max-w-7xl space-y-6 px-2 py-2 md:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl space-y-6 px-2 py-2 md:px-4">
           {/* hero */}
           <section className="relative overflow-hidden rounded-md border border-slate-200 bg-white shadow-xs">
             <Image
@@ -356,7 +356,7 @@ export default function FeedDetailPage() {
                       </div>
                     ) : (
                       <div className="flex justify-center items-center gap-2">
-                        Gabung Tim
+                        Isi Formulir
                         <ChevronDown className="size-4" />
                       </div>
                     )}

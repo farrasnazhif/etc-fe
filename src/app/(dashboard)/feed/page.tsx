@@ -99,7 +99,7 @@ export default function FeedPage() {
           <div className="lg:hidden mb-4 fixed bottom-4 right-4 z-50">
             <Button
               variant="primary"
-              className="!bg-primary !rounded-full !h-12 !w-12 !p-0 shadow-lg"
+              className="bg-primary! rounded-full! h-12! w-12! p-0! shadow-lg"
               onClick={() => setSidebarOpen(!sidebarOpen)}
             >
               <Search className="h-5 w-5" />
@@ -152,7 +152,7 @@ export default function FeedPage() {
                 <Input
                   placeholder="Cari proyek atau nama tim..."
                   leftIcon={Search}
-                  className="!max-w-full !rounded-xl !bg-card"
+                  className="max-w-full! rounded-xl! bg-card!"
                 />
               </div>
 

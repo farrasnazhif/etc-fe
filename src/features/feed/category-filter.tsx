@@ -1,21 +1,25 @@
 "use client";
 
-import { useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { type Category, mockCategories } from "@/_mock/feed-data";
+import { type KegiatanType } from "@/hooks/useRekrutmen";
 
-export default function CategoryFilter() {
-  const [categories, setCategories] = useState<Category[]>(mockCategories);
+type CategoryFilterProps = {
+  activeKegiatan: KegiatanType | undefined;
+  onKegiatanChange: (kegiatan: KegiatanType | undefined) => void;
+};
 
-  const toggleCategory = (id: string) => {
-    setCategories((prev) =>
-      prev.map((cat) =>
-        cat.id === id ? { ...cat, checked: !cat.checked } : cat,
-      ),
-    );
-  };
+const categories: { id: KegiatanType | undefined; label: string }[] = [
+  { id: undefined, label: "Semua" },
+  { id: "projek", label: "Projek" },
+  { id: "lomba", label: "Lomba" },
+  { id: "riset", label: "Riset" },
+];
 
+export default function CategoryFilter({
+  activeKegiatan,
+  onKegiatanChange,
+}: CategoryFilterProps) {
   return (
     <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
       {/* Header */}
@@ -24,50 +28,25 @@ export default function CategoryFilter() {
         <h3 className="text-sm font-semibold text-foreground">Kategori</h3>
       </div>
 
-      {/* Category list */}
-      <div className="space-y-3">
-        {categories.map((category) => (
-          <label
-            key={category.id}
-            className="flex items-center gap-3 cursor-pointer group"
-          >
-            <div
+      {/* Category buttons */}
+      <div className="flex flex-col gap-2">
+        {categories.map((category) => {
+          const isActive = activeKegiatan === category.id;
+          return (
+            <button
+              key={category.id ?? "semua"}
+              onClick={() => onKegiatanChange(category.id)}
               className={cn(
-                "h-[18px] w-[18px] rounded-[5px] border-2 flex items-center justify-center transition-all duration-200",
-                category.checked
-                  ? "bg-primary border-primary"
-                  : "border-muted-foreground/40 group-hover:border-primary/60",
-              )}
-              onClick={() => toggleCategory(category.id)}
-            >
-              {category.checked && (
-                <svg
-                  className="h-3 w-3 text-primary-foreground"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={3}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              )}
-            </div>
-            <span
-              className={cn(
-                "text-sm transition-colors duration-200",
-                category.checked
-                  ? "text-foreground font-medium"
-                  : "text-muted-foreground group-hover:text-foreground",
+                "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-left",
+                isActive
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
               )}
             >
               {category.label}
-            </span>
-          </label>
-        ))}
+            </button>
+          );
+        })}
       </div>
     </div>
   );

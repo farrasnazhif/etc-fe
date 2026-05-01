@@ -8,7 +8,7 @@ import Button from "@/components/ui/button";
 import TypewriterSubtitle from "@/features/feed/typewriter-subtitle";
 import CategoryFilter from "@/features/feed/category-filter";
 import SkillTags from "@/features/feed/skill-tags";
-import { useRekrutmen, Rekrutmen } from "@/hooks/useRekrutmen";
+import { useRekrutmen, Rekrutmen, KegiatanType } from "@/hooks/useRekrutmen";
 import { cn } from "@/lib/utils";
 
 type Tab = "all" | "my";
@@ -84,8 +84,14 @@ export default function FeedPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 10;
+  const [activeKegiatan, setActiveKegiatan] = useState<KegiatanType | undefined>(undefined);
 
-  const { data, isLoading, isError, error } = useRekrutmen(page, limit);
+  const handleKegiatanChange = (kegiatan: KegiatanType | undefined) => {
+    setActiveKegiatan(kegiatan);
+    setPage(1);
+  };
+
+  const { data, isLoading, isError, error } = useRekrutmen(page, limit, activeKegiatan);
 
   return (
     <DashboardLayout withNavbar withSidebar>
@@ -138,7 +144,7 @@ export default function FeedPage() {
         <div className="flex gap-6">
           {/* ---- LEFT SIDEBAR (desktop) ---- */}
           <aside className="hidden lg:flex flex-col gap-5 w-[250px] shrink-0">
-            <CategoryFilter />
+            <CategoryFilter activeKegiatan={activeKegiatan} onKegiatanChange={handleKegiatanChange} />
             <SkillTags />
 
             {/* CTA Card */}

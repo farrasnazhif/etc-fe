@@ -21,11 +21,14 @@ export type RekrutmenResponse = {
   total_pages: number;
 };
 
-export const useRekrutmen = (page: number = 1, limit: number = 10) => {
+export type KegiatanType = 'projek' | 'lomba' | 'riset';
+
+export const useRekrutmen = (page: number = 1, limit: number = 10, kegiatan?: KegiatanType) => {
   return useQuery({
-    queryKey: ["rekrutmen", { page, limit }],
+    queryKey: ["rekrutmen", { page, limit, kegiatan }],
     queryFn: async (): Promise<RekrutmenResponse> => {
-      const { data } = await api.get<RekrutmenResponse>("/api/rekrutmen", {
+      const url = kegiatan ? `/api/rekrutmen/sort/type/${kegiatan}` : "/api/rekrutmen";
+      const { data } = await api.get<RekrutmenResponse>(url, {
         params: { page, limit },
       });
       return data;

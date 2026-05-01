@@ -37,8 +37,8 @@ function ProfileContent() {
   
   if (isLoadingUser) {
     return (
-      <DashboardLayout withNavbar>
-        {/* Menggunakan bg-white untuk latar belakang bersih dan items-center justify-center untuk posisi tengah */}
+      <DashboardLayout withNavbar withSidebar>
+        {/* bg-white latar belakang bersih dan items-center justify-center untuk posisi tengah */}
         <div className="flex min-h-screen items-center justify-center bg-white">
           <div className="flex flex-col items-center gap-4 text-center">
             <span className="loading loading-spinner loading-lg text-primary"></span>
@@ -54,7 +54,7 @@ function ProfileContent() {
   
   if (!isAuthenticated) {
     return (
-      <DashboardLayout withNavbar>
+      <DashboardLayout withNavbar withSidebar>
         {/* Latar belakang putih bersih */}
         <div className="flex min-h-screen items-center justify-center bg-white">
           <div className="flex flex-col items-center gap-6 text-center">
@@ -69,7 +69,7 @@ function ProfileContent() {
   }
 
   return (
-    <DashboardLayout withNavbar>
+    <DashboardLayout withNavbar withSidebar>
       <main data-theme="light" className="min-h-screen bg-base-200/50 p-4 md:p-8 text-base-content font-sans">
         <div className="mx-auto max-w-[1440px] space-y-8">
           
@@ -133,7 +133,7 @@ function ProfileContent() {
               </div>
             </section>
 
-            {/* Statistik (Data Gabungan) */}
+            {/* Data Gabungan */}
             <section className="lg:col-span-1 grid grid-cols-2 gap-4">
               {[
                 { label: 'Tim Aktif', value: 3, active: true },
@@ -191,7 +191,7 @@ function ProfileContent() {
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Kartu Proyek dengan Placeholder untuk mencegah error gambar */}
+                  {/* Kartu Proyek*/}
                   <div className="rounded-2xl border border-base-200 p-6 group hover:border-primary hover:shadow-xl transition-all cursor-pointer bg-base-100 relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
                       <ExternalLink size={20} className="text-primary" />

@@ -48,7 +48,7 @@ function RekrutmenCard({ item }: { item: Rekrutmen }) {
         {item.role}
       </h4>
 
-      <div className="text-sm text-muted-foreground mb-4 flex-grow space-y-2">
+      <div className="text-sm text-muted-foreground mb-4 grow space-y-2">
         <div className="flex items-start gap-2">
           <FileText className="w-4 h-4 mt-0.5 shrink-0 text-muted-foreground" />
           <p className="line-clamp-3 leading-relaxed">
@@ -193,7 +193,7 @@ export default function FeedPage() {
                     ✕
                   </button>
                 </div>
-                <CategoryFilter />
+                <CategoryFilter activeKegiatan={activeKegiatan} onKegiatanChange={handleKegiatanChange} />
                 <SkillTags />
 
                 {/* CTA Card mobile */}

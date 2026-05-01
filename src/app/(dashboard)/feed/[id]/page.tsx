@@ -4,7 +4,6 @@ import Image from "next/image";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import Select from "@/components/ui/select";
-import DropzoneInput from "@/components/ui/dropzone-input";
 import {
   FileText,
   ChevronUp,
@@ -312,10 +311,10 @@ export default function FeedDetailPage() {
 
                     <Input label="Link CV / Portfolio" placeholder="https://" />
 
-                    <DropzoneInput
+                    {/* <DropzoneInput
                       label="Upload CV / Portfolio"
                       helperText="PDF maksimal 10MB"
-                    />
+                    /> */}
 
                     <Button className="w-full">Submit Application</Button>
                   </div>

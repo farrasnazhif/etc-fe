@@ -16,6 +16,11 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import { useRecruitmentDetail } from "@/hooks/use-detail-feed";
 import Link from "next/link";
+import {
+  useAddBookmarkRecruitment,
+  useDeleteBookmarkRecruitment,
+} from "@/hooks/use-bookmark";
+import { useToast } from "@/components/ui/toaster";
 
 function formatCurrency(amount: number) {
   return new Intl.NumberFormat("id-ID", {
@@ -51,6 +56,31 @@ export default function FeedDetailPage() {
   const recruitmentId = params?.id as string;
 
   const { data, isLoading, error } = useRecruitmentDetail(recruitmentId);
+
+  const { addToast } = useToast();
+
+  const addBookmarkMutation = useAddBookmarkRecruitment();
+  const deleteBookmarkMutation = useDeleteBookmarkRecruitment();
+
+  function handleBookmark() {
+    if (!recruitmentId) return;
+
+    if (bookmarked) {
+      deleteBookmarkMutation.mutate(recruitmentId, {
+        onSuccess: () => {
+          setBookmarked(false);
+          addToast("Bookmark dihapus!", "success");
+        },
+      });
+    } else {
+      addBookmarkMutation.mutate(recruitmentId, {
+        onSuccess: () => {
+          setBookmarked(true);
+          addToast("Bookmark ditambahkan!", "success");
+        },
+      });
+    }
+  }
 
   if (isLoading) {
     return (
@@ -133,7 +163,7 @@ export default function FeedDetailPage() {
                     <Button
                       type="button"
                       variant="outline"
-                      onClick={() => setBookmarked(!bookmarked)}
+                      onClick={handleBookmark}
                       className={`shrink-0 rounded-md md:rounded-full px-2.5 transition-all duration-200 ${
                         bookmarked
                           ? "bg-red-600 border-red-600 text-white hover:bg-red-700"

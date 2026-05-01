@@ -58,9 +58,19 @@ function extractToken(payload: AuthPayload): string | undefined {
 function extractUser(payload: AuthPayload): AuthUser | undefined {
   if (payload.user) return payload.user;
 
+  if ("personal_info" in payload) {
+    return payload.personal_info as AuthUser;
+  }
+
   if (payload.data) {
-    if ("user" in payload.data) {
-      return extractUser(payload.data as AuthPayload);
+    if (typeof payload.data === "object") {
+      if ("user" in payload.data) {
+        return extractUser(payload.data as AuthPayload);
+      }
+
+      if ("personal_info" in payload.data) {
+        return (payload.data as { personal_info: AuthUser }).personal_info;
+      }
     }
 
     return payload.data as AuthUser;

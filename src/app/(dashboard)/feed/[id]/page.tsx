@@ -104,31 +104,43 @@ export default function FeedDetailPage() {
       >
         <div className="mx-auto max-w-7xl space-y-6 px-2 py-2 md:px-4">
           {/* hero */}
-          <section className="relative overflow-hidden rounded-md border border-slate-200 bg-blue-800/60 shadow-xs">
+          <section className="relative overflow-hidden rounded-md border border-slate-200  shadow-xs">
+            {/* background image */}
+            <Image
+              src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600"
+              alt={data.kegiatan}
+              width={1600}
+              height={700}
+              className="h-[220px] w-full object-cover sm:h-[260px] md:h-[360px]"
+              unoptimized
+            />
+
+            {/* image darkening layer */}
+
             {/* decorative gradient layers */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-300/40 via-blue-400/30 to-blue-600/40" />
 
-            <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
-            <div className="absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-blue-200/20 blur-3xl" />
+            {/* main overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-blue-950/90 via-blue-900/45 to-blue-950/10" />
 
-            {/* overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-blue-950/80 via-blue-800/40 to-transparent" />
+            {/* top right branding */}
+            {/* <div className="hidden md:absolute md:block top-2 right-2 z-20 text-right ">
+              <div className="inline-block   px-4 py-3">
+                <h1 className="text-2xl font-bold leading-none text-black drop-shadow-md">
+                  ETC
+                </h1>
 
-            {/* etc logo */}
-            <div className="absolute top-4 right-4 z-20 text-right sm:top-6 sm:right-6">
-              <h1 className="text-2xl font-bold leading-none ">ETC</h1>
+                <p className="mt-3 text-sm font-semibold leading-snug text-blue-800/60 drop-shadow-sm sm:text-xl">
+                  Langkah
+                  <br />
+                  untuk membangun
+                  <br />
+                  kolaborasimu.
+                </p>
+              </div>
+            </div> */}
 
-              <p className="mt-3 text-sm font-semibold leading-snug text-white/60 sm:text-2xl">
-                Langkah
-                <br />
-                untuk membangun
-                <br />
-                kolaborasimu.
-              </p>
-            </div>
-
-            {/* content */}
-            <div className="relative inset-x-0 bottom-0 flex min-h-[220px] flex-col justify-end p-4 sm:min-h-[260px] sm:p-5 md:min-h-[360px] md:p-10 text-white">
+            {/* main content */}
+            <div className="absolute inset-x-0 bottom-0 z-10 flex min-h-[220px] flex-col justify-end p-4 sm:min-h-[260px] sm:p-5 md:min-h-[360px] md:p-10 text-white">
               <h1 className="max-w-3xl text-lg leading-tight font-bold sm:text-2xl md:text-4xl capitalize">
                 {data.kegiatan}
               </h1>

@@ -1,4 +1,5 @@
 "use client";
+// TODO : replace with the new card component
 
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -34,11 +35,11 @@ export default function RecruitmentCard({ data }: RecruitmentCardProps) {
           className={cn(
             "shrink-0 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider",
             data.status === "AKTIF" &&
-              "bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950 dark:text-emerald-400 dark:border-emerald-800",
+            "bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950 dark:text-emerald-400 dark:border-emerald-800",
             data.status === "DITUTUP" &&
-              "bg-destructive/10 text-destructive border border-destructive/20",
+            "bg-destructive/10 text-destructive border border-destructive/20",
             data.status === "SEGERA" &&
-              "bg-amber-50 text-amber-600 border border-amber-200 dark:bg-amber-950 dark:text-amber-400 dark:border-amber-800",
+            "bg-amber-50 text-amber-600 border border-amber-200 dark:bg-amber-950 dark:text-amber-400 dark:border-amber-800",
           )}
         >
           {data.status}

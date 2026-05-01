@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Users, ClipboardList, Sparkles, Calendar, DollarSign, User, FileText, Loader2 } from "lucide-react";
+import { Search, Users, ClipboardList, Sparkles, Calendar, HandCoins, User, FileText, Loader2 } from "lucide-react";
 import DashboardLayout from "@/layouts/dashboard/dashboard-layout";
 import Input from "@/components/ui/input";
 import Button from "@/components/ui/button";
@@ -60,7 +60,7 @@ function RekrutmenCard({ item }: { item: Rekrutmen }) {
           <p>{formatDate(item.tanggal_mulai)} – {formatDate(item.tanggal_selesai)}</p>
         </div>
         <div className="flex items-center gap-2">
-          <DollarSign className="w-4 h-4 shrink-0 text-muted-foreground" />
+          <HandCoins className="w-4 h-4 shrink-0 text-muted-foreground" />
           <p className="font-semibold text-foreground">{formatRupiah(item.fee)}</p>
         </div>
       </div>
@@ -261,8 +261,8 @@ export default function FeedPage() {
                   <div className="bg-destructive/10 text-destructive p-4 rounded-xl border border-destructive/20 text-center">
                     <p className="font-semibold mb-1">Gagal memuat data</p>
                     <p className="text-sm">{error instanceof Error ? error.message : "Terjadi kesalahan yang tidak diketahui"}</p>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       className="mt-4"
                       onClick={() => window.location.reload()}
                     >

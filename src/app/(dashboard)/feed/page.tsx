@@ -1,27 +1,91 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Users, ClipboardList, Sparkles } from "lucide-react";
+import { Search, Users, ClipboardList, Sparkles, Calendar, DollarSign, User, FileText, Loader2 } from "lucide-react";
 import DashboardLayout from "@/layouts/dashboard/dashboard-layout";
 import Input from "@/components/ui/input";
 import Button from "@/components/ui/button";
 import TypewriterSubtitle from "@/features/feed/typewriter-subtitle";
 import CategoryFilter from "@/features/feed/category-filter";
 import SkillTags from "@/features/feed/skill-tags";
-import RecruitmentCard from "@/features/feed/recruitment-card";
-import FeaturedRecruitmentCard from "@/features/feed/featured-recruitment-card";
-import {
-  mockRecruitments,
-  mockFeaturedRecruitment,
-  mockStats,
-} from "@/_mock/feed-data";
+import { useRekrutmen, Rekrutmen } from "@/hooks/useRekrutmen";
 import { cn } from "@/lib/utils";
 
 type Tab = "all" | "my";
 
+function RekrutmenCard({ item }: { item: Rekrutmen }) {
+  const formatRupiah = (angka: number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(angka);
+  };
+
+  const formatDate = (dateStr: string) => {
+    try {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+    } catch {
+      return dateStr;
+    }
+  };
+
+  return (
+    <div className="group rounded-xl border border-border bg-card p-5 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300 flex flex-col h-full">
+      <div className="flex items-start justify-between mb-3">
+        <span className="shrink-0 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
+          {item.kegiatan}
+        </span>
+      </div>
+
+      <h4 className="text-[15px] font-bold text-foreground mb-3 leading-snug group-hover:text-primary transition-colors duration-200">
+        {item.role}
+      </h4>
+
+      <div className="text-sm text-muted-foreground mb-4 flex-grow space-y-2">
+        <div className="flex items-start gap-2">
+          <FileText className="w-4 h-4 mt-0.5 shrink-0 text-muted-foreground" />
+          <p className="line-clamp-3 leading-relaxed">
+            {item.Kriteria ? item.Kriteria : "Tidak ada kriteria"}
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Calendar className="w-4 h-4 shrink-0 text-muted-foreground" />
+          <p>{formatDate(item.tanggal_mulai)} – {formatDate(item.tanggal_selesai)}</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <DollarSign className="w-4 h-4 shrink-0 text-muted-foreground" />
+          <p className="font-semibold text-foreground">{formatRupiah(item.fee)}</p>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between pt-3 border-t border-border mt-auto">
+        <div className="flex items-center gap-2">
+          <div className="flex items-center justify-center h-7 w-7 rounded-full bg-muted">
+            <User className="h-4 w-4 text-muted-foreground" />
+          </div>
+          <span className="text-xs font-medium text-foreground truncate max-w-[150px]">
+            {item.contact_person}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function FeedPage() {
   const [activeTab, setActiveTab] = useState<Tab>("all");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const limit = 10;
+
+  const { data, isLoading, isError, error } = useRekrutmen(page, limit);
 
   return (
     <DashboardLayout withNavbar withSidebar>
@@ -48,7 +112,7 @@ export default function FeedPage() {
                   Rekrutmen Aktif
                 </p>
                 <p className="text-xl font-bold text-foreground">
-                  {mockStats.activeRecruitments}
+                  {data?.total_items || 0}
                 </p>
               </div>
             </div>
@@ -63,7 +127,7 @@ export default function FeedPage() {
                   Aplikasi Tertunda
                 </p>
                 <p className="text-xl font-bold text-foreground">
-                  {mockStats.pendingApplications}
+                  0
                 </p>
               </div>
             </div>
@@ -183,15 +247,74 @@ export default function FeedPage() {
               </div>
             </div>
 
-            {/* Recruitment cards grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              {mockRecruitments.map((recruitment) => (
-                <RecruitmentCard key={recruitment.id} data={recruitment} />
-              ))}
-            </div>
+            {/* Recruitment Content */}
+            <div className="min-h-[400px]">
+              {isLoading && (
+                <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground">
+                  <Loader2 className="w-8 h-8 animate-spin text-primary mb-4" />
+                  <p>Memuat data rekrutmen...</p>
+                </div>
+              )}
 
-            {/* Featured recruitment */}
-            <FeaturedRecruitmentCard data={mockFeaturedRecruitment} />
+              {isError && (
+                <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground">
+                  <div className="bg-destructive/10 text-destructive p-4 rounded-xl border border-destructive/20 text-center">
+                    <p className="font-semibold mb-1">Gagal memuat data</p>
+                    <p className="text-sm">{error instanceof Error ? error.message : "Terjadi kesalahan yang tidak diketahui"}</p>
+                    <Button 
+                      variant="outline" 
+                      className="mt-4"
+                      onClick={() => window.location.reload()}
+                    >
+                      Coba Lagi
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {!isLoading && !isError && data?.data && data.data.length === 0 && (
+                <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground bg-card rounded-xl border border-border">
+                  <ClipboardList className="w-12 h-12 mb-4 text-muted-foreground/50" />
+                  <p className="font-medium text-foreground">Tidak ada rekrutmen</p>
+                  <p className="text-sm">Belum ada data rekrutmen yang tersedia saat ini.</p>
+                </div>
+              )}
+
+              {!isLoading && !isError && data?.data && data.data.length > 0 && (
+                <>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    {data.data.map((recruitment) => (
+                      <RekrutmenCard key={recruitment.rekrutmen_id} item={recruitment} />
+                    ))}
+                  </div>
+
+                  {/* Pagination controls */}
+                  {data.total_pages > 1 && (
+                    <div className="flex items-center justify-center gap-4 mt-8 pt-6 border-t border-border">
+                      <Button
+                        variant="outline"
+                        onClick={() => setPage((p) => Math.max(1, p - 1))}
+                        disabled={page === 1}
+                        className="cursor-pointer"
+                      >
+                        Sebelumnya
+                      </Button>
+                      <span className="text-sm font-medium text-muted-foreground">
+                        Halaman {data.page} dari {data.total_pages}
+                      </span>
+                      <Button
+                        variant="outline"
+                        onClick={() => setPage((p) => Math.min(data.total_pages, p + 1))}
+                        disabled={page === data.total_pages}
+                        className="cursor-pointer"
+                      >
+                        Selanjutnya
+                      </Button>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

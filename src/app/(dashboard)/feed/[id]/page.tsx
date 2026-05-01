@@ -83,13 +83,7 @@ export default function FeedDetailPage() {
   }
 
   if (isLoading) {
-    return (
-      <DashboardLayout withNavbar withSidebar>
-        <main className="min-h-screen flex items-center justify-center bg-slate-50">
-          <p className="text-slate-500">Memuat detail rekrutmen...</p>
-        </main>
-      </DashboardLayout>
-    );
+    return <FeedDetailSkeleton />;
   }
 
   if (error || !data) {
@@ -110,19 +104,31 @@ export default function FeedDetailPage() {
       >
         <div className="mx-auto max-w-7xl space-y-6 px-2 py-2 md:px-4">
           {/* hero */}
-          <section className="relative overflow-hidden rounded-md border border-slate-200 bg-white shadow-xs">
-            <Image
-              src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600"
-              alt={data.kegiatan}
-              width={1600}
-              height={700}
-              className="h-[220px] w-full object-cover sm:h-[260px] md:h-[360px]"
-              unoptimized
-            />
+          <section className="relative overflow-hidden rounded-md border border-slate-200 bg-blue-800/60 shadow-xs">
+            {/* decorative gradient layers */}
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-300/40 via-blue-400/30 to-blue-600/40" />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-blue-950 via-blue-900/70 to-blue-900/10" />
+            <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
+            <div className="absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-blue-200/20 blur-3xl" />
 
-            <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 md:left-0 md:p-10 text-white">
+            {/* overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-blue-950/80 via-blue-800/40 to-transparent" />
+
+            {/* etc logo */}
+            <div className="absolute top-4 right-4 z-20 text-right sm:top-6 sm:right-6">
+              <h1 className="text-2xl font-bold leading-none ">ETC</h1>
+
+              <p className="mt-3 text-sm font-semibold leading-snug text-white/60 sm:text-2xl">
+                Langkah
+                <br />
+                untuk membangun
+                <br />
+                kolaborasimu.
+              </p>
+            </div>
+
+            {/* content */}
+            <div className="relative inset-x-0 bottom-0 flex min-h-[220px] flex-col justify-end p-4 sm:min-h-[260px] sm:p-5 md:min-h-[360px] md:p-10 text-white">
               <h1 className="max-w-3xl text-lg leading-tight font-bold sm:text-2xl md:text-4xl capitalize">
                 {data.kegiatan}
               </h1>
@@ -130,13 +136,6 @@ export default function FeedDetailPage() {
               <p className="mt-2 max-w-3xl text-sm text-white/90 md:text-base">
                 Posisi dibutuhkan: {data.role}
               </p>
-
-              {/* <div className="mt-3 flex flex-wrap gap-3 text-xs text-white/85 sm:text-sm">
-                <span className="flex items-center gap-2 rounded-full bg-white/10 px-2.5 py-1 backdrop-blur-sm">
-                  <MapPin className="size-4" />
-                  Indonesia
-                </span>
-              </div> */}
             </div>
           </section>
 
@@ -349,6 +348,71 @@ export default function FeedDetailPage() {
                     <Button className="w-full">Submit Application</Button>
                   </div>
                 </div>
+              </div>
+            </aside>
+          </section>
+        </div>
+      </main>
+    </DashboardLayout>
+  );
+}
+
+function FeedDetailSkeleton() {
+  return (
+    <DashboardLayout withNavbar withSidebar>
+      <main className="min-h-screen bg-slate-50">
+        <div className="mx-auto max-w-7xl space-y-6 px-2 py-2 md:px-4 animate-pulse">
+          {/* hero skeleton */}
+          <section className="overflow-hidden rounded-md border border-slate-200 bg-white">
+            <div className="h-[220px] w-full bg-slate-200 sm:h-[260px] md:h-[360px]" />
+          </section>
+
+          <section className="grid gap-6 lg:grid-cols-3">
+            {/* left */}
+            <div className="space-y-6 lg:col-span-2">
+              <div className="rounded-md border border-slate-200 bg-white p-6">
+                {/* header */}
+                <div className="flex flex-col gap-4 sm:flex-row sm:justify-between">
+                  <div className="space-y-3 flex-1">
+                    <div className="h-6 w-48 rounded bg-slate-200" />
+                    <div className="h-4 w-full rounded bg-slate-200" />
+                  </div>
+
+                  <div className="h-10 w-10 rounded-full bg-slate-200" />
+                </div>
+
+                {/* stats grid */}
+                <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {Array.from({ length: 6 }).map((_, index) => (
+                    <div
+                      key={index}
+                      className="rounded-md border border-slate-200 bg-slate-50 p-4 space-y-3"
+                    >
+                      <div className="h-3 w-20 rounded bg-slate-200" />
+                      <div className="h-5 w-24 rounded bg-slate-200" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* right */}
+            <aside className="space-y-6">
+              <div className="rounded-md border border-slate-200 bg-white p-6">
+                <div className="space-y-3">
+                  <div className="h-6 w-40 rounded bg-slate-200" />
+                  <div className="h-8 w-full rounded bg-slate-200" />
+
+                  <div className="h-12 w-full rounded bg-slate-200 mt-4" />
+                </div>
+                {/* 
+                <div className="mt-4 h-12 w-full rounded bg-slate-200" />
+
+                <div className="mt-5 space-y-4 border-t border-slate-100 pt-5">
+                  <div className="h-12 w-full rounded bg-slate-200" />
+                  <div className="h-12 w-full rounded bg-slate-200" />
+                  <div className="h-12 w-full rounded bg-slate-200" />
+                </div> */}
               </div>
             </aside>
           </section>

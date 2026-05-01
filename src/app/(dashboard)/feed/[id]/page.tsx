@@ -6,104 +6,73 @@ import Input from "@/components/ui/input";
 import Select from "@/components/ui/select";
 import DropzoneInput from "@/components/ui/dropzone-input";
 import {
-  Briefcase,
-  Users,
   FileText,
-  Calendar,
-  Eye,
-  MapPin,
-  Search,
   ChevronUp,
   ChevronDown,
+  Bookmark,
+  UserPlusIcon,
 } from "lucide-react";
 import DashboardLayout from "@/layouts/dashboard/dashboard-layout";
 import { useState } from "react";
+import { useParams } from "next/navigation";
+import { useRecruitmentDetail } from "@/hooks/use-detail-feed";
+import Link from "next/link";
 
-const project = {
-  id: "ETC-2026-001",
-  title: "Pengembangan Platform Kolaborasi Mahasiswa Berbasis AI",
-  category: "Teknologi Pendidikan",
-  phase: "Open Recruitment",
-  location: "Surabaya, Indonesia",
-  banner:
-    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600",
-  description:
-    "Proyek ETC ini berfokus pada pengembangan platform digital yang membantu mahasiswa menemukan tim, berkolaborasi lintas bidang, dan membangun solusi inovatif berbasis kecerdasan buatan. Tim akan mengembangkan sistem matching, dashboard kolaborasi, serta fitur AI recommendation untuk mendukung pengalaman pengguna yang lebih personal.",
-  objectives: [
-    "Membangun sistem pencarian dan matching anggota tim",
-    "Mengembangkan dashboard kolaborasi proyek",
-    "Mengintegrasikan AI recommendation untuk partner suggestion",
-    "Menyediakan pengalaman digital yang relevan untuk mahasiswa",
-  ],
-  rolesNeeded: [
-    {
-      title: "Frontend Developer",
-      urgency: "Prioritas",
-      description:
-        "Berpengalaman dengan React / Next.js dan mampu membangun UI responsif.",
-    },
-    {
-      title: "UI/UX Designer",
-      urgency: "Open",
-      description:
-        "Mampu merancang user flow, wireframe, dan desain modern untuk aplikasi mahasiswa.",
-    },
-    {
-      title: "AI Engineer",
-      urgency: "Open",
-      description:
-        "Memahami recommendation system atau machine learning dasar.",
-    },
-  ],
-  team: [
-    {
-      name: "Farras Nazhif",
-      role: "Project Lead",
-      skill: "Product Strategy",
-      image: null,
-    },
-    {
-      name: "Kagendra Amadeo",
-      role: "Frontend Engineer",
-      skill: "Next.js",
-      image: null,
-    },
-    {
-      name: "Via Hana",
-      role: "UI/UX Designer",
-      skill: "Interface Design",
-      image: null,
-    },
-    {
-      name: "Open Position",
-      role: "Backend Engineer",
-      skill: "Node.js / Golang",
-      image: null,
-    },
-  ],
-};
+function formatCurrency(amount: number) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
 
-function getAvatarColor(name: string) {
-  const colors = [
-    "bg-red-500/80",
-    "bg-blue-500/80",
-    "bg-green-500/80",
-    "bg-yellow-500/80",
-    "bg-purple-500/80",
-    "bg-pink-500/80",
-    "bg-indigo-500/80",
-    "bg-teal-500/80",
-  ];
+function formatDate(date: string) {
+  return new Date(date).toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
 
-  const index =
-    name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) %
-    colors.length;
+function calculateDuration(start: string, end: string) {
+  const startDate = new Date(start);
+  const endDate = new Date(end);
 
-  return colors[index];
+  const diff =
+    (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
+
+  return `${diff} hari`;
 }
 
 export default function FeedDetailPage() {
+  const [bookmarked, setBookmarked] = useState(false);
   const [showApplyForm, setShowApplyForm] = useState(false);
+
+  const params = useParams();
+  const recruitmentId = params?.id as string;
+
+  const { data, isLoading, error } = useRecruitmentDetail(recruitmentId);
+
+  if (isLoading) {
+    return (
+      <DashboardLayout withNavbar withSidebar>
+        <main className="min-h-screen flex items-center justify-center bg-slate-50">
+          <p className="text-slate-500">Memuat detail rekrutmen...</p>
+        </main>
+      </DashboardLayout>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <DashboardLayout withNavbar withSidebar>
+        <main className="min-h-screen flex items-center justify-center bg-slate-50">
+          <p className="text-red-500">Gagal memuat data rekrutmen.</p>
+        </main>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout withNavbar withSidebar>
       <main
@@ -114,276 +83,231 @@ export default function FeedDetailPage() {
           {/* hero */}
           <section className="relative overflow-hidden rounded-md border border-slate-200 bg-white shadow-xs">
             <Image
-              src={project.banner}
-              alt={project.title}
+              src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600"
+              alt={data.kegiatan}
               width={1600}
               height={700}
               className="h-[220px] w-full object-cover sm:h-[260px] md:h-[360px]"
               unoptimized
             />
 
-            {/* improved gradient for mobile readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-blue-950 via-blue-900/70 to-blue-900/10 md:from-blue-950/85 md:via-blue-900/30 md:to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-blue-950 via-blue-900/70 to-blue-900/10" />
 
-            {/* content */}
             <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 md:left-0 md:p-10 text-white">
-              {/* badges */}
-              {/* <div className="mb-3 flex flex-wrap gap-2">
-                <span className="rounded-full bg-blue-500 px-2.5 py-1 text-[10px] font-medium text-white sm:px-3 sm:text-xs">
-                  {project.category}
-                </span>
-
-                <span className="rounded-full bg-emerald-500 px-2.5 py-1 text-[10px] font-medium text-white sm:px-3 sm:text-xs">
-                  {project.phase}
-                </span>
-              </div> */}
-
-              {/* title */}
-              <h1 className="max-w-3xl text-lg leading-tight font-bold sm:text-2xl md:text-4xl">
-                {project.title}
+              <h1 className="max-w-3xl text-lg leading-tight font-bold sm:text-2xl md:text-4xl capitalize">
+                {data.kegiatan}
               </h1>
 
-              {/* description */}
-              <p className="mt-2 line-clamp-3 max-w-3xl text-xs leading-relaxed text-white/90 sm:text-sm md:mt-3 md:line-clamp-none md:text-base">
-                Bergabunglah dalam pengembangan ekosistem kolaborasi ETC untuk
-                membangun masa depan kerja sama mahasiswa yang lebih cerdas,
-                terhubung, dan inovatif.
+              <p className="mt-2 max-w-3xl text-sm text-white/90 md:text-base">
+                Posisi dibutuhkan: {data.role}
               </p>
 
-              {/* location */}
-              <div className="mt-3 flex flex-wrap gap-3 text-xs text-white/85 sm:text-sm md:mt-4">
+              {/* <div className="mt-3 flex flex-wrap gap-3 text-xs text-white/85 sm:text-sm">
                 <span className="flex items-center gap-2 rounded-full bg-white/10 px-2.5 py-1 backdrop-blur-sm">
-                  <MapPin className="size-3.5 sm:size-4" />
-                  <span className="truncate max-w-[180px] sm:max-w-none">
-                    {project.location}
-                  </span>
+                  <MapPin className="size-4" />
+                  Indonesia
                 </span>
-              </div>
+              </div> */}
             </div>
           </section>
 
-          {/* content */}
           <section className="grid gap-6 lg:grid-cols-3">
             {/* left */}
             <div className="space-y-6 lg:col-span-2">
-              {/* overview */}
-              <div className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
-                <h2 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
-                  <FileText className="size-5 text-blue-800" />
-                  Ringkasan Proyek
-                </h2>
+              <div className="space-y-6 lg:col-span-2">
+                {/* overview */}
+                <div className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                      <h2 className="flex items-center gap-2 text-lg font-semibold">
+                        <FileText className="size-4.5 text-blue-800" />
+                        Ringkasan Rekrutmen
+                      </h2>
 
-                <p className="mt-4 leading-relaxed text-slate-600">
-                  {project.description}
-                </p>
-
-                <div className="mt-6 space-y-3">
-                  {project.objectives.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex items-start gap-3 text-sm text-slate-700"
-                    >
-                      <span className="mt-1 size-2 rounded-full bg-blue-600" />
-                      <span>{item}</span>
+                      <p className="mt-2 leading-relaxed text-slate-600 text-sm">
+                        {data.Kriteria ||
+                          "Belum ada kriteria khusus untuk posisi ini."}
+                      </p>
                     </div>
-                  ))}
-                </div>
-              </div>
 
-              {/* team */}
-              <div className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
-                <div className="flex items-center justify-between">
-                  <h2 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
-                    <Users className="size-5 text-blue-800" />
-                    Tim Inti ETC
-                  </h2>
+                    {/* bookmark */}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => setBookmarked(!bookmarked)}
+                      className={`shrink-0 rounded-md md:rounded-full px-2.5 transition-all duration-200 ${
+                        bookmarked
+                          ? "bg-red-600 border-red-600 text-white hover:bg-red-700"
+                          : "border-slate-300 text-slate-700 hover:border-red-500 hover:text-red-600"
+                      }`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <span className="text-sm md:hidden">
+                          {bookmarked ? "Bookmarked" : "Add Bookmark"}
+                        </span>
 
-                  <p className="text-sm text-slate-500">
-                    {project.team.length} anggota
-                  </p>
-                </div>
+                        <Bookmark
+                          className={`size-5 transition-all ${
+                            bookmarked ? "fill-current" : ""
+                          }`}
+                        />
+                      </span>
+                    </Button>
+                  </div>
 
-                <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                  {project.team.map((member, index) =>
-                    member.name.toLowerCase() === "open position" ? (
-                      <div
-                        key={index}
-                        className="group flex items-center gap-4 rounded-2xl border-2 border-dashed border-green-400 bg-gradient-to-br from-green-50 via-white to-green-100 p-4 transition-all duration-300  "
-                      >
-                        {/* icon */}
-                        <div className="flex size-14 items-center justify-center rounded-full bg-green-100 text-green-700 shadow-xs transition ">
-                          <Search className="size-6" />
-                        </div>
+                  <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="rounded-md border border-slate-200 bg-slate-50 p-4">
+                      <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                        Role
+                      </p>
 
-                        {/* content */}
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2">
-                            <span className="rounded-full bg-green-200 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-green-800">
-                              Open Position
-                            </span>
-                          </div>
+                      <p className="mt-2 font-semibold capitalize text-slate-900">
+                        {data.role}
+                      </p>
+                    </div>
 
-                          <p className="mt-1 text-sm font-medium text-slate-700">
-                            {member.role}
-                          </p>
+                    <div className="rounded-md border border-slate-200 bg-slate-50 p-4">
+                      <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                        Fee
+                      </p>
 
-                          <span className="inline-block rounded-full border border-green-300 bg-white px-2.5 py-1 text-xs font-medium text-green-700">
-                            {member.skill}
-                          </span>
-                        </div>
-                      </div>
-                    ) : (
-                      <div
-                        key={index}
-                        className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4"
-                      >
-                        {member.image ? (
-                          <Image
-                            src={member.image}
-                            alt={member.name}
-                            width={56}
-                            height={56}
-                            className="size-14 rounded-full object-cover"
-                          />
-                        ) : (
-                          <div
-                            className={`flex size-14 items-center justify-center rounded-full text-lg font-semibold text-white ${getAvatarColor(
-                              member.name,
-                            )}`}
-                          >
-                            {member.name.charAt(0).toUpperCase()}
-                          </div>
+                      <p className="mt-2 font-semibold text-slate-900">
+                        {formatCurrency(data.fee)}
+                      </p>
+                    </div>
+
+                    <div className="rounded-md border border-slate-200 bg-slate-50 p-4">
+                      <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                        Durasi
+                      </p>
+
+                      <p className="mt-2 font-semibold text-slate-900">
+                        {calculateDuration(
+                          data.tanggal_mulai,
+                          data.tanggal_selesai,
                         )}
+                      </p>
+                    </div>
 
-                        <div>
-                          <h3 className="font-medium text-slate-900">
-                            {member.name}
-                          </h3>
+                    <div className="rounded-md border border-slate-200 bg-slate-50 p-4">
+                      <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                        Tanggal Mulai
+                      </p>
 
-                          <p className="text-sm text-slate-500">
-                            {member.role}
+                      <p className="mt-2 font-semibold text-slate-900">
+                        {formatDate(data.tanggal_mulai)}
+                      </p>
+                    </div>
+
+                    <div className="rounded-md border border-slate-200 bg-slate-50 p-4">
+                      <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                        Deadline
+                      </p>
+
+                      <p className="mt-2 font-semibold text-slate-900">
+                        {formatDate(data.tanggal_selesai)}
+                      </p>
+                    </div>
+
+                    <Link
+                      href={`https:/wa.me/62${data.contact_person.replace(/^0/, "")}`}
+                      target="_blank"
+                    >
+                      <div className="rounded-md border-2 border-dashed border-blue-300 bg-gradient-to-br from-blue-50 via-white to-blue-100 p-4">
+                        <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                          Contact Person
+                        </p>
+                        <div className="mt-2 flex items-center gap-2">
+                          <Image
+                            width={13}
+                            height={13}
+                            alt="whatsapp icon"
+                            src="/images/wa.svg"
+                          />
+
+                          <p className=" font-semibold text-slate-900">
+                            {data.contact_person}
                           </p>
-
-                          <span className="mt-1 inline-block rounded-full bg-blue-50 px-2 py-1 text-xs text-blue-700">
-                            {member.skill}
-                          </span>
                         </div>
                       </div>
-                    ),
-                  )}
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* right */}
             <aside className="space-y-6">
-              {/* roles */}
-              <div className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
-                <h2 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
+              {/* role card */}
+              {/* <div className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
+                <h2 className="flex items-center gap-2 text-lg font-semibold">
                   <Briefcase className="size-5 text-blue-800" />
                   Role Dibutuhkan
                 </h2>
 
-                <div className="mt-4 space-y-4">
-                  {project.rolesNeeded.map((role, index) => {
-                    const isPriority =
-                      role.urgency.toLowerCase() === "prioritas";
+                <div className="mt-4 rounded-md border border-blue-200 bg-blue-50/40 p-4">
+                  <h3 className="font-semibold capitalize text-slate-900">
+                    {data.role}
+                  </h3>
 
-                    return (
-                      <div
-                        key={index}
-                        className={`group rounded-md border p-4 transition-all duration-300  ${
-                          isPriority
-                            ? "border-slate-200 border-l-4 border-l-blue-500 bg-blue-50/40 hover:border-l-blue-700"
-                            : "border-slate-200 bg-slate-50/50 hover:bg-slate-100"
-                        }`}
-                      >
-                        <div className="flex items-start justify-between gap-3">
-                          <div>
-                            <h3
-                              className={`font-semibold transition ${
-                                isPriority
-                                  ? "text-slate-900 group-hover:text-blue-700"
-                                  : "text-slate-900"
-                              }`}
-                            >
-                              {role.title}
-                            </h3>
-
-                            <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                              {role.description}
-                            </p>
-                          </div>
-
-                          <span
-                            className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold ${
-                              isPriority
-                                ? "bg-blue-100 text-blue-700"
-                                : "bg-slate-100 text-slate-600"
-                            }`}
-                          >
-                            {role.urgency}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
+                  <p className="mt-2 text-sm text-slate-600">
+                    {data.Kriteria ||
+                      "Silakan hubungi contact person untuk detail lebih lanjut."}
+                  </p>
                 </div>
-              </div>
+              </div> */}
 
               {/* apply */}
               <div className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
-                {/* header */}
-                <div>
-                  <h2 className="text-lg font-semibold text-slate-900">
-                    Gabung ke Tim Ini
-                  </h2>
+                <h2 className="flex items-center gap-2 text-lg font-semibold">
+                  <UserPlusIcon className="size-4.5 text-blue-800" />
+                  Gabung ke Rekrutmen Ini
+                </h2>
 
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                    Tertarik menjadi bagian dari proyek ini? Tunjukkan minat dan
-                    kemampuanmu untuk bergabung.
-                  </p>
+                <p className="mt-2 text-sm text-slate-600">
+                  Tertarik dengan posisi ini? Kirim aplikasi Anda sekarang.
+                </p>
 
-                  <Button
-                    type="button"
-                    onClick={() => setShowApplyForm(!showApplyForm)}
-                    className="mt-4 w-full"
-                  >
-                    {showApplyForm ? (
-                      <div className="flex justify-center items-center gap-2">
-                        Tutup Formulir
-                        <ChevronUp className="size-4" />
-                      </div>
-                    ) : (
-                      <div className="flex justify-center items-center gap-2">
-                        Isi Formulir
-                        <ChevronDown className="size-4" />
-                      </div>
-                    )}
-                  </Button>
-                </div>
+                <Button
+                  type="button"
+                  onClick={() => setShowApplyForm(!showApplyForm)}
+                  className="mt-4 w-full"
+                >
+                  {showApplyForm ? (
+                    <div className="flex justify-center items-center gap-2">
+                      Tutup Formulir
+                      <ChevronUp className="size-4" />
+                    </div>
+                  ) : (
+                    <div className="flex justify-center items-center gap-2">
+                      Isi Formulir
+                      <ChevronDown className="size-4" />
+                    </div>
+                  )}
+                </Button>
 
-                {/* expandable content */}
                 <div
-                  className={`overflow-hidden transition-all duration-700 ease-in-out ${
+                  className={`overflow-hidden transition-all duration-700 ${
                     showApplyForm
-                      ? "mt-5 max-h-[1000px] opacity-100 translate-y-0"
-                      : "max-h-0 opacity-0 -translate-y-2"
+                      ? "mt-5 max-h-[1000px] opacity-100"
+                      : "max-h-0 opacity-0"
                   }`}
                 >
                   <div className="space-y-4 border-t border-slate-100 pt-5">
                     <Select
-                      label="Pilih Role"
-                      placeholder="Pilih posisi"
-                      options={project.rolesNeeded.map((role) => ({
-                        label: role.title,
-                        value: role.title,
-                      }))}
+                      label="Role"
+                      placeholder="Pilih role"
+                      options={[
+                        {
+                          label: data.role,
+                          value: data.role,
+                        },
+                      ]}
                     />
 
                     <Input
                       label="Motivasi Singkat"
-                      placeholder="Jelaskan kenapa kamu cocok..."
+                      placeholder="Jelaskan alasan Anda..."
                     />
 
                     <Input label="Link CV / Portfolio" placeholder="https://" />
@@ -394,37 +318,6 @@ export default function FeedDetailPage() {
                     />
 
                     <Button className="w-full">Submit Application</Button>
-                  </div>
-                </div>
-              </div>
-
-              {/* meta */}
-              <div className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
-                <div className="space-y-3 text-sm text-slate-700">
-                  <div className="flex justify-between">
-                    <span className="text-slate-500">Project ID</span>
-                    <span className="font-medium">{project.id}</span>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <span className="text-slate-500">Update</span>
-                    <span className="font-medium">2 hari lalu</span>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <span className="text-slate-500">Views</span>
-                    <span className="flex items-center gap-1 font-medium">
-                      <Eye className="size-4" />
-                      1,240
-                    </span>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <span className="text-slate-500">Deadline</span>
-                    <span className="flex items-center gap-1 font-medium">
-                      <Calendar className="size-4" />
-                      14 Mei 2026
-                    </span>
                   </div>
                 </div>
               </div>

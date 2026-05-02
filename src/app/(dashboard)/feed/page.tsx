@@ -8,7 +8,7 @@ import Button from "@/components/ui/button";
 import TypewriterSubtitle from "@/features/feed/typewriter-subtitle";
 import CategoryFilter from "@/features/feed/category-filter";
 import RoleSearch from "@/features/feed/role-search";
-import RekrutmenCard from "@/features/feed/rekrutmen-card";
+import RekrutmenCard from "@/components/ui/rekrutmen-card";
 import { useRekrutmen, Rekrutmen, KegiatanType } from "@/hooks/useRekrutmen";
 import { useAppliedRekrutmen } from "@/hooks/useAppliedRekrutmen";
 import { cn } from "@/lib/utils";

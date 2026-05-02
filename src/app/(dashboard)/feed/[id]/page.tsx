@@ -27,6 +27,7 @@ import {
 } from "@/hooks/use-recruitment";
 import TextArea from "@/components/ui/text-area";
 import { useAuth } from "@/hooks/use-auth";
+import Breadcrumbs from "@/components/ui/breadcrumbs";
 
 function formatCurrency(amount: number) {
   return new Intl.NumberFormat("id-ID", {
@@ -193,6 +194,13 @@ export default function FeedDetailPage() {
         className="min-h-screen bg-slate-50 text-slate-900"
       >
         <div className="mx-auto max-w-7xl space-y-6 px-2 py-2 md:px-4">
+          <Breadcrumbs
+            customLabels={{
+              feed: "Feed",
+              [recruitmentId]: `${recruitmentId.slice(0, 8)}`,
+            }}
+          />
+
           {/* hero */}
           <section className="relative overflow-hidden rounded-md border border-slate-200  shadow-xs">
             {/* background image */}

@@ -157,7 +157,7 @@ function BuatPostinganContent() {
                       <option value="riset">Riset</option>
                       <option value="projek">Proyek IT</option>
                       <option value="lomba">Lomba/Kompetisi</option>
-                      <option value="kepanitiaan">Kepanitiaan</option>
+    
                     </select>
                   </div>
 

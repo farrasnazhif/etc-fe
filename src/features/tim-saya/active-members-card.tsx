@@ -12,31 +12,15 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import type { TeamMember, MemberRole } from "@/_mock/team-data";
-
-const roleBadgeVariant: Record<MemberRole, {
-  variant: "default" | "secondary" | "outline";
-  className: string;
-}> = {
-  ADMIN: {
-    variant: "outline",
-    className: "border-primary text-primary",
-  },
-  EDITOR: {
-    variant: "secondary",
-    className: "bg-secondary text-secondary-foreground",
-  },
-  VIEWER: {
-    variant: "outline",
-    className: "border-border text-muted-foreground",
-  },
-};
+import type { TimMember } from "@/hooks/useTimMembers";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ActiveMembersCardProps {
-  members: TeamMember[];
+  members: TimMember[];
+  isLoading?: boolean;
 }
 
-export default function ActiveMembersCard({ members }: ActiveMembersCardProps) {
+export default function ActiveMembersCard({ members, isLoading }: ActiveMembersCardProps) {
   return (
     <Card>
       <CardHeader className="flex-row items-center justify-between border-b pb-4">
@@ -49,71 +33,90 @@ export default function ActiveMembersCard({ members }: ActiveMembersCardProps) {
         </button>
       </CardHeader>
       <CardContent className="space-y-0 p-0">
-        {members.map((member, index) => (
-          <div
-            key={member.id}
-            className={cn(
-              "flex items-center gap-4 px-4 py-4",
-              index < members.length - 1 && "border-b border-border"
-            )}
-          >
-            {/* Avatar with online indicator */}
-            <div className="relative">
-              <Avatar size="lg">
-                <AvatarImage src={member.avatarUrl} alt={member.name} />
-                <AvatarFallback>
-                  {member.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")
-                    .slice(0, 2)}
-                </AvatarFallback>
-                {member.isOnline && (
-                  <AvatarBadge className="bg-green-500 ring-2 ring-card" />
-                )}
-              </Avatar>
-            </div>
-
-            {/* Name + Position */}
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-foreground truncate">
-                {member.name}
-              </p>
-              <p className="text-xs text-muted-foreground truncate">
-                {member.position}
-              </p>
-            </div>
-
-            {/* Role Badge */}
-            <Badge
-              variant={roleBadgeVariant[member.role].variant}
+        {isLoading ? (
+          <div className="px-4 py-4 space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="flex items-center gap-4">
+                <Skeleton className="h-12 w-12 rounded-full shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="h-3 w-24" />
+                </div>
+                <Skeleton className="h-6 w-16 rounded-full" />
+                <Skeleton className="h-8 w-8 rounded-md" />
+              </div>
+            ))}
+          </div>
+        ) : members.length === 0 ? (
+          <p className="text-sm text-muted-foreground text-center py-6">
+            Tidak ada anggota aktif.
+          </p>
+        ) : (
+          members.map((member, index) => (
+            <div
+              key={member.user_id}
               className={cn(
-                "text-[10px] font-semibold tracking-wider px-2.5",
-                roleBadgeVariant[member.role].className
+                "flex items-center gap-4 px-4 py-4",
+                index < members.length - 1 && "border-b border-border"
               )}
             >
-              {member.role}
-            </Badge>
+              {/* Avatar */}
+              <div className="relative">
+                <Avatar size="lg">
+                  {member.profile_picture && (
+                    <AvatarImage src={member.profile_picture} alt={member.nama} />
+                  )}
+                  <AvatarFallback>
+                    {member.nama
+                      ? member.nama
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")
+                          .slice(0, 2)
+                          .toUpperCase()
+                      : "??"}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
 
-            {/* Dropdown Menu */}
-            <DropdownMenu>
-              <DropdownMenuTrigger className="p-1 rounded-md hover:bg-muted transition-colors cursor-pointer outline-none">
-                <MoreVertical className="size-4 text-muted-foreground" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" sideOffset={8}>
-                <DropdownMenuItem className="gap-2 cursor-pointer">
-                  <ShieldCheck className="size-4" />
-                  Ubah Peran
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem variant="destructive" className="gap-2 cursor-pointer">
-                  <Trash2 className="size-4" />
-                  Hapus Anggota
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        ))}
+              {/* Name + Position (using role) */}
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-foreground truncate">
+                  {member.nama || "Tanpa Nama"}
+                </p>
+                <p className="text-xs text-muted-foreground truncate">
+                  {member.role}
+                </p>
+              </div>
+
+              {/* Role Badge - secondary variant for all */}
+              <Badge
+                variant="secondary"
+                className="text-[10px] font-semibold tracking-wider px-2.5 bg-secondary text-secondary-foreground uppercase"
+              >
+                {member.role}
+              </Badge>
+
+              {/* Dropdown Menu */}
+              <DropdownMenu>
+                <DropdownMenuTrigger className="p-1 rounded-md hover:bg-muted transition-colors cursor-pointer outline-none">
+                  <MoreVertical className="size-4 text-muted-foreground" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" sideOffset={8}>
+                  <DropdownMenuItem className="gap-2 cursor-pointer">
+                    <ShieldCheck className="size-4" />
+                    Ubah Peran
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem variant="destructive" className="gap-2 cursor-pointer">
+                    <Trash2 className="size-4" />
+                    Hapus Anggota
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          ))
+        )}
       </CardContent>
     </Card>
   );

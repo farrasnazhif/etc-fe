@@ -1,29 +1,30 @@
 "use client";
 
-import { useState } from "react";
-import { UserPlus } from "lucide-react";
+import { UserPlus, ExternalLink, Loader2 } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Button from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import type { Applicant } from "@/_mock/team-data";
+import type { Pendaftar } from "@/hooks/useApplicants";
+import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ApplicantsCardProps {
-  initialApplicants: Applicant[];
+  applicants: Pendaftar[];
+  isLoading?: boolean;
+  onAccept: (pendaftarId: string) => void;
+  onReject: (pendaftarId: string) => void;
+  isActionLoading?: boolean;
 }
 
-export default function ApplicantsCard({ initialApplicants }: ApplicantsCardProps) {
-  const [applicants, setApplicants] = useState(initialApplicants);
-
-  const handleAccept = (id: string) => {
-    setApplicants((prev) => prev.filter((a) => a.id !== id));
-  };
-
-  const handleReject = (id: string) => {
-    setApplicants((prev) => prev.filter((a) => a.id !== id));
-  };
-
+export default function ApplicantsCard({
+  applicants,
+  isLoading,
+  onAccept,
+  onReject,
+  isActionLoading,
+}: ApplicantsCardProps) {
   return (
     <Card>
       <CardHeader className="flex-row items-center gap-2 border-b pb-4">
@@ -37,70 +38,101 @@ export default function ApplicantsCard({ initialApplicants }: ApplicantsCardProp
         </Badge>
       </CardHeader>
       <CardContent className="space-y-4 pt-2">
-        {applicants.length === 0 ? (
+        {isLoading ? (
+          <div className="space-y-4 py-4">
+            {[1, 2].map((i) => (
+              <Card key={i} className="ring-1 ring-border/60 shadow-none">
+                <CardContent className="flex flex-col sm:flex-row items-start sm:items-center gap-4 py-4 px-4">
+                  <Skeleton className="h-12 w-12 rounded-lg" />
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-4 w-32" />
+                    <Skeleton className="h-3 w-48" />
+                  </div>
+                  <div className="flex gap-2">
+                    <Skeleton className="h-8 w-16" />
+                    <Skeleton className="h-8 w-16" />
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : applicants.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-6">
             Tidak ada pelamar baru saat ini.
           </p>
         ) : (
           applicants.map((applicant) => (
             <Card
-              key={applicant.id}
+              key={applicant.pendaftar_id}
               className="ring-1 ring-border/60 shadow-none"
             >
               <CardContent className="flex flex-col sm:flex-row items-start sm:items-center gap-4 py-4 px-4">
                 {/* Avatar */}
                 <Avatar size="lg" className="rounded-lg after:rounded-lg">
-                  <AvatarImage
-                    src={applicant.avatarUrl}
-                    alt={applicant.name}
-                    className="rounded-lg"
-                  />
                   <AvatarFallback className="rounded-lg">
-                    {applicant.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")
-                      .slice(0, 2)}
+                    {applicant.nama_pendaftar
+                      ? applicant.nama_pendaftar
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")
+                          .slice(0, 2)
+                          .toUpperCase()
+                      : "??"}
                   </AvatarFallback>
                 </Avatar>
 
                 {/* Info */}
                 <div className="flex-1 min-w-0 space-y-1.5">
                   <p className="text-sm font-semibold text-foreground">
-                    {applicant.name}
+                    {applicant.nama_pendaftar || "Tanpa Nama"}
                   </p>
-                  <p className="text-xs text-muted-foreground">
-                    {applicant.title} • {applicant.field}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {applicant.skills.map((skill) => (
-                      <Badge
-                        key={skill}
-                        variant="secondary"
-                        className="text-[10px] font-semibold tracking-wider bg-muted text-muted-foreground uppercase"
+                  <div className="flex flex-wrap gap-2 text-xs">
+                    {applicant.cv_url && (
+                      <Link
+                        href={applicant.cv_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center text-primary hover:underline"
                       >
-                        {skill}
-                      </Badge>
-                    ))}
+                        Lihat CV <ExternalLink className="ml-1 size-3" />
+                      </Link>
+                    )}
+                    {applicant.cv_url && applicant.portofolio_url && (
+                      <span className="text-muted-foreground">•</span>
+                    )}
+                    {applicant.portofolio_url && (
+                      <Link
+                        href={applicant.portofolio_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center text-primary hover:underline"
+                      >
+                        Portofolio <ExternalLink className="ml-1 size-3" />
+                      </Link>
+                    )}
                   </div>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex gap-2 shrink-0 self-center">
+                <div className="flex gap-2 shrink-0 self-center mt-2 sm:mt-0">
                   <Button
                     variant="outline"
                     size="sm"
                     className="border-destructive text-destructive hover:bg-destructive/10"
-                    onClick={() => handleReject(applicant.id)}
+                    onClick={() => onReject(applicant.pendaftar_id)}
+                    disabled={isActionLoading}
                   >
+                    {isActionLoading ? <Loader2 className="size-3 animate-spin mr-1" /> : null}
                     Tolak
                   </Button>
                   <Button
                     variant="primary"
                     size="sm"
                     className="bg-primary text-primary-foreground hover:bg-primary/90"
-                    onClick={() => handleAccept(applicant.id)}
+                    onClick={() => onAccept(applicant.pendaftar_id)}
+                    disabled={isActionLoading}
                   >
+                    {isActionLoading ? <Loader2 className="size-3 animate-spin mr-1" /> : null}
                     Terima
                   </Button>
                 </div>

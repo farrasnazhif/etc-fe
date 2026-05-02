@@ -7,6 +7,7 @@ import { type KegiatanType } from "@/hooks/useRekrutmen";
 type CategoryFilterProps = {
   activeKegiatan: KegiatanType | undefined;
   onKegiatanChange: (kegiatan: KegiatanType | undefined) => void;
+  isDisabled?: boolean;
 };
 
 const categories: { id: KegiatanType | undefined; label: string }[] = [
@@ -19,9 +20,10 @@ const categories: { id: KegiatanType | undefined; label: string }[] = [
 export default function CategoryFilter({
   activeKegiatan,
   onKegiatanChange,
+  isDisabled,
 }: CategoryFilterProps) {
   return (
-    <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+    <div className={cn("rounded-xl border border-border bg-card p-5 shadow-sm", isDisabled && "opacity-40 pointer-events-none transition-opacity duration-200")}>
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <SlidersHorizontal className="h-4 w-4 text-primary" />

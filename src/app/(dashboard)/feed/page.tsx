@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Users, ClipboardList, Sparkles, Calendar, HandCoins, User, FileText, Loader2 } from "lucide-react";
 import DashboardLayout from "@/layouts/dashboard/dashboard-layout";
 import Input from "@/components/ui/input";
 import Button from "@/components/ui/button";
 import TypewriterSubtitle from "@/features/feed/typewriter-subtitle";
 import CategoryFilter from "@/features/feed/category-filter";
-import SkillTags from "@/features/feed/skill-tags";
+import RoleSearch from "@/features/feed/role-search";
 import { useRekrutmen, Rekrutmen, KegiatanType } from "@/hooks/useRekrutmen";
 import { cn } from "@/lib/utils";
 
@@ -85,13 +85,29 @@ export default function FeedPage() {
   const [page, setPage] = useState(1);
   const limit = 10;
   const [activeKegiatan, setActiveKegiatan] = useState<KegiatanType | undefined>(undefined);
+  const [roleSearch, setRoleSearch] = useState("");
+  const [debouncedRoleSearch, setDebouncedRoleSearch] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedRoleSearch(roleSearch);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [roleSearch]);
 
   const handleKegiatanChange = (kegiatan: KegiatanType | undefined) => {
     setActiveKegiatan(kegiatan);
+    if (kegiatan) setRoleSearch("");
     setPage(1);
   };
 
-  const { data, isLoading, isError, error } = useRekrutmen(page, limit, activeKegiatan);
+  const handleRoleChange = (role: string) => {
+    setRoleSearch(role);
+    if (role) setActiveKegiatan(undefined);
+    setPage(1);
+  };
+
+  const { data, isLoading, isError, error } = useRekrutmen(page, limit, activeKegiatan, debouncedRoleSearch || undefined);
 
   return (
     <DashboardLayout withNavbar withSidebar>
@@ -144,8 +160,16 @@ export default function FeedPage() {
         <div className="flex gap-6">
           {/* ---- LEFT SIDEBAR (desktop) ---- */}
           <aside className="hidden lg:flex flex-col gap-5 w-[250px] shrink-0">
-            <CategoryFilter activeKegiatan={activeKegiatan} onKegiatanChange={handleKegiatanChange} />
-            <SkillTags />
+            <CategoryFilter
+              activeKegiatan={activeKegiatan}
+              onKegiatanChange={handleKegiatanChange}
+              isDisabled={!!roleSearch}
+            />
+            <RoleSearch
+              roleSearch={roleSearch}
+              onRoleChange={handleRoleChange}
+              isDisabled={!!activeKegiatan}
+            />
 
             {/* CTA Card */}
             <div className="relative rounded-xl bg-primary p-5 text-primary-foreground overflow-hidden shadow-lg">
@@ -193,8 +217,16 @@ export default function FeedPage() {
                     ✕
                   </button>
                 </div>
-                <CategoryFilter activeKegiatan={activeKegiatan} onKegiatanChange={handleKegiatanChange} />
-                <SkillTags />
+                <CategoryFilter
+                  activeKegiatan={activeKegiatan}
+                  onKegiatanChange={handleKegiatanChange}
+                  isDisabled={!!roleSearch}
+                />
+                <RoleSearch
+                  roleSearch={roleSearch}
+                  onRoleChange={handleRoleChange}
+                  isDisabled={!!activeKegiatan}
+                />
 
                 {/* CTA Card mobile */}
                 <div className="relative rounded-xl bg-primary p-5 text-primary-foreground overflow-hidden">

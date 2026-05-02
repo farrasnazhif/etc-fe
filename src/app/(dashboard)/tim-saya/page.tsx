@@ -1,7 +1,6 @@
 "use client";
 
 import DashboardLayout from "@/layouts/dashboard/dashboard-layout";
-import TypewriterSubtitle from "@/features/tim-saya/typewriter-subtitle";
 import RecruitmentStatusToggle from "@/features/tim-saya/recruitment-status-toggle";
 import ActiveMembersCard from "@/features/tim-saya/active-members-card";
 import ApplicantsCard from "@/features/tim-saya/applicants-card";

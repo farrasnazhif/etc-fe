@@ -5,8 +5,9 @@ import { Calendar, HandCoins, User, FileText } from "lucide-react";
 import { Rekrutmen } from "@/hooks/useRekrutmen";
 import Button from "@/components/ui/button";
 import ApplyModal from "@/features/feed/apply-modal";
+import { cn } from "@/lib/utils";
 
-export default function RekrutmenCard({ item }: { item: Rekrutmen }) {
+export default function RekrutmenCard({ item, status }: { item: Rekrutmen; status?: "pending" | "approved" | "rejected" }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const formatRupiah = (angka: number) => {
@@ -34,10 +35,22 @@ export default function RekrutmenCard({ item }: { item: Rekrutmen }) {
   return (
     <>
       <div className="group rounded-xl border border-border bg-card p-5 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300 flex flex-col h-full">
-        <div className="flex items-start justify-between mb-3">
+        <div className="flex items-start justify-between mb-3 gap-2">
           <span className="shrink-0 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
             {item.kegiatan}
           </span>
+          {status && (
+            <span
+              className={cn(
+                "shrink-0 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border",
+                status === "pending" && "bg-yellow-100 text-yellow-700 border-yellow-200",
+                status === "approved" && "bg-green-100 text-green-700 border-green-200",
+                status === "rejected" && "bg-red-100 text-red-700 border-red-200"
+              )}
+            >
+              {status}
+            </span>
+          )}
         </div>
 
         <h4 className="text-[15px] font-bold text-foreground mb-3 leading-snug group-hover:text-primary transition-colors duration-200">
@@ -72,13 +85,15 @@ export default function RekrutmenCard({ item }: { item: Rekrutmen }) {
           </div>
         </div>
 
-        <Button
-          variant="primary"
-          className="w-full cursor-pointer mt-auto"
-          onClick={() => setIsModalOpen(true)}
-        >
-          Apply
-        </Button>
+        {!status && (
+          <Button
+            variant="primary"
+            className="w-full cursor-pointer mt-auto"
+            onClick={() => setIsModalOpen(true)}
+          >
+            Apply
+          </Button>
+        )}
       </div>
 
       <ApplyModal

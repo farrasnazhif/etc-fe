@@ -10,6 +10,7 @@ import CategoryFilter from "@/features/feed/category-filter";
 import RoleSearch from "@/features/feed/role-search";
 import RekrutmenCard from "@/features/feed/rekrutmen-card";
 import { useRekrutmen, Rekrutmen, KegiatanType } from "@/hooks/useRekrutmen";
+import { useAppliedRekrutmen } from "@/hooks/useAppliedRekrutmen";
 import { cn } from "@/lib/utils";
 
 type Tab = "all" | "my";
@@ -44,6 +45,7 @@ export default function FeedPage() {
   };
 
   const { data, isLoading, isError, error } = useRekrutmen(page, limit, activeKegiatan, debouncedRoleSearch || undefined);
+  const { data: appliedData, isLoading: isAppliedLoading, isError: isAppliedError, error: appliedError } = useAppliedRekrutmen();
 
   return (
     <DashboardLayout withNavbar withSidebar>
@@ -96,16 +98,20 @@ export default function FeedPage() {
         <div className="flex gap-6">
           {/* ---- LEFT SIDEBAR (desktop) ---- */}
           <aside className="hidden lg:flex flex-col gap-5 w-[250px] shrink-0">
-            <RoleSearch
-              roleSearch={roleSearch}
-              onRoleChange={handleRoleChange}
-              isDisabled={!!activeKegiatan}
-            />
-            <CategoryFilter
-              activeKegiatan={activeKegiatan}
-              onKegiatanChange={handleKegiatanChange}
-              isDisabled={!!roleSearch}
-            />
+            {activeTab === "all" && (
+              <>
+                <RoleSearch
+                  roleSearch={roleSearch}
+                  onRoleChange={handleRoleChange}
+                  isDisabled={!!activeKegiatan}
+                />
+                <CategoryFilter
+                  activeKegiatan={activeKegiatan}
+                  onKegiatanChange={handleKegiatanChange}
+                  isDisabled={!!roleSearch}
+                />
+              </>
+            )}
 
             {/* CTA Card */}
             <div className="relative rounded-xl bg-primary p-5 text-primary-foreground overflow-hidden shadow-lg">
@@ -153,16 +159,22 @@ export default function FeedPage() {
                     ✕
                   </button>
                 </div>
-                <CategoryFilter
-                  activeKegiatan={activeKegiatan}
-                  onKegiatanChange={handleKegiatanChange}
-                  isDisabled={!!roleSearch}
-                />
-                <RoleSearch
-                  roleSearch={roleSearch}
-                  onRoleChange={handleRoleChange}
-                  isDisabled={!!activeKegiatan}
-                />
+                {activeTab === "all" ? (
+                  <>
+                    <CategoryFilter
+                      activeKegiatan={activeKegiatan}
+                      onKegiatanChange={handleKegiatanChange}
+                      isDisabled={!!roleSearch}
+                    />
+                    <RoleSearch
+                      roleSearch={roleSearch}
+                      onRoleChange={handleRoleChange}
+                      isDisabled={!!activeKegiatan}
+                    />
+                  </>
+                ) : (
+                  <p className="text-sm text-muted-foreground italic mb-4">Filter tidak tersedia untuk tab ini.</p>
+                )}
 
                 {/* CTA Card mobile */}
                 <div className="relative rounded-xl bg-primary p-5 text-primary-foreground overflow-hidden">
@@ -215,67 +227,116 @@ export default function FeedPage() {
 
             {/* Recruitment Content */}
             <div className="min-h-[400px]">
-              {isLoading && (
-                <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground">
-                  <Loader2 className="w-8 h-8 animate-spin text-primary mb-4" />
-                  <p>Memuat data rekrutmen...</p>
-                </div>
-              )}
-
-              {isError && (
-                <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground">
-                  <div className="bg-destructive/10 text-destructive p-4 rounded-xl border border-destructive/20 text-center">
-                    <p className="font-semibold mb-1">Gagal memuat data</p>
-                    <p className="text-sm">{error instanceof Error ? error.message : "Terjadi kesalahan yang tidak diketahui"}</p>
-                    <Button
-                      variant="outline"
-                      className="mt-4"
-                      onClick={() => window.location.reload()}
-                    >
-                      Coba Lagi
-                    </Button>
-                  </div>
-                </div>
-              )}
-
-              {!isLoading && !isError && data?.data && data.data.length === 0 && (
-                <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground bg-card rounded-xl border border-border">
-                  <ClipboardList className="w-12 h-12 mb-4 text-muted-foreground/50" />
-                  <p className="font-medium text-foreground">Tidak ada rekrutmen</p>
-                  <p className="text-sm">Belum ada data rekrutmen yang tersedia saat ini.</p>
-                </div>
-              )}
-
-              {!isLoading && !isError && data?.data && data.data.length > 0 && (
+              {activeTab === "all" ? (
                 <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    {data.data.map((recruitment) => (
-                      <RekrutmenCard key={recruitment.rekrutmen_id} item={recruitment} />
-                    ))}
-                  </div>
+                  {isLoading && (
+                    <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground">
+                      <Loader2 className="w-8 h-8 animate-spin text-primary mb-4" />
+                      <p>Memuat data rekrutmen...</p>
+                    </div>
+                  )}
 
-                  {/* Pagination controls */}
-                  {data.total_pages > 1 && (
-                    <div className="flex items-center justify-center gap-4 mt-8 pt-6 border-t border-border">
-                      <Button
-                        variant="outline"
-                        onClick={() => setPage((p) => Math.max(1, p - 1))}
-                        disabled={page === 1}
-                        className="cursor-pointer"
-                      >
-                        Sebelumnya
-                      </Button>
-                      <span className="text-sm font-medium text-muted-foreground">
-                        Halaman {data.page} dari {data.total_pages}
-                      </span>
-                      <Button
-                        variant="outline"
-                        onClick={() => setPage((p) => Math.min(data.total_pages, p + 1))}
-                        disabled={page === data.total_pages}
-                        className="cursor-pointer"
-                      >
-                        Selanjutnya
-                      </Button>
+                  {isError && (
+                    <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground">
+                      <div className="bg-destructive/10 text-destructive p-4 rounded-xl border border-destructive/20 text-center">
+                        <p className="font-semibold mb-1">Gagal memuat data</p>
+                        <p className="text-sm">{error instanceof Error ? error.message : "Terjadi kesalahan yang tidak diketahui"}</p>
+                        <Button
+                          variant="outline"
+                          className="mt-4"
+                          onClick={() => window.location.reload()}
+                        >
+                          Coba Lagi
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  {!isLoading && !isError && data?.data && data.data.length === 0 && (
+                    <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground bg-card rounded-xl border border-border">
+                      <ClipboardList className="w-12 h-12 mb-4 text-muted-foreground/50" />
+                      <p className="font-medium text-foreground">Tidak ada rekrutmen</p>
+                      <p className="text-sm">Belum ada data rekrutmen yang tersedia saat ini.</p>
+                    </div>
+                  )}
+
+                  {!isLoading && !isError && data?.data && data.data.length > 0 && (
+                    <>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        {data.data.map((recruitment) => (
+                          <RekrutmenCard key={recruitment.rekrutmen_id} item={recruitment} />
+                        ))}
+                      </div>
+
+                      {/* Pagination controls */}
+                      {data.total_pages > 1 && (
+                        <div className="flex items-center justify-center gap-4 mt-8 pt-6 border-t border-border">
+                          <Button
+                            variant="outline"
+                            onClick={() => setPage((p) => Math.max(1, p - 1))}
+                            disabled={page === 1}
+                            className="cursor-pointer"
+                          >
+                            Sebelumnya
+                          </Button>
+                          <span className="text-sm font-medium text-muted-foreground">
+                            Halaman {data.page} dari {data.total_pages}
+                          </span>
+                          <Button
+                            variant="outline"
+                            onClick={() => setPage((p) => Math.min(data.total_pages, p + 1))}
+                            disabled={page === data.total_pages}
+                            className="cursor-pointer"
+                          >
+                            Selanjutnya
+                          </Button>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  {isAppliedLoading && (
+                    <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground">
+                      <Loader2 className="w-8 h-8 animate-spin text-primary mb-4" />
+                      <p>Memuat data aplikasi...</p>
+                    </div>
+                  )}
+
+                  {isAppliedError && (
+                    <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground">
+                      <div className="bg-destructive/10 text-destructive p-4 rounded-xl border border-destructive/20 text-center">
+                        <p className="font-semibold mb-1">Gagal memuat data</p>
+                        <p className="text-sm">{appliedError instanceof Error ? appliedError.message : "Terjadi kesalahan yang tidak diketahui"}</p>
+                        <Button
+                          variant="outline"
+                          className="mt-4"
+                          onClick={() => window.location.reload()}
+                        >
+                          Coba Lagi
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  {!isAppliedLoading && !isAppliedError && (!appliedData || appliedData.length === 0) && (
+                    <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground bg-card rounded-xl border border-border">
+                      <ClipboardList className="w-12 h-12 mb-4 text-muted-foreground/50" />
+                      <p className="font-medium text-foreground">Tidak ada aplikasi</p>
+                      <p className="text-sm">Kamu belum mendaftar ke rekrutmen apapun</p>
+                    </div>
+                  )}
+
+                  {!isAppliedLoading && !isAppliedError && appliedData && appliedData.length > 0 && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                      {appliedData.map((applied) => (
+                        <RekrutmenCard 
+                          key={applied.pendaftar_id} 
+                          item={applied.rekrutmen} 
+                          status={applied.status} 
+                        />
+                      ))}
                     </div>
                   )}
                 </>

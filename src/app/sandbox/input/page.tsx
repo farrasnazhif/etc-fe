@@ -4,6 +4,7 @@ import DropzoneInput from "@/components/ui/dropzone-input";
 import FileUpload from "@/components/ui/file-upload";
 import Input from "@/components/ui/input";
 import Select from "@/components/ui/select";
+import TextArea from "@/components/ui/text-area";
 import { Mail, Lock, Search } from "lucide-react";
 
 function Section({
@@ -79,6 +80,33 @@ export default function InputSandboxPage() {
 
       <Section title="Disabled">
         <Input label="Disabled" placeholder="Tidak bisa diisi" disabled />
+      </Section>
+
+      <Section title="Text Area Input">
+        <TextArea
+          label="Deskripsi Diri"
+          placeholder="Ceritakan tentang diri Anda..."
+        />
+
+        <TextArea
+          label="Motivasi"
+          placeholder="Jelaskan alasan Anda bergabung..."
+          required
+        />
+
+        <TextArea
+          label="Dengan Helper Text"
+          placeholder="Minimal 20 karakter"
+          helperText="Tuliskan secara singkat dan jelas"
+        />
+
+        <TextArea
+          label="Error State"
+          placeholder="Masukkan alasan"
+          error="Field ini wajib diisi"
+        />
+
+        <TextArea label="Disabled" placeholder="Tidak bisa diisi" disabled />
       </Section>
 
       <Section title="Select Input">

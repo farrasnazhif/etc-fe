@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
-import Select from "@/components/ui/select";
+// import Select from "@/components/ui/select";
 import {
   FileText,
   ChevronUp,
@@ -21,6 +21,11 @@ import {
   useDeleteBookmarkRecruitment,
 } from "@/hooks/use-bookmark";
 import { useToast } from "@/components/ui/toaster";
+import {
+  useApplyRecruitment,
+  useGetAppliedRecruitments,
+} from "@/hooks/use-recruitment";
+import TextArea from "@/components/ui/text-area";
 
 function formatCurrency(amount: number) {
   return new Intl.NumberFormat("id-ID", {
@@ -51,11 +56,22 @@ function calculateDuration(start: string, end: string) {
 export default function FeedDetailPage() {
   const [bookmarked, setBookmarked] = useState(false);
   const [showApplyForm, setShowApplyForm] = useState(false);
+  const [alasanMendaftar, setAlasanMendaftar] = useState("");
+  const [cvUrl, setCvUrl] = useState("");
+  const [portfolioUrl, setPortfolioUrl] = useState("");
+
+  const applyRecruitmentMutation = useApplyRecruitment();
 
   const params = useParams();
   const recruitmentId = params?.id as string;
 
   const { data, isLoading, error } = useRecruitmentDetail(recruitmentId);
+  const { data: appliedRecruitments, isLoading: isLoadingApplied } =
+    useGetAppliedRecruitments();
+
+  const alreadyApplied = appliedRecruitments?.some(
+    (item) => item.rekrutmen.rekrutmen_id === recruitmentId,
+  );
 
   const { addToast } = useToast();
 
@@ -82,7 +98,39 @@ export default function FeedDetailPage() {
     }
   }
 
-  if (isLoading) {
+  function handleApplyRecruitment() {
+    if (!recruitmentId) return;
+
+    if (!alasanMendaftar || !cvUrl || !portfolioUrl) {
+      addToast("Semua field wajib diisi.", "error");
+      return;
+    }
+
+    applyRecruitmentMutation.mutate(
+      {
+        recruitmentId,
+        alasan_mendaftar: alasanMendaftar,
+        cv_url: cvUrl,
+        portofolio_url: portfolioUrl,
+      },
+
+      {
+        onSuccess: () => {
+          addToast("Berhasil mendaftar rekrutmen!", "success");
+          setAlasanMendaftar("");
+          setCvUrl("");
+          setPortfolioUrl("");
+          setShowApplyForm(false);
+        },
+
+        onError: (error) => {
+          addToast(error.message, "error");
+        },
+      },
+    );
+  }
+
+  if (isLoading || isLoadingApplied) {
     return <FeedDetailSkeleton />;
   }
 
@@ -196,7 +244,7 @@ export default function FeedDetailPage() {
                   </div>
 
                   <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    <div className="rounded-md border border-slate-200 bg-slate-50 p-4">
+                    <div className="rounded-md border border-slate-200 bg-transparent p-4">
                       <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
                         Role
                       </p>
@@ -206,7 +254,7 @@ export default function FeedDetailPage() {
                       </p>
                     </div>
 
-                    <div className="rounded-md border border-slate-200 bg-slate-50 p-4">
+                    <div className="rounded-md border border-slate-200 bg-transparent p-4">
                       <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
                         Fee
                       </p>
@@ -216,7 +264,7 @@ export default function FeedDetailPage() {
                       </p>
                     </div>
 
-                    <div className="rounded-md border border-slate-200 bg-slate-50 p-4">
+                    <div className="rounded-md border border-slate-200 bg-transparent p-4">
                       <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
                         Durasi
                       </p>
@@ -229,7 +277,7 @@ export default function FeedDetailPage() {
                       </p>
                     </div>
 
-                    <div className="rounded-md border border-slate-200 bg-slate-50 p-4">
+                    <div className="rounded-md border border-slate-200 bg-transparent p-4">
                       <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
                         Tanggal Mulai
                       </p>
@@ -239,7 +287,7 @@ export default function FeedDetailPage() {
                       </p>
                     </div>
 
-                    <div className="rounded-md border border-slate-200 bg-slate-50 p-4">
+                    <div className="rounded-md border border-slate-200 bg-transparent p-4">
                       <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
                         Deadline
                       </p>
@@ -310,10 +358,23 @@ export default function FeedDetailPage() {
 
                 <Button
                   type="button"
-                  onClick={() => setShowApplyForm(!showApplyForm)}
-                  className="mt-4 w-full"
+                  onClick={() => {
+                    if (!alreadyApplied) {
+                      setShowApplyForm(!showApplyForm);
+                    }
+                  }}
+                  disabled={alreadyApplied}
+                  className={`mt-4 w-full ${
+                    alreadyApplied
+                      ? "bg-green-600 border-green-600 text-white hover:bg-green-600 hover:border-green-600 cursor-not-allowed"
+                      : ""
+                  }`}
                 >
-                  {showApplyForm ? (
+                  {alreadyApplied ? (
+                    <div className="flex justify-center items-center gap-2">
+                      Kamu Sudah Mendaftar
+                    </div>
+                  ) : showApplyForm ? (
                     <div className="flex justify-center items-center gap-2">
                       Tutup Formulir
                       <ChevronUp className="size-4" />
@@ -328,36 +389,57 @@ export default function FeedDetailPage() {
 
                 <div
                   className={`overflow-hidden transition-all duration-700 ${
-                    showApplyForm
+                    showApplyForm && !alreadyApplied
                       ? "mt-5 max-h-[1000px] opacity-100"
                       : "max-h-0 opacity-0"
                   }`}
                 >
                   <div className="space-y-4 border-t border-slate-100 pt-5">
-                    <Select
+                    {/* <Select
                       label="Role"
                       placeholder="Pilih role"
                       options={[
                         {
                           label: data.role,
+
                           value: data.role,
                         },
                       ]}
+                    /> */}
+
+                    <TextArea
+                      label="Motivasi Mendaftar"
+                      placeholder="Jelaskan alasan Anda..."
+                      value={alasanMendaftar}
+                      onChange={(e) => setAlasanMendaftar(e.target.value)}
+                      required
+                      className="w-full"
                     />
 
                     <Input
-                      label="Motivasi Singkat"
-                      placeholder="Jelaskan alasan Anda..."
+                      label="Link CV"
+                      placeholder="https://drive.google.com/..."
+                      value={cvUrl}
+                      onChange={(e) => setCvUrl(e.target.value)}
+                      required
                     />
 
-                    <Input label="Link CV / Portfolio" placeholder="https://" />
+                    <Input
+                      label="Link Portfolio"
+                      placeholder="https://drive.google.com/..."
+                      value={portfolioUrl}
+                      onChange={(e) => setPortfolioUrl(e.target.value)}
+                      required
+                    />
 
-                    {/* <DropzoneInput
-                      label="Upload CV / Portfolio"
-                      helperText="PDF maksimal 10MB"
-                    /> */}
-
-                    <Button className="w-full">Submit Application</Button>
+                    <Button
+                      className="w-full"
+                      onClick={handleApplyRecruitment}
+                      isLoading={applyRecruitmentMutation.isPending}
+                      disabled={applyRecruitmentMutation.isPending}
+                    >
+                      Submit Application
+                    </Button>
                   </div>
                 </div>
               </div>

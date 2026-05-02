@@ -160,15 +160,15 @@ export default function FeedPage() {
         <div className="flex gap-6">
           {/* ---- LEFT SIDEBAR (desktop) ---- */}
           <aside className="hidden lg:flex flex-col gap-5 w-[250px] shrink-0">
-            <CategoryFilter
-              activeKegiatan={activeKegiatan}
-              onKegiatanChange={handleKegiatanChange}
-              isDisabled={!!roleSearch}
-            />
             <RoleSearch
               roleSearch={roleSearch}
               onRoleChange={handleRoleChange}
               isDisabled={!!activeKegiatan}
+            />
+            <CategoryFilter
+              activeKegiatan={activeKegiatan}
+              onKegiatanChange={handleKegiatanChange}
+              isDisabled={!!roleSearch}
             />
 
             {/* CTA Card */}
@@ -249,14 +249,6 @@ export default function FeedPage() {
           <div className="flex-1 min-w-0">
             {/* Search bar + Tab switcher */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
-              {/* Search */}
-              <div className="flex-1 w-full">
-                <Input
-                  placeholder="Cari proyek atau nama tim..."
-                  leftIcon={Search}
-                  className="max-w-full! rounded-xl! bg-card!"
-                />
-              </div>
 
               {/* Tabs */}
               <div className="flex items-center rounded-xl border border-border bg-card p-1 shrink-0 shadow-sm">

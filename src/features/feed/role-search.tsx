@@ -11,7 +11,7 @@ export type RoleSearchFilterProps = {
 
 export default function RoleSearch({ roleSearch, onRoleChange, isDisabled }: RoleSearchFilterProps) {
   return (
-    <div className={`rounded-xl border border-border bg-card p-5 shadow-sm ${isDisabled ? 'opacity-40 pointer-events-none transition-opacity duration-200' : ''}`}>
+    <div className={`rounded-xl border border-border bg-card p-5 shadow-sm ${isDisabled ? 'opacity-40 transition-opacity duration-200' : ''}`}>
       <div className="flex items-center gap-2 mb-4">
         <Search className="h-4 w-4 text-primary" />
         <h3 className="text-sm font-semibold text-foreground">Cari Role</h3>

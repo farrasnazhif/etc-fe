@@ -86,6 +86,9 @@ export default function ApplicantsCard({
                   <p className="text-sm font-semibold text-foreground">
                     {applicant.nama_pendaftar || "Tanpa Nama"}
                   </p>
+                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">
+                    {applicant.alasan_mendaftar || "Tidak ada alasan yang diberikan"}
+                  </p>
                   <div className="flex flex-wrap gap-2 text-xs">
                     {applicant.cv_url && (
                       <Link

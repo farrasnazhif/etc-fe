@@ -28,7 +28,7 @@ export default function TimSayaPage() {
   const { data: rekrutmenDetail, isLoading: isDetailLoading } = useRekrutmenDetail(rekrutmenId);
   const { data: applicantsData, isLoading: isApplicantsLoading } = useApplicants(rekrutmenId);
   const { accept, reject, isLoading: isActionLoading } = useAcceptRejectApplicant(rekrutmenId);
-  
+
   const timId = rekrutmenDetail?.tim_id;
   const { data: timMembers, isLoading: isTimMembersLoading } = useTimMembers(timId);
 
@@ -61,12 +61,7 @@ export default function TimSayaPage() {
             <h1 className="text-2xl font-bold text-foreground tracking-tight">
               Manajemen Tim
             </h1>
-
-            {/* Typewriter subtitle */}
           </div>
-
-          {/* Recruitment Status */}
-          <RecruitmentStatusToggle />
         </div>
 
         {/* Two-column layout */}
@@ -86,19 +81,6 @@ export default function TimSayaPage() {
             />
           </div>
 
-          {/* Right Column — Sidebar Stats */}
-          <div className="space-y-6">
-            <TeamStatsCard
-              velocity={teamStats.velocity}
-              engagement={teamStats.engagement}
-              description={teamStats.description}
-            />
-            <ProjectOverviewCard projects={projectItems} />
-            <UserPresenceCard
-              users={onlineUsers}
-              additionalCount={additionalOnlineCount}
-            />
-          </div>
         </div>
       </div>
     </DashboardLayout>

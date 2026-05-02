@@ -5,7 +5,13 @@ import { Rekrutmen } from "@/hooks/useRekrutmen";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-export default function RekrutmenCard({ item, status }: { item: Rekrutmen; status?: "pending" | "approved" | "rejected" }) {
+export type RekrutmenCardProps = {
+  item: Rekrutmen;
+  status?: "pending" | "approved" | "rejected";
+  href?: string;
+};
+
+export default function RekrutmenCard({ item, status, href }: RekrutmenCardProps) {
   const formatRupiah = (angka: number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -29,7 +35,7 @@ export default function RekrutmenCard({ item, status }: { item: Rekrutmen; statu
   };
 
   return (
-    <Link href={`/feed/${item.rekrutmen_id}`} className="block h-full cursor-pointer">
+    <Link href={href ?? `/feed/${item.rekrutmen_id}`} className="block h-full cursor-pointer">
       <div className="group rounded-xl border border-border bg-card p-5 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300 flex flex-col h-full">
         <div className="flex items-start justify-between mb-3 gap-2">
           <span className="shrink-0 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">

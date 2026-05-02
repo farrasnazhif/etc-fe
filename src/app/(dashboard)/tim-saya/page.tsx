@@ -46,7 +46,7 @@ export default function TimSayaListPage() {
         {!isLoading && !isError && rekrutmenList && rekrutmenList.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {rekrutmenList.map((item) => (
-              <RekrutmenCard key={item.rekrutmen_id} item={item} />
+              <RekrutmenCard key={item.rekrutmen_id} item={item} href={`/tim-saya/${item.rekrutmen_id}`} />
             ))}
           </div>
         )}

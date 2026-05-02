@@ -1,15 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import { Calendar, HandCoins, User, FileText } from "lucide-react";
 import { Rekrutmen } from "@/hooks/useRekrutmen";
-import Button from "@/components/ui/button";
-import ApplyModal from "@/features/feed/apply-modal";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export default function RekrutmenCard({ item, status }: { item: Rekrutmen; status?: "pending" | "approved" | "rejected" }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const formatRupiah = (angka: number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -33,7 +29,7 @@ export default function RekrutmenCard({ item, status }: { item: Rekrutmen; statu
   };
 
   return (
-    <>
+    <Link href={`/feed/${item.rekrutmen_id}`} className="block h-full cursor-pointer">
       <div className="group rounded-xl border border-border bg-card p-5 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300 flex flex-col h-full">
         <div className="flex items-start justify-between mb-3 gap-2">
           <span className="shrink-0 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
@@ -74,7 +70,7 @@ export default function RekrutmenCard({ item, status }: { item: Rekrutmen; statu
           </div>
         </div>
 
-        <div className="flex items-center justify-between pt-3 border-t border-border mt-auto mb-4">
+        <div className="flex items-center justify-between pt-3 border-t border-border mt-auto">
           <div className="flex items-center gap-2">
             <div className="flex items-center justify-center h-7 w-7 rounded-full bg-muted">
               <User className="h-4 w-4 text-muted-foreground" />
@@ -84,24 +80,7 @@ export default function RekrutmenCard({ item, status }: { item: Rekrutmen; statu
             </span>
           </div>
         </div>
-
-        {!status && (
-          <Button
-            variant="primary"
-            className="w-full cursor-pointer mt-auto"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Apply
-          </Button>
-        )}
       </div>
-
-      <ApplyModal
-        rekrutmenId={item.rekrutmen_id}
-        roleLabel={item.role}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
-    </>
+    </Link>
   );
 }

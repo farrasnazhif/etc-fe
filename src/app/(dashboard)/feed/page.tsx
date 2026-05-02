@@ -12,6 +12,7 @@ import RekrutmenCard from "@/features/feed/rekrutmen-card";
 import { useRekrutmen, Rekrutmen, KegiatanType } from "@/hooks/useRekrutmen";
 import { useAppliedRekrutmen } from "@/hooks/useAppliedRekrutmen";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 type Tab = "all" | "my";
 
@@ -125,9 +126,9 @@ export default function FeedPage() {
                 Mulai rekrutmen Anda sendiri dan temukan kolaborator sempurna
                 untuk proyek riset berikutnya.
               </p>
-              <button className="w-full rounded-lg bg-primary-foreground text-primary px-4 py-2 text-sm font-semibold hover:bg-primary-foreground/90 transition-colors cursor-pointer shadow-sm">
+              <Link href="/buat-postingan" className="w-full block text-center rounded-lg bg-primary-foreground text-primary px-4 py-2 text-sm font-semibold hover:bg-primary-foreground/90 transition-colors cursor-pointer shadow-sm">
                 Mulai Rekrutmen
-              </button>
+              </Link>
             </div>
           </aside>
 
@@ -185,9 +186,9 @@ export default function FeedPage() {
                     Mulai rekrutmen Anda sendiri dan temukan kolaborator
                     sempurna untuk proyek riset berikutnya.
                   </p>
-                  <button className="w-full rounded-lg bg-primary-foreground text-primary px-4 py-2 text-sm font-semibold hover:bg-primary-foreground/90 transition-colors cursor-pointer">
+                  <Link href="/tim-saya" className="w-full block text-center rounded-lg bg-primary-foreground text-primary px-4 py-2 text-sm font-semibold hover:bg-primary-foreground/90 transition-colors cursor-pointer">
                     Mulai Rekrutmen
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -331,10 +332,10 @@ export default function FeedPage() {
                   {!isAppliedLoading && !isAppliedError && appliedData && appliedData.length > 0 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                       {appliedData.map((applied) => (
-                        <RekrutmenCard 
-                          key={applied.pendaftar_id} 
-                          item={applied.rekrutmen} 
-                          status={applied.status} 
+                        <RekrutmenCard
+                          key={applied.pendaftar_id}
+                          item={applied.rekrutmen}
+                          status={applied.status}
                         />
                       ))}
                     </div>

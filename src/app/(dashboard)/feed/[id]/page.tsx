@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import DashboardLayout from "@/layouts/dashboard/dashboard-layout";
 import { useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useRecruitmentDetail } from "@/hooks/use-detail-feed";
 import Link from "next/link";
 import {
@@ -26,6 +26,7 @@ import {
   useGetAppliedRecruitments,
 } from "@/hooks/use-recruitment";
 import TextArea from "@/components/ui/text-area";
+import { useAuth } from "@/hooks/use-auth";
 
 function formatCurrency(amount: number) {
   return new Intl.NumberFormat("id-ID", {
@@ -60,8 +61,11 @@ export default function FeedDetailPage() {
   const [cvUrl, setCvUrl] = useState("");
   const [portfolioUrl, setPortfolioUrl] = useState("");
 
+  const { isAuthenticated } = useAuth();
+
   const applyRecruitmentMutation = useApplyRecruitment();
 
+  const router = useRouter();
   const params = useParams();
   const recruitmentId = params?.id as string;
 
@@ -359,6 +363,11 @@ export default function FeedDetailPage() {
                 <Button
                   type="button"
                   onClick={() => {
+                    if (!isAuthenticated) {
+                      router.push("/login");
+                      return;
+                    }
+
                     if (!alreadyApplied) {
                       setShowApplyForm(!showApplyForm);
                     }

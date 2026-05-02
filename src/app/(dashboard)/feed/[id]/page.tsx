@@ -83,7 +83,35 @@ export default function FeedDetailPage() {
   const deleteBookmarkMutation = useDeleteBookmarkRecruitment();
 
   function handleBookmark() {
-    if (!recruitmentId) return;
+    if (!recruitmentId) {
+      addToast("Recruitment tidak valid.", "error");
+      return;
+    }
+
+    // direct frontend auth check
+    if (!isAuthenticated) {
+      addToast("Silakan login terlebih dahulu.", "error");
+      router.push("/login");
+      return;
+    }
+
+    function handleBookmarkError(error: Error) {
+      const message = error.message.toLowerCase();
+
+      // backend auth fail fallback (expired token / invalid token)
+      if (
+        message.includes("authorization") ||
+        message.includes("unauthorized") ||
+        message.includes("token") ||
+        message.includes("login")
+      ) {
+        addToast("Sesi berakhir, silakan login kembali.", "error");
+        router.push("/login");
+        return;
+      }
+
+      addToast(error.message, "error");
+    }
 
     if (bookmarked) {
       deleteBookmarkMutation.mutate(recruitmentId, {
@@ -91,19 +119,29 @@ export default function FeedDetailPage() {
           setBookmarked(false);
           addToast("Bookmark dihapus!", "success");
         },
+        onError: handleBookmarkError,
       });
-    } else {
-      addBookmarkMutation.mutate(recruitmentId, {
-        onSuccess: () => {
-          setBookmarked(true);
-          addToast("Bookmark ditambahkan!", "success");
-        },
-      });
+
+      return;
     }
+
+    addBookmarkMutation.mutate(recruitmentId, {
+      onSuccess: () => {
+        setBookmarked(true);
+        addToast("Bookmark ditambahkan!", "success");
+      },
+      onError: handleBookmarkError,
+    });
   }
 
   function handleApplyRecruitment() {
     if (!recruitmentId) return;
+
+    if (!isAuthenticated) {
+      addToast("Silakan login terlebih dahulu.", "error");
+      router.push("/login");
+      return;
+    }
 
     if (!alasanMendaftar || !cvUrl || !portfolioUrl) {
       addToast("Semua field wajib diisi.", "error");
@@ -223,6 +261,7 @@ export default function FeedDetailPage() {
                     </div>
 
                     {/* bookmark */}
+
                     <Button
                       type="button"
                       variant="outline"
@@ -364,6 +403,7 @@ export default function FeedDetailPage() {
                   type="button"
                   onClick={() => {
                     if (!isAuthenticated) {
+                      addToast("Silakan login terlebih dahulu.", "error");
                       router.push("/login");
                       return;
                     }

@@ -111,7 +111,7 @@ export default function Navbar() {
                         key={sub.name}
                         className="group/link flex items-center gap-2 rounded-md p-2 transition hover:bg-gray-100"
                       >
-                        <div className="rounded-md bg-gray-800 p-2">
+                        <div className="rounded-md bg-[var(--color-primary)] p-2">
                           <sub.icon className="size-4 text-white transition group-hover/link:scale-110" />
                         </div>
                         <div>

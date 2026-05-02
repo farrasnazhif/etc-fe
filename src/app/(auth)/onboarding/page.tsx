@@ -10,6 +10,7 @@ import Form2Page from "@/features/onboarding/container/form2";
 import { OnboardingFormData } from "@/types/onboarding";
 import Form3Page from "@/features/onboarding/container/form3";
 import Button from "@/components/ui/button";
+import Link from "next/link";
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(1);
@@ -59,7 +60,9 @@ export default function OnboardingPage() {
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="flex justify-start"
           >
-            <h1 className="text-2xl font-bold leading-none">ETC</h1>
+            <Link href="/" className="text-2xl font-bold text-black">
+              ETC
+            </Link>
           </motion.div>
 
           <motion.div

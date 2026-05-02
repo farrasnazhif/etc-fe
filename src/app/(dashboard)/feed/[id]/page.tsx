@@ -174,7 +174,7 @@ export default function FeedDetailPage() {
   }
 
   if (isLoading || isLoadingApplied) {
-    return <FeedDetailSkeleton />;
+    return <FeedDetailSkeleton recruitmentId={recruitmentId} />;
   }
 
   if (error || !data) {
@@ -508,17 +508,24 @@ export default function FeedDetailPage() {
   );
 }
 
-function FeedDetailSkeleton() {
+function FeedDetailSkeleton({ recruitmentId }: { recruitmentId: string }) {
   return (
     <DashboardLayout withNavbar withSidebar>
       <main className="min-h-screen bg-slate-50">
-        <div className="mx-auto max-w-7xl space-y-6 px-2 py-2 md:px-4 animate-pulse">
+        <div className="mx-auto max-w-7xl space-y-6 px-2 py-2 md:px-4">
+          <Breadcrumbs
+            customLabels={{
+              feed: "Feed",
+              [recruitmentId]: `${recruitmentId.slice(0, 8)}`,
+            }}
+          />
+
           {/* hero skeleton */}
-          <section className="overflow-hidden rounded-md border border-slate-200 bg-white">
+          <section className="overflow-hidden rounded-md border border-slate-200 bg-white animate-pulse">
             <div className="h-[220px] w-full bg-slate-200 sm:h-[260px] md:h-[360px]" />
           </section>
 
-          <section className="grid gap-6 lg:grid-cols-3">
+          <section className="grid gap-6 lg:grid-cols-3 animate-pulse">
             {/* left */}
             <div className="space-y-6 lg:col-span-2">
               <div className="rounded-md border border-slate-200 bg-white p-6">
@@ -533,7 +540,7 @@ function FeedDetailSkeleton() {
                 </div>
 
                 {/* stats grid */}
-                <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ">
                   {Array.from({ length: 6 }).map((_, index) => (
                     <div
                       key={index}
@@ -548,7 +555,7 @@ function FeedDetailSkeleton() {
             </div>
 
             {/* right */}
-            <aside className="space-y-6">
+            <aside className="space-y-6 ">
               <div className="rounded-md border border-slate-200 bg-white p-6">
                 <div className="space-y-3">
                   <div className="h-6 w-40 rounded bg-slate-200" />

@@ -5,8 +5,11 @@ import api from "@/lib/api";
 export type TimMember = {
   user_id: string;
   nama: string;
-  role: string;
-  profile_picture?: string | null;
+  jurusan: string;
+  member_ke: number;
+  no_pengenal: string;
+  no_telp: string;
+  spesialisasi: string[];
 };
 
 export function useTimMembers(timId?: string) {

@@ -63,38 +63,46 @@ export default function ActiveMembersCard({ members, isLoading }: ActiveMembersC
               {/* Avatar */}
               <div className="relative">
                 <Avatar size="lg">
-                  {member.profile_picture && (
-                    <AvatarImage src={member.profile_picture} alt={member.nama} />
-                  )}
                   <AvatarFallback>
                     {member.nama
                       ? member.nama
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")
-                          .slice(0, 2)
-                          .toUpperCase()
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .slice(0, 2)
+                        .toUpperCase()
                       : "??"}
                   </AvatarFallback>
                 </Avatar>
               </div>
 
-              {/* Name + Position (using role) */}
+              {/* Name + Jurusan + Spesialisasi */}
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-foreground truncate">
                   {member.nama || "Tanpa Nama"}
                 </p>
-                <p className="text-xs text-muted-foreground truncate">
-                  {member.role}
+                <p className="text-xs text-muted-foreground truncate mb-1">
+                  {member.jurusan}
                 </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {member.spesialisasi?.map((skill) => (
+                    <Badge
+                      key={skill}
+                      variant="secondary"
+                      className="text-[10px] font-semibold tracking-wider bg-muted text-muted-foreground uppercase"
+                    >
+                      {skill}
+                    </Badge>
+                  ))}
+                </div>
               </div>
 
-              {/* Role Badge - secondary variant for all */}
+              {/* Member Ke Badge */}
               <Badge
                 variant="secondary"
-                className="text-[10px] font-semibold tracking-wider px-2.5 bg-secondary text-secondary-foreground uppercase"
+                className="text-[10px] font-semibold tracking-wider px-2.5 bg-secondary text-secondary-foreground uppercase whitespace-nowrap"
               >
-                {member.role}
+                Member #{member.member_ke}
               </Badge>
 
               {/* Dropdown Menu */}

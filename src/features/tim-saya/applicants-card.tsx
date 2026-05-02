@@ -25,6 +25,8 @@ export default function ApplicantsCard({
   onReject,
   isActionLoading,
 }: ApplicantsCardProps) {
+  const pendingApplicants = applicants.filter((a) => a.status === "pending");
+
   return (
     <Card>
       <CardHeader className="flex-row items-center gap-2 border-b pb-4">
@@ -34,7 +36,7 @@ export default function ApplicantsCard({
           variant="default"
           className="ml-1 size-5 items-center justify-center rounded-full p-0 text-[10px]"
         >
-          {applicants.length}
+          {pendingApplicants.length}
         </Badge>
       </CardHeader>
       <CardContent className="space-y-4 pt-2">
@@ -56,12 +58,12 @@ export default function ApplicantsCard({
               </Card>
             ))}
           </div>
-        ) : applicants.length === 0 ? (
+        ) : pendingApplicants.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-6">
             Tidak ada pelamar baru saat ini.
           </p>
         ) : (
-          applicants.map((applicant) => (
+          pendingApplicants.map((applicant) => (
             <Card
               key={applicant.pendaftar_id}
               className="ring-1 ring-border/60 shadow-none"

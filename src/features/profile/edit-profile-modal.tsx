@@ -5,13 +5,15 @@ import Button from "@/components/ui/button";
 import {
   User,
   Settings,
-  Mail,
   Plus,
   X,
   Briefcase,
   Phone,
   BookOpen,
+  HelpCircle,
 } from "lucide-react";
+import Input from "@/components/ui/input";
+import Link from "next/link";
 
 type EditProfileForm = {
   nama: string;
@@ -23,6 +25,7 @@ type EditProfileForm = {
 type EditProfileModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  isLoading: boolean;
   onSave: (data: EditProfileForm) => Promise<void> | void;
   user: {
     nama?: string;
@@ -36,9 +39,11 @@ type EditProfileModalProps = {
 export default function EditProfileModal({
   isOpen,
   onClose,
+  isLoading,
   onSave,
   user,
 }: EditProfileModalProps) {
+  const [inputValue, setInputValue] = useState("");
   const [form, setForm] = useState<EditProfileForm>({
     nama: user?.nama || "",
     jurusan: user?.jurusan || "",
@@ -58,27 +63,35 @@ export default function EditProfileModal({
     }));
   };
 
-  const handleRemoveSkill = (skillToRemove: string) => {
+  const addSpesialisasi = () => {
+    const value = inputValue.trim();
+
+    if (!value) return;
+
+    if (form.spesialisasi.includes(value)) {
+      setInputValue("");
+
+      return;
+    }
+
     setForm((prev) => ({
       ...prev,
+
+      spesialisasi: [...prev.spesialisasi, value],
+    }));
+
+    setInputValue("");
+  };
+
+  const removeSpesialisasi = (indexToRemove: number) => {
+    setForm((prev) => ({
+      ...prev,
+
       spesialisasi: prev.spesialisasi.filter(
-        (skill) => skill !== skillToRemove,
+        (_, index) => index !== indexToRemove,
       ),
     }));
   };
-
-  const handleAddSkill = () => {
-    const skill = prompt("Tambah keahlian baru:");
-
-    if (!skill?.trim()) return;
-    if (form.spesialisasi.includes(skill)) return;
-
-    setForm((prev) => ({
-      ...prev,
-      spesialisasi: [...prev.spesialisasi, skill],
-    }));
-  };
-
   const handleSave = async () => {
     await onSave(form);
   };
@@ -114,16 +127,22 @@ export default function EditProfileModal({
           </div>
 
           {/* navigation */}
-          <div className="mt-6 flex h-full flex-col justify-end space-y-2">
-            <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-all">
-              <Settings size={18} />
+          <div className="mt-6 flex h-full flex-col justify-end space-y-3">
+            <Link
+              href="/settings"
+              className="flex items-center gap-2 text-sm text-gray-600 hover:text-black"
+            >
+              <Settings className="size-4" />
               Settings
-            </button>
+            </Link>
 
-            <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100 transition-all">
-              <Mail size={18} />
-              Contact Us
-            </button>
+            <Link
+              href="/support"
+              className="flex items-center gap-2 text-sm text-gray-600 hover:text-black"
+            >
+              <HelpCircle className="size-4" />
+              Support
+            </Link>
           </div>
         </aside>
 
@@ -149,61 +168,50 @@ export default function EditProfileModal({
                 Personal Identity
               </h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm font-medium text-slate-600 mb-2">
-                    Full Name
-                  </label>
+              <div
+                data-theme="light"
+                className="grid grid-cols-1 md:grid-cols-2 gap-5"
+              >
+                <Input
+                  label="Full Name"
+                  value={form.nama}
+                  onChange={(e) => handleChange("nama", e.target.value)}
+                  placeholder="Masukkan nama lengkap"
+                  className="w-full"
+                  required
+                />
 
-                  <input
-                    type="text"
-                    value={form.nama}
-                    onChange={(e) => handleChange("nama", e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-primary outline-none text-sm"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-600 mb-2">
-                    Jurusan
-                  </label>
-
-                  <div className="relative">
-                    <BookOpen
-                      size={16}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
-                    />
-
-                    <input
-                      type="text"
-                      value={form.jurusan}
-                      onChange={(e) => handleChange("jurusan", e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-200 focus:border-primary outline-none text-sm"
-                    />
-                  </div>
-                </div>
+                <Input
+                  label="Jurusan"
+                  value={form.jurusan}
+                  onChange={(e) => handleChange("jurusan", e.target.value)}
+                  placeholder="Masukkan jurusan"
+                  leftIcon={BookOpen}
+                  className="w-full"
+                  required
+                />
               </div>
             </div>
 
             {/* contact */}
-            <div className="rounded-md border border-slate-200 bg-white p-6">
+            <div
+              data-theme="light"
+              className="rounded-md border border-slate-200 bg-white p-6"
+            >
               <h3 className="font-bold text-slate-900 mb-6 flex items-center gap-2">
                 <Phone size={18} />
                 Contact Information
               </h3>
 
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-2">
-                  No. Telepon
-                </label>
-
-                <input
-                  type="text"
-                  value={form.no_telp}
-                  onChange={(e) => handleChange("no_telp", e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-primary outline-none text-sm"
-                />
-              </div>
+              <Input
+                label="No. Telepon"
+                value={form.no_telp}
+                onChange={(e) => handleChange("no_telp", e.target.value)}
+                placeholder="Masukkan nomor telepon"
+                leftIcon={Phone}
+                className="w-full"
+                required
+              />
             </div>
 
             {/* expertise */}
@@ -213,30 +221,43 @@ export default function EditProfileModal({
                 Expertise & Skills
               </h3>
 
-              <div className="flex flex-wrap gap-2">
-                {form.spesialisasi.map((skill) => (
-                  <span
-                    key={skill}
+              {/* input tambah */}
+              <div data-theme="light" className="flex w-full items-end gap-2">
+                <Input
+                  label="Spesialisasi"
+                  placeholder="Contoh: Frontend, UI/UX, Machine Learning"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  className="w-full"
+                />
+
+                <Button
+                  type="button"
+                  onClick={addSpesialisasi}
+                  className="h-[40px] px-4 shadow-none"
+                >
+                  <Plus className="size-4" />
+                </Button>
+              </div>
+
+              {/* chips */}
+              <div className="mt-4 flex w-full flex-wrap gap-2">
+                {form.spesialisasi.map((item, index) => (
+                  <div
+                    key={`${item}-${index}`}
                     className="flex items-center gap-2 rounded-full bg-primary/10 px-3 py-2 text-sm font-semibold text-primary"
                   >
-                    {skill}
+                    <span>{item}</span>
 
                     <button
-                      onClick={() => handleRemoveSkill(skill)}
-                      className="hover:text-red-500"
+                      type="button"
+                      onClick={() => removeSpesialisasi(index)}
+                      className="transition hover:scale-110 hover:text-red-500"
                     >
-                      <X size={14} />
+                      <X className="size-4" />
                     </button>
-                  </span>
+                  </div>
                 ))}
-
-                <button
-                  onClick={handleAddSkill}
-                  className="flex items-center gap-2 rounded-full border border-dashed border-slate-300 px-4 py-2 text-sm font-semibold text-slate-500 hover:border-primary hover:text-primary"
-                >
-                  <Plus size={14} />
-                  Add Skill
-                </button>
               </div>
             </div>
           </div>
@@ -246,11 +267,15 @@ export default function EditProfileModal({
             data-theme="light"
             className="px-8 py-4 border-t border-slate-200 bg-white flex justify-end gap-3"
           >
-            <Button variant="ghost" onClick={onClose}>
+            <Button variant="error" onClick={onClose}>
               Cancel
             </Button>
 
-            <Button variant="primary" onClick={handleSave}>
+            <Button
+              variant="primary"
+              onClick={handleSave}
+              isLoading={isLoading}
+            >
               Save Profile
             </Button>
           </div>

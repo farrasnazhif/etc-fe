@@ -23,7 +23,7 @@ import EditProfileModal from "@/features/profile/edit-profile-modal";
 import AddProjectModal from "@/features/profile/add-project-modal";
 
 function ProfileContent() {
-  const { user, isAuthenticated, isLoadingUser } = useAuth();
+  const { user, isAuthenticated, isLoadingUser, updateUser } = useAuth();
 
   const { addToast } = useToast();
 
@@ -41,10 +41,6 @@ function ProfileContent() {
 
   // --- Handler Edit Profil ---
   const handleEditProfile = () => setIsEditModalOpen(true);
-  const handleSaveProfile = () => {
-    addToast("Profil berhasil diperbarui!", "success");
-    setIsEditModalOpen(false);
-  };
 
   // --- Handler Tambah Proyek ---
   const handleTambahProyek = () => setIsAddProjectModalOpen(true);
@@ -55,6 +51,37 @@ function ProfileContent() {
   //   addToast("Membuka dialog pilih foto...", "success");
 
   // ==========================================
+
+  const handleSaveProfile = async (formData: {
+    nama: string;
+
+    jurusan: string;
+
+    no_telp: string;
+
+    spesialisasi: string[];
+  }) => {
+    try {
+      await updateUser.mutateAsync({
+        nama: formData.nama,
+
+        jurusan: formData.jurusan,
+
+        no_telp: formData.no_telp,
+
+        spesialisasi: formData.spesialisasi,
+      });
+
+      addToast("Profil berhasil diperbarui!", "success");
+
+      setIsEditModalOpen(false);
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Gagal memperbarui profil.";
+
+      addToast(message, "error");
+    }
+  };
 
   function getGoogleDriveImageUrl(url: string) {
     if (!url) return "";
@@ -99,7 +126,7 @@ function ProfileContent() {
 
   return (
     <DashboardLayout withNavbar withSidebar>
-      <main className="min-h-screen  px-2 py-2 md:px-4 text-black font-sans">
+      <main className=" px-2 py-2 md:px-4 text-black font-sans">
         <div className="mx-auto max-w-[1440px] space-y-4">
           {/* ================= HEADER PROFIL ================= */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -357,6 +384,7 @@ function ProfileContent() {
       {/* ========================================================= */}
       <EditProfileModal
         isOpen={isEditModalOpen}
+        isLoading={updateUser.isPending}
         onClose={() => setIsEditModalOpen(false)}
         onSave={handleSaveProfile}
         user={user || null}

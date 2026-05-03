@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import DashboardLayout from "@/layouts/dashboard/dashboard-layout";
@@ -11,7 +10,7 @@ import { useToast } from "@/components/ui/toaster";
 import { useAuth } from "@/hooks/use-auth";
 import api from "@/lib/api";
 
-import { ChevronRight, Lightbulb, Eye } from "lucide-react";
+import { Lightbulb, Eye } from "lucide-react";
 
 function BuatPostinganContent() {
   const router = useRouter();
@@ -130,7 +129,7 @@ function BuatPostinganContent() {
         className="min-h-screen bg-base-200/30 px-2 py-2 md:px-4 text-base-content font-sans"
       >
         <div className="mx-auto max-w-[1200px]">
-          <div className="flex items-center gap-2 text-sm font-medium mb-6">
+          {/* <div className="flex items-center gap-2 text-sm font-medium mb-6">
             <Link
               href="/feed"
               className="text-base-content/50 hover:text-primary transition-colors"
@@ -139,11 +138,11 @@ function BuatPostinganContent() {
             </Link>
             <ChevronRight size={14} className="text-base-content/30" />
             <span className="text-primary font-bold">Buat Postingan Baru</span>
-          </div>
+          </div> */}
 
           <div className="mb-8">
             <h1 className="text-2xl font-bold text-base-content mb-2">
-              Buat Peluang Rekrutmen
+              Buat Rekrutmen
             </h1>
             <p className="text-base-content/60 text-sm">
               Tentukan detail rekrutmen Anda berdasarkan kriteria, peran, dan

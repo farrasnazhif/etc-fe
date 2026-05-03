@@ -75,7 +75,7 @@ export default function TimSayaPage() {
             </h1>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div data-theme="light" className="flex items-center gap-2">
             <Button
               variant="outline"
               onClick={() => setIsEditModalOpen(true)}

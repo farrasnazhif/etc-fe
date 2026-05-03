@@ -39,24 +39,16 @@ export default function ConfirmDialog({
         <h3 className="font-bold text-lg text-primary">{title}</h3>
         <p className="py-4 text-muted-foreground">{description}</p>
 
-        <div className="flex justify-end gap-3 pt-2">
-          <Button
-            variant="outline"
-            onClick={onCancel}
-            disabled={isLoading}
-          >
+        <div data-theme="light" className="flex justify-end gap-3 pt-2">
+          <Button variant="outline" onClick={onCancel} disabled={isLoading}>
             {cancelLabel}
           </Button>
-          <Button
-            variant="error"
-            onClick={onConfirm}
-            isLoading={isLoading}
-          >
+          <Button variant="error" onClick={onConfirm} isLoading={isLoading}>
             {confirmLabel}
           </Button>
         </div>
       </div>
     </div>,
-    document.body
+    document.body,
   );
 }

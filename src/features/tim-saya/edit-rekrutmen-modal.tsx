@@ -6,7 +6,10 @@ import Input from "@/components/ui/input";
 import TextArea from "@/components/ui/text-area";
 import Select from "@/components/ui/select";
 import { X } from "lucide-react";
-import { useUpdateDeleteRekrutmen, UpdateRekrutmenInput } from "@/hooks/useUpdateDeleteRekrutmen";
+import {
+  useUpdateDeleteRekrutmen,
+  UpdateRekrutmenInput,
+} from "@/hooks/useUpdateDeleteRekrutmen";
 import { useToast } from "@/components/ui/toaster";
 
 type EditRekrutmenModalProps = {
@@ -30,7 +33,9 @@ export default function EditRekrutmenModal({
   if (!isOpen) return null;
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev: UpdateRekrutmenInput) => ({
@@ -48,7 +53,12 @@ export default function EditRekrutmenModal({
         onClose();
       },
       onError: (err: unknown) => {
-        addToast(err instanceof Error ? err.message : "Terjadi kesalahan saat menyimpan data", "error");
+        addToast(
+          err instanceof Error
+            ? err.message
+            : "Terjadi kesalahan saat menyimpan data",
+          "error",
+        );
       },
     });
   };
@@ -67,8 +77,10 @@ export default function EditRekrutmenModal({
           </Button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-4 space-y-4 max-h-[80vh] overflow-y-auto">
-
+        <form
+          onSubmit={handleSubmit}
+          className="p-4 space-y-4 max-h-[80vh] overflow-y-auto"
+        >
           <Select
             label="Kegiatan"
             name="kegiatan"
@@ -142,7 +154,7 @@ export default function EditRekrutmenModal({
             className="w-full bg-secondary"
           />
 
-          <div className="flex justify-end gap-2 pt-4">
+          <div data-theme="light" className="flex justify-end gap-2 pt-4">
             <Button
               type="button"
               variant="outline"

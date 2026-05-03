@@ -107,20 +107,40 @@ function BuatPostinganContent() {
   if (!isAuthenticated) {
     return (
       <DashboardLayout withNavbar>
-        <div className="flex min-h-screen items-center justify-center bg-white">
-          <div className="flex flex-col items-center gap-6 text-center">
-            <p className="text-lg font-medium text-black">
-              Silakan login terlebih dahulu.
-            </p>
-            <Button
-              onClick={() => router.push("/login")}
-              variant="primary"
-              className="px-8"
-            >
-              Ke Halaman Login
-            </Button>
+        <main className="min-h-screen px-2 py-2 md:px-4">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-8">
+              <h1 className="text-2xl font-bold text-black mb-2">
+                Buat Rekrutmen
+              </h1>
+              <p className="text-black/60 text-sm">
+                Tentukan detail rekrutmen Anda berdasarkan kriteria, peran, dan
+                durasi yang dibutuhkan.
+              </p>
+            </div>
+
+            <div className="rounded-md border border-border bg-card py-20 text-center shadow-xs">
+              <h3 className="mb-2 text-lg font-medium text-primary">
+                Kamu belum login
+              </h3>
+
+              <p className="mb-6 text-muted-foreground">
+                Login terlebih dahulu untuk membuat dan mempublikasikan
+                rekrutmen baru.
+              </p>
+
+              <div data-theme="light">
+                <Button
+                  onClick={() => router.push("/login")}
+                  variant="primary"
+                  className="px-8"
+                >
+                  Login Sekarang
+                </Button>
+              </div>
+            </div>
           </div>
-        </div>
+        </main>
       </DashboardLayout>
     );
   }

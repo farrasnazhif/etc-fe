@@ -29,8 +29,8 @@ export default function ApplicantsCard({
   isRejecting,
   activePendaftarId,
 }: ApplicantsCardProps) {
-  // const pendingApplicants = applicants.filter((a) => a.status === "pending");
-  const pendingApplicants = applicants
+  const pendingApplicants = applicants.filter((a) => a.status === "pending");
+  // const pendingApplicants = applicants
 
   return (
     <Card>

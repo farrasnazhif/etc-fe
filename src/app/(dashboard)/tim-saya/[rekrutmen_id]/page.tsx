@@ -27,7 +27,7 @@ export default function TimSayaPage() {
 
   const { data: rekrutmenDetail, isPending: isDetailLoading } = useRekrutmenDetail(rekrutmenId);
   const { data: applicantsData, isPending: isApplicantsLoading } = useApplicants(rekrutmenId);
-  const { accept, reject, isAccepting, isRejecting, activePendaftarId } = useAcceptRejectApplicant(rekrutmenId);
+  const { accept, reject, isAccepting, isRejecting, activePendaftarId } = useAcceptRejectApplicant(rekrutmenId, rekrutmenDetail?.tim_id);
 
   const timId = rekrutmenDetail?.tim_id;
   const { data: timMembers, isPending: isTimMembersLoading } = useTimMembers(timId);

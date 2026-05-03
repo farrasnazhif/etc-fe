@@ -98,12 +98,12 @@ export default function ActiveMembersCard({ members, isLoading }: ActiveMembersC
               </div>
 
               {/* Member Ke Badge */}
-              <Badge
+              {/* <Badge
                 variant="secondary"
                 className="text-[10px] font-semibold tracking-wider px-2.5 bg-secondary text-secondary-foreground uppercase whitespace-nowrap"
               >
                 Member #{member.member_ke}
-              </Badge>
+              </Badge> */}
 
               {/* Dropdown Menu */}
               <DropdownMenu>

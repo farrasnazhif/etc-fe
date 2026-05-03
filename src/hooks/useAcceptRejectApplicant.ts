@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getToken } from "@/lib/cookies";
 import api from "@/lib/api";
 
-export function useAcceptRejectApplicant(rekrutmenId: string) {
+export function useAcceptRejectApplicant(rekrutmenId: string, timId?: string) {
   const queryClient = useQueryClient();
 
   const acceptMutation = useMutation({
@@ -18,9 +18,14 @@ export function useAcceptRejectApplicant(rekrutmenId: string) {
       );
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      queryClient.refetchQueries({
         queryKey: ["rekrutmen", rekrutmenId, "applicants"],
       });
+      if (timId) {
+        queryClient.refetchQueries({
+          queryKey: ["tim", timId, "members"],
+        });
+      }
     },
   });
 
@@ -37,9 +42,14 @@ export function useAcceptRejectApplicant(rekrutmenId: string) {
       );
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({
+      queryClient.refetchQueries({
         queryKey: ["rekrutmen", rekrutmenId, "applicants"],
       });
+      if (timId) {
+        queryClient.refetchQueries({
+          queryKey: ["tim", timId, "members"],
+        });
+      }
     },
   });
 

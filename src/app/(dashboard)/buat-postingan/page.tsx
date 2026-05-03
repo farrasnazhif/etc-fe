@@ -11,6 +11,7 @@ import { useAuth } from "@/hooks/use-auth";
 import api from "@/lib/api";
 
 import { Lightbulb, Eye } from "lucide-react";
+import RekrutmenCard from "@/components/ui/rekrutmen-card";
 
 function BuatPostinganContent() {
   const router = useRouter();
@@ -121,6 +122,31 @@ function BuatPostinganContent() {
       </DashboardLayout>
     );
   }
+
+  const previewData = {
+    rekrutmen_id: "preview",
+
+    kegiatan: formData.kegiatan || "projek",
+
+    role: formData.role || "Peran belum diisi",
+
+    Kriteria:
+      formData.kriteria || "Deskripsi dan kriteria akan tampil di sini.",
+
+    tanggal_mulai: formData.tanggal_mulai
+      ? `${formData.tanggal_mulai}T00:00:00Z`
+      : new Date().toISOString(),
+
+    tanggal_selesai: formData.tanggal_selesai
+      ? `${formData.tanggal_selesai}T00:00:00Z`
+      : new Date().toISOString(),
+
+    fee: Number(formData.fee) || 0,
+
+    contact_person: formData.contact_person || "Kontak person",
+
+    user_id: user?.user_id || "preview-user",
+  };
 
   return (
     <DashboardLayout withNavbar>
@@ -295,29 +321,22 @@ function BuatPostinganContent() {
               <div className="bg-base-100 border border-base-300 rounded-2xl p-6 shadow-sm">
                 <div className="flex items-center gap-2 mb-6">
                   <Eye size={18} className="text-base-content/50" />
+
                   <h3 className="font-bold text-sm text-base-content/70">
                     Pratinjau Langsung
                   </h3>
                 </div>
 
-                <div className="bg-base-200/50 rounded-xl p-5 border border-base-200 space-y-4">
-                  <div className="h-3 w-1/3 bg-base-300/60 rounded-full"></div>
-                  <div className="space-y-2 pt-1">
-                    <div className="h-2 w-full bg-base-300/50 rounded-full"></div>
-                    <div className="h-2 w-5/6 bg-base-300/50 rounded-full"></div>
-                  </div>
-                  <div className="flex gap-2 pt-3">
-                    <div className="h-6 w-16 bg-base-300/40 rounded-lg"></div>
-                    <div className="h-6 w-16 bg-base-300/40 rounded-lg"></div>
-                  </div>
+                <div className=" scale-[0.92] origin-top ">
+                  <RekrutmenCard item={previewData} href="#" />
                 </div>
 
-                <p className="text-center text-xs text-base-content/40 italic mt-5 font-medium">
+                <p className="text-center text-xs text-base-content/40 italic mt-3 font-medium">
                   Postingan Anda akan terlihat seperti ini di feed rekrutmen.
                 </p>
               </div>
 
-              <div className="bg-base-200/30 border-l-4 border-indigo-600 rounded-r-2xl p-6">
+              <div className="bg-blue-300/20 border-l-4 border-indigo-600 p-6">
                 <h3 className="font-bold text-sm mb-2 text-base-content">
                   Ketentuan Institusi
                 </h3>

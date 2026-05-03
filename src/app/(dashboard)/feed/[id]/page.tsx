@@ -190,6 +190,8 @@ export default function FeedDetailPage() {
     );
   }
 
+  const isMaker = user?.user_id === data?.user_id;
+
   return (
     <DashboardLayout withNavbar withSidebar>
       <main className="min-h-screen text-slate-900">
@@ -252,7 +254,7 @@ export default function FeedDetailPage() {
           <section className="grid gap-6 lg:grid-cols-3">
             {/* left */}
             <div
-              className={`space-y-6 lg:col-span-2 ${isDosen && "lg:col-span-3"}`}
+              className={`space-y-6 lg:col-span-2 ${isDosen || (isMaker && "lg:col-span-3")}`}
             >
               <div className="space-y-6 lg:col-span-2">
                 {/* overview */}
@@ -380,7 +382,7 @@ export default function FeedDetailPage() {
             </div>
 
             {/* right */}
-            {!isDosen && (
+            {!isDosen && !isMaker && (
               <aside data-theme="light" className="space-y-6">
                 {/* role card */}
                 {/* <div className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">

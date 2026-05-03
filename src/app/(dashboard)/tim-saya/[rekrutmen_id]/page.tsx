@@ -113,8 +113,10 @@ export default function TimSayaPage() {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]">
           <div className="space-y-6">
             {/* active members always visible */}
+
             <ActiveMembersCard
               members={timMembers ?? []}
+              applicants={applicantsData?.pendaftar ?? []}
               isLoading={!!timId && isTimMembersLoading}
             />
 

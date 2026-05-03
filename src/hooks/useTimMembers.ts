@@ -3,6 +3,7 @@ import { getToken } from "@/lib/cookies";
 import api from "@/lib/api";
 
 export type TimMember = {
+  pendaftar_id: string;
   user_id: string;
   nama: string;
   jurusan: string;

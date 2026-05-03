@@ -74,13 +74,9 @@ export const BASE_METADATA = {
   },
 
   // nanti pake ini kalo udah ada asset
-  // icons: {
-  //   icon: [
-  //     {
-  //       url: "/favicon/android-chrome-192x192.png",
-  //       sizes: "192x192",
-  //       type: "image/png",
-  //     },
-  //   ],
-  // },
+  icons: {
+    icon: "/etc-logo.png",
+    shortcut: "/etc-logo.png",
+    apple: "/etc-logo.png",
+  },
 };

@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/components/ui/toaster";
+import Logo from "@/components/ui/logo";
 
 const navItems = [
   { name: "Feed Rekrutmen", href: "/feed" },
@@ -65,9 +66,7 @@ export default function DashboardNavbar() {
       <nav className="w-full border-b bg-white px-4 md:px-6  py-3 flex items-center justify-between">
         {/* left */}
         <div className="flex items-center gap-8">
-          <Link href="/" className="text-xl font-bold text-black">
-            ETC
-          </Link>
+          <Logo />
 
           {/* desktop nav */}
           <div className="hidden md:flex items-center gap-6">

@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import Logo from "@/components/ui/logo";
 
 type SubLink = {
   name: string;
@@ -70,9 +71,7 @@ export default function Navbar() {
   return (
     <>
       <nav className="sticky top-0 z-50 flex w-full items-center justify-between border-b border-gray-200/70 bg-white/70 px-4 py-3.5 backdrop-blur-md md:px-16 lg:px-24">
-        <Link href="/">
-          <h1 className="font-bold text-2xl">ETC</h1>
-        </Link>
+        <Logo />
 
         {/* desktop */}
         <div className="hidden items-center space-x-6 text-gray-700 md:flex">

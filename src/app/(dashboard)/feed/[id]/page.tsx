@@ -62,7 +62,9 @@ export default function FeedDetailPage() {
   const [cvUrl, setCvUrl] = useState("");
   const [portfolioUrl, setPortfolioUrl] = useState("");
 
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
+
+  const isDosen = user?.role === "dosen";
 
   const applyRecruitmentMutation = useApplyRecruitment();
 
@@ -248,7 +250,9 @@ export default function FeedDetailPage() {
 
           <section className="grid gap-6 lg:grid-cols-3">
             {/* left */}
-            <div className="space-y-6 lg:col-span-2">
+            <div
+              className={`space-y-6 lg:col-span-2 ${isDosen && "lg:col-span-3"}`}
+            >
               <div className="space-y-6 lg:col-span-2">
                 {/* overview */}
                 <div className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
@@ -373,9 +377,10 @@ export default function FeedDetailPage() {
             </div>
 
             {/* right */}
-            <aside className="space-y-6">
-              {/* role card */}
-              {/* <div className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
+            {!isDosen && (
+              <aside className="space-y-6">
+                {/* role card */}
+                {/* <div className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
                 <h2 className="flex items-center gap-2 text-lg font-semibold">
                   <Briefcase className="size-5 text-blue-800" />
                   Role Dibutuhkan
@@ -393,63 +398,63 @@ export default function FeedDetailPage() {
                 </div>
               </div> */}
 
-              {/* apply */}
-              <div className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
-                <h2 className="flex items-center gap-2 text-lg font-semibold">
-                  <UserPlusIcon className="size-4.5 text-blue-800" />
-                  Gabung ke Rekrutmen Ini
-                </h2>
+                {/* apply */}
+                <div className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
+                  <h2 className="flex items-center gap-2 text-lg font-semibold">
+                    <UserPlusIcon className="size-4.5 text-blue-800" />
+                    Gabung ke Rekrutmen Ini
+                  </h2>
 
-                <p className="mt-2 text-sm text-slate-600">
-                  Tertarik dengan posisi ini? Kirim aplikasi Anda sekarang.
-                </p>
+                  <p className="mt-2 text-sm text-slate-600">
+                    Tertarik dengan posisi ini? Kirim aplikasi Anda sekarang.
+                  </p>
 
-                <Button
-                  type="button"
-                  onClick={() => {
-                    if (!isAuthenticated) {
-                      addToast("Silakan login terlebih dahulu.", "error");
-                      router.push("/login");
-                      return;
-                    }
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      if (!isAuthenticated) {
+                        addToast("Silakan login terlebih dahulu.", "error");
+                        router.push("/login");
+                        return;
+                      }
 
-                    if (!alreadyApplied) {
-                      setShowApplyForm(!showApplyForm);
-                    }
-                  }}
-                  disabled={alreadyApplied}
-                  className={`mt-4 w-full ${
-                    alreadyApplied
-                      ? "bg-green-600 border-green-600 text-white hover:bg-green-600 hover:border-green-600 cursor-not-allowed"
-                      : ""
-                  }`}
-                >
-                  {alreadyApplied ? (
-                    <div className="flex justify-center items-center gap-2">
-                      Kamu Sudah Mendaftar
-                    </div>
-                  ) : showApplyForm ? (
-                    <div className="flex justify-center items-center gap-2">
-                      Tutup Formulir
-                      <ChevronUp className="size-4" />
-                    </div>
-                  ) : (
-                    <div className="flex justify-center items-center gap-2">
-                      Isi Formulir
-                      <ChevronDown className="size-4" />
-                    </div>
-                  )}
-                </Button>
+                      if (!alreadyApplied) {
+                        setShowApplyForm(!showApplyForm);
+                      }
+                    }}
+                    disabled={alreadyApplied}
+                    className={`mt-4 w-full ${
+                      alreadyApplied
+                        ? "bg-green-600 border-green-600 text-white hover:bg-green-600 hover:border-green-600 cursor-not-allowed"
+                        : ""
+                    }`}
+                  >
+                    {alreadyApplied ? (
+                      <div className="flex justify-center items-center gap-2">
+                        Kamu Sudah Mendaftar
+                      </div>
+                    ) : showApplyForm ? (
+                      <div className="flex justify-center items-center gap-2">
+                        Tutup Formulir
+                        <ChevronUp className="size-4" />
+                      </div>
+                    ) : (
+                      <div className="flex justify-center items-center gap-2">
+                        Isi Formulir
+                        <ChevronDown className="size-4" />
+                      </div>
+                    )}
+                  </Button>
 
-                <div
-                  className={`overflow-hidden transition-all duration-700 ${
-                    showApplyForm && !alreadyApplied
-                      ? "mt-5 max-h-[1000px] opacity-100"
-                      : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <div className="space-y-4 border-t border-slate-100 pt-5">
-                    {/* <Select
+                  <div
+                    className={`overflow-hidden transition-all duration-700 ${
+                      showApplyForm && !alreadyApplied
+                        ? "mt-5 max-h-[1000px] opacity-100"
+                        : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <div className="space-y-4 border-t border-slate-100 pt-5">
+                      {/* <Select
                       label="Role"
                       placeholder="Pilih role"
                       options={[
@@ -461,43 +466,44 @@ export default function FeedDetailPage() {
                       ]}
                     /> */}
 
-                    <TextArea
-                      label="Motivasi Mendaftar"
-                      placeholder="Jelaskan alasan Anda..."
-                      value={alasanMendaftar}
-                      onChange={(e) => setAlasanMendaftar(e.target.value)}
-                      required
-                      className="w-full"
-                    />
+                      <TextArea
+                        label="Motivasi Mendaftar"
+                        placeholder="Jelaskan alasan Anda..."
+                        value={alasanMendaftar}
+                        onChange={(e) => setAlasanMendaftar(e.target.value)}
+                        required
+                        className="w-full"
+                      />
 
-                    <Input
-                      label="Link CV"
-                      placeholder="https://drive.google.com/..."
-                      value={cvUrl}
-                      onChange={(e) => setCvUrl(e.target.value)}
-                      required
-                    />
+                      <Input
+                        label="Link CV"
+                        placeholder="https://drive.google.com/..."
+                        value={cvUrl}
+                        onChange={(e) => setCvUrl(e.target.value)}
+                        required
+                      />
 
-                    <Input
-                      label="Link Portfolio"
-                      placeholder="https://drive.google.com/..."
-                      value={portfolioUrl}
-                      onChange={(e) => setPortfolioUrl(e.target.value)}
-                      required
-                    />
+                      <Input
+                        label="Link Portfolio"
+                        placeholder="https://drive.google.com/..."
+                        value={portfolioUrl}
+                        onChange={(e) => setPortfolioUrl(e.target.value)}
+                        required
+                      />
 
-                    <Button
-                      className="w-full"
-                      onClick={handleApplyRecruitment}
-                      isLoading={applyRecruitmentMutation.isPending}
-                      disabled={applyRecruitmentMutation.isPending}
-                    >
-                      Submit Application
-                    </Button>
+                      <Button
+                        className="w-full"
+                        onClick={handleApplyRecruitment}
+                        isLoading={applyRecruitmentMutation.isPending}
+                        disabled={applyRecruitmentMutation.isPending}
+                      >
+                        Submit Application
+                      </Button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </aside>
+              </aside>
+            )}
           </section>
         </div>
       </main>

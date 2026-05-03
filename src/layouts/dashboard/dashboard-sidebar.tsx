@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Folder, Settings, HelpCircle, X, PanelRight } from "lucide-react";
+import { Settings, HelpCircle, X, PanelRight } from "lucide-react";
 import Button from "@/components/ui/button";
 import { useState } from "react";
 
@@ -67,12 +67,12 @@ function DesktopSidebar({ onClose }: { onClose?: () => void }) {
         </div>
 
         {/* menu */}
-        <nav className="px-4">
+        {/* <nav className="px-4">
           <div className="flex items-center gap-3 px-3 py-3 rounded-md text-sm bg-blue-50 text-blue-600 font-medium border-l-4 border-blue-500">
             <Folder className="size-4" />
             Projects
           </div>
-        </nav>
+        </nav> */}
       </div>
 
       {/* bottom */}

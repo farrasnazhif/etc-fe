@@ -63,14 +63,14 @@ export default function LoginPage() {
         <div className="text-center">
           <h1 className="text-2xl font-bold">Masuk ke ETC</h1>
           <p className="text-sm text-gray-500 mt-2">
-            Masukkan NRP/NIND dan password Anda
+            Masukkan NRP/NIP dan password Anda
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             label="Nomor Pengenal"
-            placeholder="Masukkan NRP / NIND"
+            placeholder="Masukkan NRP / NIP"
             value={noPengenal}
             onChange={(e) => setNoPengenal(e.target.value)}
             className="w-full"

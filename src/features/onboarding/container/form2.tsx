@@ -154,16 +154,16 @@ export default function Form2Page({
             className="mt-4 w-full"
           >
             <Input
-              label={role === "dosen" ? "NIND" : "NRP"}
-              placeholder={role === "dosen" ? "Masukkan NIND" : "Masukkan NRP"}
+              label={role === "dosen" ? "NIP" : "NRP"}
+              placeholder={role === "dosen" ? "Masukkan NIP" : "Masukkan NRP"}
               {...register("nomor_pengenal", {
                 required:
-                  role === "dosen" ? "NIND wajib diisi" : "NRP wajib diisi",
+                  role === "dosen" ? "NIP wajib diisi" : "NRP wajib diisi",
                 pattern: {
                   value: /^[0-9]+$/,
                   message:
                     role === "dosen"
-                      ? "NIND hanya boleh angka"
+                      ? "NIP hanya boleh angka"
                       : "NRP hanya boleh angka",
                 },
               })}

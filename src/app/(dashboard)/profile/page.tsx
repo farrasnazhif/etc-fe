@@ -31,6 +31,8 @@ function ProfileContent() {
     updateProfilePicture,
   } = useAuth();
 
+  const isDosen = user?.role === "dosen";
+
   const { addToast } = useToast();
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -228,10 +230,12 @@ function ProfileContent() {
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-2 text-sm font-semibold text-black/60 uppercase tracking-wider min-w-0">
-                      <BookOpen size={14} className="shrink-0" />
-                      <span className="truncate">{user?.jurusan || "-"}</span>
-                    </div>
+                    {!isDosen && (
+                      <div className="flex items-center gap-2 text-sm font-semibold text-black/60 uppercase tracking-wider min-w-0">
+                        <BookOpen size={14} className="shrink-0" />
+                        <span className="truncate">{user?.jurusan || "-"}</span>
+                      </div>
+                    )}
 
                     <div className="flex items-center gap-2 text-sm font-semibold text-black/60 uppercase tracking-wider min-w-0">
                       <Users size={13} className="shrink-0" />
@@ -269,26 +273,28 @@ function ProfileContent() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
             <aside className="lg:col-span-1 flex flex-col gap-4 h-full">
-              <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white flex-1">
-                <h2 className="mb-5 text-xs font-bold uppercase tracking-widest text-black">
-                  Keahlian Utama
-                </h2>
+              {!isDosen && (
+                <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white flex-1">
+                  <h2 className="mb-5 text-xs font-bold uppercase tracking-widest text-black">
+                    Keahlian Utama
+                  </h2>
 
-                <div className="flex flex-wrap gap-2">
-                  {user?.spesialisasi?.map((s) => (
-                    <span
-                      key={s}
-                      className="rounded-lg bg-primary/10 px-3 py-1.5 text-xs font-bold text-primary border border-primary/10"
-                    >
-                      {s}
-                    </span>
-                  )) || (
-                    <span className="text-xs text-black/40 italic font-medium">
-                      Belum ada data keahlian.
-                    </span>
-                  )}
+                  <div className="flex flex-wrap gap-2">
+                    {user?.spesialisasi?.map((s) => (
+                      <span
+                        key={s}
+                        className="rounded-lg bg-primary/10 px-3 py-1.5 text-xs font-bold text-primary border border-primary/10"
+                      >
+                        {s}
+                      </span>
+                    )) || (
+                      <span className="text-xs text-black/40 italic font-medium">
+                        Belum ada data keahlian.
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white flex-1">
                 <div className="mb-5 flex items-center justify-between">

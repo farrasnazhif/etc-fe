@@ -191,7 +191,7 @@ export default function FeedDetailPage() {
 
   return (
     <DashboardLayout withNavbar withSidebar>
-      <main data-theme="light" className="min-h-screen text-slate-900">
+      <main className="min-h-screen text-slate-900">
         <div className="mx-auto max-w-7xl space-y-6 px-2 py-2 md:px-4">
           <Breadcrumbs
             customLabels={{
@@ -271,28 +271,30 @@ export default function FeedDetailPage() {
 
                     {/* bookmark */}
 
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={handleBookmark}
-                      className={`shrink-0 rounded-md md:rounded-full px-2.5 transition-all duration-200 ${
-                        bookmarked
-                          ? "bg-red-600 border-red-600 text-white hover:bg-red-700"
-                          : "border-slate-300 text-slate-700 hover:border-red-500 hover:text-red-600"
-                      }`}
-                    >
-                      <span className="flex items-center gap-2">
-                        <span className="text-sm md:hidden">
-                          {bookmarked ? "Bookmarked" : "Add Bookmark"}
-                        </span>
+                    <div data-theme="light">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={handleBookmark}
+                        className={`shrink-0 rounded-md md:rounded-full px-2.5 transition-all duration-200 ${
+                          bookmarked
+                            ? "bg-red-600 border-red-600 text-white hover:bg-red-700"
+                            : "border-slate-300 text-slate-700 hover:border-red-500 hover:text-red-600"
+                        }`}
+                      >
+                        <span className="flex items-center gap-2">
+                          <span className="text-sm md:hidden">
+                            {bookmarked ? "Bookmarked" : "Add Bookmark"}
+                          </span>
 
-                        <Bookmark
-                          className={`size-5 transition-all ${
-                            bookmarked ? "fill-current" : ""
-                          }`}
-                        />
-                      </span>
-                    </Button>
+                          <Bookmark
+                            className={`size-5 transition-all ${
+                              bookmarked ? "fill-current" : ""
+                            }`}
+                          />
+                        </span>
+                      </Button>
+                    </div>
                   </div>
 
                   <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -378,7 +380,7 @@ export default function FeedDetailPage() {
 
             {/* right */}
             {!isDosen && (
-              <aside className="space-y-6">
+              <aside data-theme="light" className="space-y-6">
                 {/* role card */}
                 {/* <div className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
                 <h2 className="flex items-center gap-2 text-lg font-semibold">

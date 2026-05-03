@@ -118,7 +118,7 @@ export default function ApplicantsCard({
                     className="w-24 justify-center"
                   >
                     <Link
-                      href={`/tim-saya/${rekrutmenId}/applicants/${applicant.pendaftar_id}`}
+                      href={`/tim-saya/${rekrutmenId}/pelamar/${applicant.pendaftar_id}`}
                     >
                       Review
                     </Link>

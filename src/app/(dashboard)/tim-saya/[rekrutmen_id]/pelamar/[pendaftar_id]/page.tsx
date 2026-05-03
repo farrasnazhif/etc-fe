@@ -21,7 +21,6 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { Badge } from "@/components/ui/badge";
-import Button from "@/components/ui/button";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { useApplicantDetail } from "@/hooks/use-detail-applicant";
 
@@ -111,7 +110,7 @@ export default function ApplicantDetailPage() {
   return (
     <DashboardLayout withNavbar withSidebar>
       <main className="px-2 py-2 md:px-4">
-        <div className="mx-auto max-w-7xl space-y-6">
+        <div className="mx-auto max-w-7xl space-y-4">
           <Breadcrumbs
             customLabels={{
               "tim-saya": "Tim Saya",
@@ -125,7 +124,7 @@ export default function ApplicantDetailPage() {
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
             {/* left */}
             <section className="lg:col-span-2 rounded-md border border-slate-200 bg-white p-6 shadow-xs">
-              <div className="flex flex-col gap-6 md:flex-row">
+              <div className="flex flex-col justify-center items-center gap-6 md:flex-row">
                 {/* avatar */}
                 <div className="flex h-28 w-28 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-indigo-600 text-4xl font-black text-white">
                   {(data.nama_pendaftar?.charAt(0) || "U").toUpperCase()}
@@ -149,18 +148,6 @@ export default function ApplicantDetailPage() {
                       </div>
                     </div>
                   </div>
-
-                  <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    <div className="flex items-center gap-2 text-sm text-slate-600">
-                      <User className="size-4" />
-                      User ID: {data.user_id.slice(0, 8)}
-                    </div>
-
-                    <div className="flex items-center gap-2 text-sm text-slate-600">
-                      <FolderKanban className="size-4" />
-                      Rekrutmen ID: {data.rekrutmen_id.slice(0, 8)}
-                    </div>
-                  </div>
                 </div>
               </div>
             </section>
@@ -168,7 +155,7 @@ export default function ApplicantDetailPage() {
             {/* rating */}
             <section className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
               <div className="flex h-full flex-col items-center justify-center text-center">
-                <h2 className="text-xs font-bold uppercase tracking-widest text-slate-500">
+                <h2 className="text-xs font-bold uppercase tracking-widest text-black">
                   Total Rating Pelamar
                 </h2>
 
@@ -186,7 +173,7 @@ export default function ApplicantDetailPage() {
                   {"★".repeat(Math.round(Number(averageRating)))}
                 </div>
 
-                <p className="mt-2 text-xs text-slate-500">
+                <p className="mt-2 text-xs text-black">
                   {data.histories.length} histori penilaian
                 </p>
               </div>
@@ -199,7 +186,7 @@ export default function ApplicantDetailPage() {
             <aside className="space-y-4 lg:col-span-1">
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-sm uppercase tracking-wider text-slate-600">
+                  <CardTitle className="text-sm uppercase tracking-wider text-black">
                     Motivasi Mendaftar
                   </CardTitle>
                 </CardHeader>
@@ -213,30 +200,62 @@ export default function ApplicantDetailPage() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-sm uppercase tracking-wider text-slate-600">
+                  <CardTitle className="text-sm uppercase tracking-wider text-black">
                     Dokumen Pelamar
                   </CardTitle>
                 </CardHeader>
 
                 <CardContent className="space-y-3">
-                  <Link href={data.cv_url} target="_blank">
-                    <Button
-                      variant="outline"
-                      className="w-full justify-between"
-                    >
-                      Lihat CV
-                      <ExternalLink className="size-4" />
-                    </Button>
+                  <Link
+                    href={data.cv_url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block"
+                  >
+                    <div className="flex w-full items-center justify-between rounded-md border border-slate-200 bg-white px-4 py-3 transition-all hover:border-primary hover:bg-primary/5">
+                      <div className="flex min-w-0 items-center gap-3">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary/10">
+                          <FolderKanban className="size-5 text-primary" />
+                        </div>
+
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-slate-900">
+                            Curriculum Vitae
+                          </p>
+                          <p className="truncate text-xs text-black">
+                            Lihat dokumen CV pelamar
+                          </p>
+                        </div>
+                      </div>
+
+                      <ExternalLink className="size-4 shrink-0 text-slate-400" />
+                    </div>
                   </Link>
 
-                  <Link href={data.portofolio_url} target="_blank">
-                    <Button
-                      variant="outline"
-                      className="w-full justify-between"
-                    >
-                      Lihat Portofolio
-                      <ExternalLink className="size-4" />
-                    </Button>
+                  <Link
+                    href={data.portofolio_url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block"
+                  >
+                    <div className="flex w-full items-center justify-between rounded-md border border-slate-200 bg-white px-4 py-3 transition-all hover:border-primary hover:bg-primary/5">
+                      <div className="flex min-w-0 items-center gap-3">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary/10">
+                          <User className="size-5 text-primary" />
+                        </div>
+
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-slate-900">
+                            Portofolio
+                          </p>
+                          <p className="truncate text-xs text-black">
+                            Lihat karya dan pengalaman pelamar
+                          </p>
+                        </div>
+                      </div>
+
+                      <ExternalLink className="size-4 shrink-0 text-slate-400" />
+                    </div>
                   </Link>
                 </CardContent>
               </Card>
@@ -254,41 +273,83 @@ export default function ApplicantDetailPage() {
 
                 <CardContent>
                   {data.histories.length === 0 ? (
-                    <p className="py-8 text-center text-sm text-muted-foreground">
-                      Belum ada histori penilaian.
-                    </p>
+                    <div className="flex flex-col items-center justify-center py-12 text-center">
+                      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-100">
+                        <Star className="size-6 text-slate-400" />
+                      </div>
+
+                      <p className="mt-4 text-sm font-medium text-slate-700">
+                        Belum ada histori penilaian
+                      </p>
+
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        Pelamar ini belum memiliki review atau evaluasi
+                        sebelumnya.
+                      </p>
+                    </div>
                   ) : (
                     <div className="space-y-4">
                       {data.histories.map((history) => (
                         <div
                           key={history.id}
-                          className="rounded-md border border-slate-200 p-4"
+                          className="group rounded-md border border-slate-200 bg-white p-5 transition-all hover:border-primary/30 hover:shadow-sm"
                         >
-                          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                            <div>
-                              <h3 className="font-semibold text-slate-900">
-                                {history.reviewer_name}
-                              </h3>
+                          {/* top section */}
+                          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                            {/* reviewer */}
+                            <div className="flex min-w-0 items-start gap-3">
+                              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-sm font-bold text-white">
+                                {(
+                                  history.reviewer_name?.charAt(0) || "U"
+                                ).toUpperCase()}
+                              </div>
 
-                              <p className="text-xs uppercase tracking-wide text-slate-500">
-                                {history.tipe_tim}
-                              </p>
+                              <div className="min-w-0">
+                                <h3 className="truncate font-semibold text-slate-900">
+                                  {history.reviewer_name}
+                                </h3>
+
+                                <div className="mt-1 flex flex-wrap items-center gap-2">
+                                  <Badge
+                                    variant="secondary"
+                                    className="bg-primary/10 text-[10px] font-semibold uppercase tracking-wider text-primary"
+                                  >
+                                    {history.tipe_tim}
+                                  </Badge>
+
+                                  <span className="text-xs text-slate-400">
+                                    Tim ID: {history.tim_id.slice(0, 8)}
+                                  </span>
+                                </div>
+                              </div>
                             </div>
 
-                            <div className="flex items-center gap-2">
-                              <Badge variant="secondary">
+                            {/* rating */}
+                            <div className="flex shrink-0 flex-col items-start sm:items-end">
+                              <Badge className="border-yellow-200 bg-yellow-50 text-yellow-700">
                                 ⭐ {history.rating}/5
                               </Badge>
+
+                              <div className="mt-2 text-xs text-yellow-500">
+                                {"★".repeat(history.rating)}
+                                <span className="text-slate-300">
+                                  {"★".repeat(5 - history.rating)}
+                                </span>
+                              </div>
                             </div>
                           </div>
 
-                          <p className="mt-3 text-sm leading-relaxed text-slate-700">
-                            {history.deskripsi}
-                          </p>
+                          {/* review */}
+                          <div className="mt-4 rounded-md border border-slate-100 bg-slate-50 px-4 py-3">
+                            <p className="text-sm leading-relaxed text-slate-700">
+                              {history.deskripsi}
+                            </p>
+                          </div>
 
-                          <div className="mt-4 flex items-center gap-2 text-xs text-slate-500">
+                          {/* footer */}
+                          <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-black">
                             <CalendarDays className="size-3.5" />
-                            {formatDate(history.created_at)}
+                            <span>{formatDate(history.created_at)}</span>
                           </div>
                         </div>
                       ))}

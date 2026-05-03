@@ -172,7 +172,7 @@ export default function ActiveMembersCard({
                         if (!pendaftarId) return;
 
                         router.push(
-                          `/tim-saya/${rekrutmenId}/applicants/${pendaftarId}`,
+                          `/tim-saya/${rekrutmenId}/pelamar/${pendaftarId}`,
                         );
                       }}
                     >

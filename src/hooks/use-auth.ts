@@ -49,6 +49,10 @@ export type UpdateUserInput = {
   spesialisasi?: string[];
 };
 
+export type UpdateProfilePictureInput = {
+  file: File;
+};
+
 const authKeys = {
   me: ["auth", "me"] as const,
 };
@@ -180,6 +184,43 @@ export function useAuth() {
     },
   });
 
+  const updateProfilePicture = useMutation({
+    mutationFn: async (input: UpdateProfilePictureInput) => {
+      const formData = new FormData();
+
+      formData.append("profile_picture", input.file);
+
+      const response = await api.post<{
+        profile_picture: string;
+      }>("/auth/picture", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return response.data;
+    },
+
+    onSuccess: async (data) => {
+      queryClient.setQueryData<AuthUser | undefined>(
+        authKeys.me,
+
+        (oldUser) =>
+          oldUser
+            ? {
+                ...oldUser,
+
+                profile_picture: data.profile_picture,
+              }
+            : oldUser,
+      );
+
+      await queryClient.invalidateQueries({
+        queryKey: authKeys.me,
+      });
+    },
+  });
+
   function logout() {
     removeToken();
     setAuthToken(undefined);
@@ -196,6 +237,7 @@ export function useAuth() {
     userError: me.error,
     refetchUser: me.refetch,
 
+    updateProfilePicture,
     login,
     register,
     updateUser,

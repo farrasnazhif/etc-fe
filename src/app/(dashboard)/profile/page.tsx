@@ -23,52 +23,66 @@ import EditProfileModal from "@/features/profile/edit-profile-modal";
 import AddProjectModal from "@/features/profile/add-project-modal";
 
 function ProfileContent() {
-  const { user, isAuthenticated, isLoadingUser, updateUser } = useAuth();
+  const {
+    user,
+    isAuthenticated,
+    isLoadingUser,
+    updateUser,
+    updateProfilePicture,
+  } = useAuth();
 
   const { addToast } = useToast();
 
-  // ==========================================
-  // STATE UNTUK KONTROL POP-UP (MODAL)
-  // ==========================================
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
 
-  // State baru untuk Modal Tambah Proyek
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
 
-  // ==========================================
-  // FUNGSI-FUNGSI HANDLER KLIK
-  // ==========================================
-
-  // --- Handler Edit Profil ---
   const handleEditProfile = () => setIsEditModalOpen(true);
 
-  // --- Handler Tambah Proyek ---
   const handleTambahProyek = () => setIsAddProjectModalOpen(true);
+
   const handleCloseAddProject = () => setIsAddProjectModalOpen(false);
 
-  // --- Handler Lainnya ---
-  // const handleUbahFoto = () =>
-  //   addToast("Membuka dialog pilih foto...", "success");
+  const handleUbahFoto = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
 
-  // ==========================================
+    if (!file) return;
+
+    try {
+      setIsUploadingPhoto(true);
+
+      await updateProfilePicture.mutateAsync({
+        file,
+      });
+
+      addToast("Foto profil berhasil diperbarui!", "success");
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Gagal memperbarui foto profil.";
+
+      addToast(message, "error");
+    } finally {
+      setIsUploadingPhoto(false);
+
+      // reset input biar file sama bisa dipilih ulang
+      event.target.value = "";
+    }
+  };
 
   const handleSaveProfile = async (formData: {
     nama: string;
-
     jurusan: string;
-
     no_telp: string;
-
     spesialisasi: string[];
   }) => {
     try {
       await updateUser.mutateAsync({
         nama: formData.nama,
-
         jurusan: formData.jurusan,
-
         no_telp: formData.no_telp,
-
         spesialisasi: formData.spesialisasi,
       });
 
@@ -128,7 +142,6 @@ function ProfileContent() {
     <DashboardLayout withNavbar withSidebar>
       <main className=" px-2 py-2 md:px-4 text-black font-sans">
         <div className="mx-auto max-w-[1440px] space-y-4">
-          {/* ================= HEADER PROFIL ================= */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <section className="lg:col-span-2 rounded-md border border-slate-200 p-6 shadow-xs bg-white ">
               <div className="flex flex-col  md:flex-row md:items-start gap-6">
@@ -156,12 +169,23 @@ function ProfileContent() {
                     {(user?.nama?.trim()?.charAt(0) || "U").toUpperCase()}
                   </div>
 
-                  {/* <button
-                    onClick={handleUbahFoto}
-                    className="absolute -bottom-2 -right-2 z-20 flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-primary text-white shadow-lg hover:scale-110 transition-transform cursor-pointer"
-                  >
-                    <UserPen size={14} />
-                  </button> */}
+                  <label className="absolute -bottom-2 -right-2 z-20 cursor-pointer">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleUbahFoto}
+                      disabled={isUploadingPhoto}
+                    />
+
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-primary text-white shadow-lg transition-transform hover:scale-110">
+                      {isUploadingPhoto ? (
+                        <span className="loading loading-spinner loading-xs"></span>
+                      ) : (
+                        <UserPen size={14} />
+                      )}
+                    </div>
+                  </label>
                 </div>
 
                 {/* content */}
@@ -244,7 +268,6 @@ function ProfileContent() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
-            {/* ================= SIDEBAR ================= */}
             <aside className="lg:col-span-1 flex flex-col gap-4 h-full">
               <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white flex-1">
                 <h2 className="mb-5 text-xs font-bold uppercase tracking-widest text-black">
@@ -296,7 +319,6 @@ function ProfileContent() {
               </div>
             </aside>
 
-            {/* ================= KONTEN UTAMA ================= */}
             <div className="lg:col-span-2 h-full">
               <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white h-full flex flex-col">
                 <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-6">
@@ -371,17 +393,12 @@ function ProfileContent() {
         </div>
       </main>
 
-      {/* ========================================================= */}
-      {/* ================= MODAL TAMBAH PROYEK ===================== */}
-      {/* ========================================================= */}
       <AddProjectModal
         isOpen={isAddProjectModalOpen}
         onClose={handleCloseAddProject}
         // onSave={handleSaveProject}
       />
-      {/* ========================================================= */}
-      {/* ================= MODAL EDIT PROFIL ===================== */}
-      {/* ========================================================= */}
+
       <EditProfileModal
         isOpen={isEditModalOpen}
         isLoading={updateUser.isPending}

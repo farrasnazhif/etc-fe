@@ -114,7 +114,7 @@ function ProfileContent() {
 
   const { data: myRekrutmen } = useMyRekrutmen();
 
-  const currentTeam = myRekrutmen?.[0];
+  const currentTeams = myRekrutmen?.slice(0, 3) ?? [];
 
   if (isLoadingUser) {
     return (
@@ -254,32 +254,8 @@ function ProfileContent() {
             </section>
 
             <section className="lg:col-span-1 h-full">
-              <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white h-full flex flex-col items-center justify-center text-center min-h-full">
-                <h2 className=" text-xs font-bold uppercase tracking-widest text-black">
-                  TOTAL RATING USER
-                </h2>
-
-                <div className="mt-4 flex items-end gap-1">
-                  <span className="text-5xl font-black text-primary leading-none">
-                    4.9
-                  </span>
-
-                  <span className="text-base font-bold text-black/40 mb-1">
-                    /5
-                  </span>
-                </div>
-
-                <div className="mt-3 flex items-center gap-1 text-primary text-lg leading-none">
-                  {"★★★★★"}
-                </div>
-              </div>
-            </section>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
-            <aside className="lg:col-span-1 flex flex-col gap-4 h-full">
               {!isDosen && (
-                <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white flex-1">
+                <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white flex-1 h-full">
                   <h2 className="mb-5 text-xs font-bold uppercase tracking-widest text-black">
                     Keahlian Utama
                   </h2>
@@ -300,7 +276,11 @@ function ProfileContent() {
                   </div>
                 </div>
               )}
+            </section>
+          </div>
 
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
+            <aside className="lg:col-span-1 flex flex-col gap-4 h-full">
               {/* Tim Saat Ini */}
               <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white flex-1">
                 <div className="mb-5 flex items-center justify-between">
@@ -316,7 +296,7 @@ function ProfileContent() {
                   </Link>
                 </div>
 
-                {!currentTeam ? (
+                {currentTeams.length === 0 ? (
                   <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 py-8 text-center">
                     <p className="text-sm font-medium text-black/50">
                       Belum memiliki tim aktif
@@ -327,23 +307,30 @@ function ProfileContent() {
                     </p>
                   </div>
                 ) : (
-                  <Link href={`/tim-saya/${currentTeam.rekrutmen_id}`}>
-                    <div className="flex items-center gap-3 rounded-md border border-primary/10 bg-primary/10 p-3 transition-all cursor-pointer group hover:bg-blue-200/40">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-blue-400 to-indigo-500 font-bold text-white shadow-xs transition-transform">
-                        {currentTeam.kegiatan?.charAt(0).toUpperCase() || "T"}
-                      </div>
+                  <div className="space-y-3">
+                    {currentTeams.map((team) => (
+                      <Link
+                        key={team.rekrutmen_id}
+                        href={`/tim-saya/${team.rekrutmen_id}`}
+                      >
+                        <div className="flex items-center gap-3 rounded-md border border-primary/10 bg-primary/10 p-3 transition-all cursor-pointer group hover:bg-blue-200/40">
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-blue-400 to-indigo-500 font-bold text-white shadow-xs transition-transform ">
+                            {team.kegiatan?.charAt(0).toUpperCase() || "T"}
+                          </div>
 
-                      <div className="min-w-0">
-                        <p className="truncate text-sm font-bold">
-                          {currentTeam.role || "Tanpa Role"}
-                        </p>
+                          <div className="min-w-0 flex-1">
+                            <p className="truncate text-sm font-bold">
+                              {team.role || "Tanpa Role"}
+                            </p>
 
-                        <p className="text-[10px] text-black/40 font-bold uppercase truncate">
-                          {currentTeam.kegiatan || "Tim Aktif"}
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
+                            <p className="truncate text-[10px] font-bold uppercase text-black/40">
+                              {team.kegiatan || "Tim Aktif"}
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
                 )}
               </div>
             </aside>

@@ -15,7 +15,9 @@ interface ApplicantsCardProps {
   isLoading?: boolean;
   onAccept: (pendaftarId: string) => void;
   onReject: (pendaftarId: string) => void;
-  isActionLoading?: boolean;
+  isAccepting?: boolean;
+  isRejecting?: boolean;
+  activePendaftarId?: string | null;
 }
 
 export default function ApplicantsCard({
@@ -23,9 +25,12 @@ export default function ApplicantsCard({
   isLoading,
   onAccept,
   onReject,
-  isActionLoading,
+  isAccepting,
+  isRejecting,
+  activePendaftarId,
 }: ApplicantsCardProps) {
-  const pendingApplicants = applicants.filter((a) => a.status === "pending");
+  // const pendingApplicants = applicants.filter((a) => a.status === "pending");
+  const pendingApplicants = applicants
 
   return (
     <Card>
@@ -74,11 +79,11 @@ export default function ApplicantsCard({
                   <AvatarFallback className="rounded-lg">
                     {applicant.nama_pendaftar
                       ? applicant.nama_pendaftar
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")
-                          .slice(0, 2)
-                          .toUpperCase()
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .slice(0, 2)
+                        .toUpperCase()
                       : "??"}
                   </AvatarFallback>
                 </Avatar>
@@ -123,22 +128,28 @@ export default function ApplicantsCard({
                   <Button
                     variant="outline"
                     size="sm"
-                    className="border-destructive text-destructive hover:bg-destructive/10"
+                    className="border-destructive text-destructive hover:bg-destructive/10 w-20 justify-center"
+                    disabled={isRejecting && activePendaftarId === applicant.pendaftar_id}
                     onClick={() => onReject(applicant.pendaftar_id)}
-                    disabled={isActionLoading}
                   >
-                    {isActionLoading ? <Loader2 className="size-3 animate-spin mr-1" /> : null}
-                    Tolak
+                    {isRejecting && activePendaftarId === applicant.pendaftar_id ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      "Tolak"
+                    )}
                   </Button>
                   <Button
                     variant="primary"
                     size="sm"
-                    className="bg-primary text-primary-foreground hover:bg-primary/90"
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 w-20 justify-center"
+                    disabled={isAccepting && activePendaftarId === applicant.pendaftar_id}
                     onClick={() => onAccept(applicant.pendaftar_id)}
-                    disabled={isActionLoading}
                   >
-                    {isActionLoading ? <Loader2 className="size-3 animate-spin mr-1" /> : null}
-                    Terima
+                    {isAccepting && activePendaftarId === applicant.pendaftar_id ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      "Terima"
+                    )}
                   </Button>
                 </div>
               </CardContent>

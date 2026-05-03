@@ -8,7 +8,7 @@ import Button from "@/components/ui/button";
 import RekrutmenCard from "@/components/ui/rekrutmen-card";
 
 export default function TimSayaListPage() {
-  const { data: rekrutmenList, isLoading, isError } = useMyRekrutmen();
+  const { data: rekrutmenList, isPending, isError } = useMyRekrutmen();
 
   return (
     <DashboardLayout withNavbar withSidebar>
@@ -17,7 +17,7 @@ export default function TimSayaListPage() {
           Tim Saya
         </h1>
 
-        {isLoading && (
+        {isPending && (
           <div className="flex justify-center items-center py-20">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
@@ -29,7 +29,7 @@ export default function TimSayaListPage() {
           </div>
         )}
 
-        {!isLoading && !isError && (!rekrutmenList || rekrutmenList.length === 0) && (
+        {!isPending && !isError && (!rekrutmenList || rekrutmenList.length === 0) && (
           <div className="text-center py-20 bg-card rounded-xl border border-border shadow-sm">
             <h3 className="text-lg font-medium text-primary mb-2">
               Kamu belum membuat rekrutmen apapun
@@ -43,7 +43,7 @@ export default function TimSayaListPage() {
           </div>
         )}
 
-        {!isLoading && !isError && rekrutmenList && rekrutmenList.length > 0 && (
+        {!isPending && !isError && rekrutmenList && rekrutmenList.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {rekrutmenList.map((item) => (
               <RekrutmenCard key={item.rekrutmen_id} item={item} href={`/tim-saya/${item.rekrutmen_id}`} />

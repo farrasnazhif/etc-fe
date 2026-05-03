@@ -25,12 +25,12 @@ export default function TimSayaPage() {
   const params = useParams();
   const rekrutmenId = params.rekrutmen_id as string;
 
-  const { data: rekrutmenDetail, isLoading: isDetailLoading } = useRekrutmenDetail(rekrutmenId);
-  const { data: applicantsData, isLoading: isApplicantsLoading } = useApplicants(rekrutmenId);
-  const { accept, reject, isLoading: isActionLoading } = useAcceptRejectApplicant(rekrutmenId);
+  const { data: rekrutmenDetail, isPending: isDetailLoading } = useRekrutmenDetail(rekrutmenId);
+  const { data: applicantsData, isPending: isApplicantsLoading } = useApplicants(rekrutmenId);
+  const { accept, reject, isAccepting, isRejecting, activePendaftarId } = useAcceptRejectApplicant(rekrutmenId);
 
   const timId = rekrutmenDetail?.tim_id;
-  const { data: timMembers, isLoading: isTimMembersLoading } = useTimMembers(timId);
+  const { data: timMembers, isPending: isTimMembersLoading } = useTimMembers(timId);
 
   if (isDetailLoading) {
     return (
@@ -77,7 +77,9 @@ export default function TimSayaPage() {
               isLoading={isApplicantsLoading}
               onAccept={accept}
               onReject={reject}
-              isActionLoading={isActionLoading}
+              isAccepting={isAccepting}
+              isRejecting={isRejecting}
+              activePendaftarId={activePendaftarId}
             />
           </div>
 

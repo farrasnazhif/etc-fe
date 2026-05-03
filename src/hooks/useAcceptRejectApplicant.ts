@@ -46,6 +46,12 @@ export function useAcceptRejectApplicant(rekrutmenId: string) {
   return {
     accept: acceptMutation.mutate,
     reject: rejectMutation.mutate,
-    isLoading: acceptMutation.isPending || rejectMutation.isPending,
+    isAccepting: acceptMutation.isPending,
+    isRejecting: rejectMutation.isPending,
+    activePendaftarId: acceptMutation.isPending
+      ? acceptMutation.variables
+      : rejectMutation.isPending
+      ? rejectMutation.variables
+      : null,
   };
 }

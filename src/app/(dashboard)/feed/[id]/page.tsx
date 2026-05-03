@@ -10,6 +10,7 @@ import {
   ChevronDown,
   Bookmark,
   UserPlusIcon,
+  Info,
 } from "lucide-react";
 import DashboardLayout from "@/layouts/dashboard/dashboard-layout";
 import { useState } from "react";
@@ -402,46 +403,65 @@ export default function FeedDetailPage() {
 
                 {/* apply */}
                 <div className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
-                  <h2 className="flex items-center gap-2 text-lg font-semibold">
-                    <UserPlusIcon className="size-4.5 text-blue-800" />
-                    Gabung ke Rekrutmen Ini
-                  </h2>
+                  {alreadyApplied ? (
+                    <>
+                      <h2 className="flex items-center gap-2 text-lg font-semibold">
+                        <Info className="size-4.5 text-blue-800" />
+                        Status Lamaran Anda
+                      </h2>
 
-                  <p className="mt-2 text-sm text-slate-600">
-                    Tertarik dengan posisi ini? Kirim aplikasi Anda sekarang.
-                  </p>
+                      <p className="mt-2 text-sm text-slate-600">
+                        Anda sudah mengajukan lamaran untuk rekrutmen ini.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <h2 className="flex items-center gap-2 text-lg font-semibold">
+                        <UserPlusIcon className="size-4.5 text-blue-800" />
+                        Gabung ke Rekrutmen Ini
+                      </h2>
+
+                      <p className="mt-2 text-sm text-slate-600">
+                        Tertarik dengan posisi ini? Kirim aplikasi Anda
+                        sekarang.
+                      </p>
+                    </>
+                  )}
 
                   <Button
                     type="button"
                     onClick={() => {
-                      if (!isAuthenticated) {
-                        addToast("Silakan login terlebih dahulu.", "error");
-                        router.push("/login");
+                      if (alreadyApplied) {
+                        router.push("/tim-saya");
+
                         return;
                       }
 
-                      if (!alreadyApplied) {
-                        setShowApplyForm(!showApplyForm);
+                      if (!isAuthenticated) {
+                        addToast("Silakan login terlebih dahulu.", "error");
+
+                        router.push("/login");
+
+                        return;
                       }
+
+                      setShowApplyForm(!showApplyForm);
                     }}
-                    disabled={alreadyApplied}
                     className={`mt-4 w-full ${
-                      alreadyApplied
-                        ? "bg-green-600 border-green-600 text-white hover:bg-green-600 hover:border-green-600 cursor-not-allowed"
-                        : ""
+                      alreadyApplied ? "btn-primary  " : ""
                     }`}
                   >
                     {alreadyApplied ? (
-                      <div className="flex justify-center items-center gap-2">
-                        Kamu Sudah Mendaftar
+                      <div className="flex items-center justify-center gap-2">
+                        Check Status
                       </div>
                     ) : showApplyForm ? (
-                      <div className="flex justify-center items-center gap-2">
+                      <div className="flex items-center justify-center gap-2">
                         Tutup Formulir
                         <ChevronUp className="size-4" />
                       </div>
                     ) : (
-                      <div className="flex justify-center items-center gap-2">
+                      <div className="flex items-center justify-center gap-2">
                         Isi Formulir
                         <ChevronDown className="size-4" />
                       </div>

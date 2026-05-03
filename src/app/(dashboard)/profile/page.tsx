@@ -70,6 +70,18 @@ function ProfileContent() {
 
   // ==========================================
 
+  function getGoogleDriveImageUrl(url: string) {
+    if (!url) return "";
+
+    const fileIdMatch =
+      url.match(/\/d\/([^/]+)/) || url.match(/[?&]id=([^&]+)/);
+
+    if (!fileIdMatch) return url;
+    const fileId = fileIdMatch[1];
+
+    return `https://lh3.googleusercontent.com/d/${fileId}`;
+  }
+
   if (isLoadingUser) {
     return (
       <DashboardLayout withNavbar withSidebar>
@@ -112,25 +124,31 @@ function ProfileContent() {
               <div className="relative h-24 w-24 sm:h-32 sm:w-32 flex-shrink-0">
                 {user?.profile_picture ? (
                   <Image
-                    src={user.profile_picture}
+                    src={getGoogleDriveImageUrl(user.profile_picture)}
                     alt="Profil"
+                    width={128}
+                    height={128}
                     className="h-full w-full rounded-xl object-cover border border-base-300"
-                    width={100}
-                    height={100}
+                    unoptimized
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = "";
-                      (e.target as HTMLImageElement).className = "hidden";
+                      e.currentTarget.style.display = "none";
                     }}
                   />
                 ) : null}
 
-                <div className="absolute inset-0 h-full w-full rounded-xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white text-4xl font-black shadow-inner -z-10">
-                  {user?.nama?.charAt(0) || "U"}
+                {/* fallback initial */}
+
+                <div
+                  className={`absolute inset-0 h-full w-full rounded-xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white text-4xl font-black shadow-inner ${
+                    user?.profile_picture ? "-z-10" : "z-10"
+                  }`}
+                >
+                  {(user?.nama?.trim()?.charAt(0) || "U").toUpperCase()}
                 </div>
 
                 <button
                   onClick={handleUbahFoto}
-                  className="absolute -bottom-2 -right-2 flex h-8 w-8 items-center justify-center rounded-full border-2 border-base-100 bg-primary text-primary-content shadow-lg hover:scale-110 transition-transform cursor-pointer"
+                  className="absolute -bottom-2 -right-2 z-20 flex h-8 w-8 items-center justify-center rounded-full border-2 border-base-100 bg-primary text-primary-content shadow-lg hover:scale-110 transition-transform cursor-pointer"
                 >
                   <UserPen size={14} />
                 </button>

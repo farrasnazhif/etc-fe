@@ -10,6 +10,7 @@ import {
   X as XIcon,
   Plus,
   LogIn,
+  Bookmark,
 } from "lucide-react";
 import Button from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -21,7 +22,6 @@ const navItems = [
   { name: "Feed Rekrutmen", href: "/feed" },
   { name: "Buat Postingan", href: "/buat-postingan" },
   { name: "Tim Saya", href: "/tim-saya" },
-  { name: "Profile", href: "/profile" },
 ];
 
 export default function DashboardNavbar() {
@@ -64,7 +64,7 @@ export default function DashboardNavbar() {
     <>
       <nav className="w-full border-b bg-white px-4 md:px-6  py-3 flex items-center justify-between">
         {/* left */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-8">
           <Link href="/" className="text-xl font-bold text-black">
             ETC
           </Link>
@@ -102,6 +102,12 @@ export default function DashboardNavbar() {
           <button className="p-2 rounded-full hover:bg-gray-100 transition">
             <Bell className="size-5 text-gray-600" />
           </button>
+
+          <Link href="/bookmark">
+            <button className="p-2 rounded-full hover:bg-gray-100 transition">
+              <Bookmark className="size-5 text-gray-600" />
+            </button>
+          </Link>
 
           {/* profile dropdown */}
           {mounted && (

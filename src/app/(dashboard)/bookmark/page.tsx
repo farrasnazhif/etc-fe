@@ -39,7 +39,7 @@ export default function BookmarkPage() {
         {!isPending &&
           !isError &&
           (!bookmarkList || bookmarkList.length === 0) && (
-            <div className="text-center py-20 bg-card rounded-xl border border-border shadow-sm">
+            <div className="text-center py-20 bg-card rounded-md border border-border shadow-xs">
               <h3 className="text-lg font-medium text-primary mb-2">
                 Kamu belum memiliki bookmark
               </h3>
@@ -48,7 +48,7 @@ export default function BookmarkPage() {
                 Simpan rekrutmen favoritmu agar lebih mudah ditemukan nanti.
               </p>
 
-              <Link href="/feed">
+              <Link href="/feed" data-theme="light">
                 <Button>Lihat Rekrutmen</Button>
               </Link>
             </div>

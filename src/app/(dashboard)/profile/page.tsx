@@ -26,6 +26,7 @@ import {
   Mail,
   Link as LinkIcon,
   Code,
+  BookOpen,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -88,7 +89,7 @@ function ProfileContent() {
         <div className="flex min-h-screen items-center justify-center bg-white">
           <div className="flex flex-col items-center gap-4 text-center">
             <span className="loading loading-spinner loading-lg text-primary"></span>
-            <p className="text-sm font-medium text-base-content/60 italic">
+            <p className="text-sm font-medium text-black/60 italic">
               Memuat data user...
             </p>
           </div>
@@ -113,127 +114,127 @@ function ProfileContent() {
 
   return (
     <DashboardLayout withNavbar withSidebar>
-      <main
-        data-theme="light"
-        className="min-h-screen bg-base-200/50 px-2 py-2 md:px-4 text-base-content font-sans"
-      >
+      <main className="min-h-screen  px-2 py-2 md:px-4 text-black font-sans">
         <div className="mx-auto max-w-[1440px] space-y-8">
           {/* ================= HEADER PROFIL ================= */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <section className="lg:col-span-2 flex flex-col md:flex-row items-start gap-8 rounded-2xl border border-base-300 bg-base-100 p-6 shadow-sm">
-              <div className="relative h-24 w-24 sm:h-32 sm:w-32 flex-shrink-0">
-                {user?.profile_picture ? (
-                  <Image
-                    src={getGoogleDriveImageUrl(user.profile_picture)}
-                    alt="Profil"
-                    width={128}
-                    height={128}
-                    className="h-full w-full rounded-xl object-cover border border-base-300"
-                    unoptimized
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                    }}
-                  />
-                ) : null}
+            <section className="lg:col-span-2 rounded-md border border-slate-200 p-6 shadow-sm">
+              <div className="flex flex-col  md:flex-row md:items-start gap-6">
+                {/* profile image */}
+                <div className="relative h-32 w-32 flex-shrink-0 mx-auto md:mx-0">
+                  {user?.profile_picture ? (
+                    <Image
+                      src={getGoogleDriveImageUrl(user.profile_picture)}
+                      alt="Profil"
+                      width={128}
+                      height={128}
+                      className="h-full w-full rounded-md object-cover border border-slate-200"
+                      unoptimized
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
+                    />
+                  ) : null}
 
-                {/* fallback initial */}
+                  <div
+                    className={`absolute inset-0 h-full w-full rounded-md bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white text-4xl font-black shadow-inner ${
+                      user?.profile_picture ? "-z-10" : "z-10"
+                    }`}
+                  >
+                    {(user?.nama?.trim()?.charAt(0) || "U").toUpperCase()}
+                  </div>
 
-                <div
-                  className={`absolute inset-0 h-full w-full rounded-xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white text-4xl font-black shadow-inner ${
-                    user?.profile_picture ? "-z-10" : "z-10"
-                  }`}
-                >
-                  {(user?.nama?.trim()?.charAt(0) || "U").toUpperCase()}
+                  <button
+                    onClick={handleUbahFoto}
+                    className="absolute -bottom-2 -right-2 z-20 flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-primary text-white shadow-lg hover:scale-110 transition-transform cursor-pointer"
+                  >
+                    <UserPen size={14} />
+                  </button>
                 </div>
 
-                <button
-                  onClick={handleUbahFoto}
-                  className="absolute -bottom-2 -right-2 z-20 flex h-8 w-8 items-center justify-center rounded-full border-2 border-base-100 bg-primary text-primary-content shadow-lg hover:scale-110 transition-transform cursor-pointer"
-                >
-                  <UserPen size={14} />
-                </button>
-              </div>
+                {/* content */}
+                <div className="flex-1 min-w-0">
+                  {/* top section */}
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                    <div className="min-w-0">
+                      <h1 className="text-xl sm:text-4xl font-extrabold tracking-tight text-slate-900 break-words">
+                        {user?.nama}
+                      </h1>
+                    </div>
 
-              <div className="flex-1 w-full">
-                <div className="mb-4 flex flex-col items-start justify-between gap-4 sm:flex-row">
-                  <div>
-                    <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
-                      {user?.nama}
-                    </h1>
-                    <p className="flex items-center gap-2 text-sm font-semibold text-base-content/60 mt-1 uppercase tracking-wider">
-                      <GraduationCap size={16} /> {user?.role}{" "}
-                      {user?.jurusan && `• ${user?.jurusan}`}
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      leftIcon={UserPen}
-                      onClick={handleEditProfile}
+                    <div
+                      data-theme="light"
+                      className="w-full sm:w-auto shrink-0"
                     >
-                      Sunting
-                    </Button>
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        leftIcon={UserPen}
+                        onClick={handleEditProfile}
+                        className="w-full sm:w-auto"
+                      >
+                        Edit
+                      </Button>
+                    </div>
                   </div>
-                </div>
 
-                <p className="mb-6 max-w-2xl text-sm leading-relaxed text-base-content/80 font-medium">
-                  {user?.spesialisasi && user.spesialisasi.length > 0
-                    ? user.spesialisasi.join(" • ")
-                    : "Mahasiswa Teknologi Informasi ITS yang berfokus pada inovasi dan pengembangan teknologi informasi."}
-                </p>
+                  {/* balanced info layout */}
+                  <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-3">
+                    <div className="flex items-center gap-2 text-sm font-semibold text-black/60 uppercase tracking-wider min-w-0">
+                      <GraduationCap size={16} className="shrink-0" />
+                      <span className="truncate">{user?.role}</span>
+                    </div>
 
-                <div className="flex flex-wrap gap-3">
-                  <div className="flex items-center gap-1.5 rounded-full bg-info/10 px-3 py-1 text-[10px] font-bold text-info uppercase tracking-tight border border-info/20">
-                    <MapPin size={12} /> Surabaya, Indonesia
-                  </div>
-                  <div className="flex items-center gap-1.5 rounded-full bg-base-200 px-3 py-1 text-[10px] font-bold text-base-content/70 uppercase tracking-tight">
-                    <Phone size={12} /> {user?.no_telp}
-                  </div>
-                  <div className="flex items-center gap-1.5 rounded-full bg-base-200 px-3 py-1 text-[10px] font-bold text-base-content/70 uppercase tracking-tight">
-                    <Users size={12} /> {user?.no_pengenal}
+                    <div className="flex items-center gap-2 text-sm font-semibold text-black/60 uppercase tracking-wider min-w-0">
+                      <Phone size={13} className="shrink-0" />
+                      <span className="truncate">
+                        {user?.no_telp || "No phone"}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-sm font-semibold text-black/60 uppercase tracking-wider min-w-0">
+                      <BookOpen size={14} className="shrink-0" />
+                      <span className="truncate">{user?.jurusan || "-"}</span>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-sm font-semibold text-black/60 uppercase tracking-wider min-w-0">
+                      <Users size={13} className="shrink-0" />
+                      <span className="truncate">
+                        {user?.no_pengenal || "No ID"}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
             </section>
+            <section className="lg:col-span-1 h-full">
+              <div className="rounded-md border border-slate-200 p-6 shadow-sm ring-1 ring-primary/10 h-full flex flex-col items-center justify-center text-center min-h-full">
+                <span className="text-[11px] uppercase font-bold tracking-[0.3em] text-black/50">
+                  Total User Rating
+                </span>
 
-            <section className="lg:col-span-1 grid grid-cols-2 gap-4">
-              {[
-                { label: "Tim Aktif", value: 3, active: true },
-                { label: "Proyek", value: 5, active: false },
-                {
-                  label: "NRP",
-                  value: user?.no_pengenal?.slice(-4) || "----",
-                  active: false,
-                },
-                {
-                  label: "Status",
-                  value: user?.role === "mahasiswa" ? "Aktif" : "Staff",
-                  active: false,
-                },
-              ].map((item, index) => (
-                <div
-                  key={index}
-                  className={`flex flex-col items-center justify-center rounded-2xl border border-base-300 bg-base-100 p-5 shadow-sm transition-all hover:-translate-y-1 ${item.active ? "bg-primary/5 border-primary/20 ring-1 ring-primary/10" : ""}`}
-                >
-                  <span
-                    className={`text-3xl font-black ${item.active ? "text-primary" : "text-base-content"}`}
-                  >
-                    {item.value}
+                <div className="mt-4 flex items-end gap-1">
+                  <span className="text-5xl font-black text-primary leading-none">
+                    4.9
                   </span>
-                  <span className="mt-1 text-[10px] uppercase font-bold text-base-content/50 tracking-widest">
-                    {item.label}
+
+                  <span className="text-base font-bold text-black/40 mb-1">
+                    /5
                   </span>
                 </div>
-              ))}
+
+                <div className="mt-3 flex items-center gap-1 text-primary text-lg leading-none">
+                  {"★★★★★"}
+                </div>
+              </div>
             </section>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             {/* ================= SIDEBAR ================= */}
             <aside className="lg:col-span-1 space-y-6">
-              <div className="rounded-2xl border border-base-300 bg-base-100 p-6 shadow-sm">
-                <h2 className="mb-5 text-xs font-bold uppercase tracking-widest text-base-content/50">
+              <div className="rounded-md border border-slate-200  p-6 shadow-sm">
+                <h2 className="mb-5 text-xs font-bold uppercase tracking-widest text-black/50">
                   Keahlian Utama
                 </h2>
                 <div className="flex flex-wrap gap-2">
@@ -245,16 +246,16 @@ function ProfileContent() {
                       {s}
                     </span>
                   )) || (
-                    <span className="text-xs text-base-content/40 italic font-medium">
+                    <span className="text-xs text-black/40 italic font-medium">
                       Belum ada data keahlian.
                     </span>
                   )}
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-base-300 bg-base-100 p-6 shadow-sm">
+              <div className="rounded-md border border-slate-200  p-6 shadow-sm">
                 <div className="mb-5 flex items-center justify-between">
-                  <h2 className="text-xs font-bold uppercase tracking-widest text-base-content/50">
+                  <h2 className="text-xs font-bold uppercase tracking-widest text-black/50">
                     Tim Saat Ini
                   </h2>
                   <Link
@@ -264,13 +265,13 @@ function ProfileContent() {
                     Lihat Semua
                   </Link>
                 </div>
-                <div className="flex items-center gap-3 p-3 rounded-xl border border-base-200 bg-base-200/20 hover:bg-base-200/40 transition-all cursor-pointer group">
-                  <div className="h-10 w-10 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center font-black shadow-sm group-hover:scale-105 transition-transform">
+                <div className="flex items-center gap-3 p-3 rounded-xl  border border-primary/10 bg-primary/10 hover:bg-blue-200/40 transition-all cursor-pointer group">
+                  <div className="h-10 w-10 bg-gradient-to-br from-blue-400 to-indigo-500  rounded-md flex items-center justify-center font-bold text-white shadow-sm group-hover:scale-105 transition-transform">
                     E
                   </div>
                   <div>
                     <p className="text-sm font-bold">ETC Frontend Core</p>
-                    <p className="text-[10px] text-base-content/40 font-bold uppercase">
+                    <p className="text-[10px] text-black/40 font-bold uppercase">
                       4 Anggota
                     </p>
                   </div>
@@ -280,19 +281,26 @@ function ProfileContent() {
 
             {/* ================= KONTEN UTAMA ================= */}
             <div className="lg:col-span-2 space-y-8">
-              <div className="rounded-2xl border border-base-300 bg-base-100 p-6 shadow-sm">
+              <div className="rounded-md border border-slate-200  p-6 shadow-sm">
                 <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-xs font-bold uppercase tracking-widest text-base-content/50">
+                  <h2 className="text-xs font-bold uppercase tracking-widest text-black/50">
                     Portofolio Proyek
                   </h2>
-                  <div className="flex gap-2 bg-base-200 p-1 rounded-xl">
-                    <Button variant="primary" size="sm" className="px-6">
+                  <div
+                    data-theme="light"
+                    className="flex gap-2 bg-slate-200 p-1 rounded-md"
+                  >
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      className="px-6 rounded-md"
+                    >
                       Semua
                     </Button>
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="px-6 text-base-content/50"
+                      className="px-6 text-black/50 rounded-md"
                     >
                       Selesai
                     </Button>
@@ -300,22 +308,22 @@ function ProfileContent() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="rounded-2xl border border-base-200 p-6 group hover:border-primary hover:shadow-xl transition-all cursor-pointer bg-base-100 relative overflow-hidden">
+                  <div className="rounded-md border border-slate-200 p-6 group hover:border-primary hover:shadow-xl transition-all cursor-pointer  relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
-                      <ExternalLink size={20} className="text-primary" />
+                      <ExternalLink size={20} className="text-black" />
                     </div>
                     <h3 className="font-bold text-lg group-hover:text-primary transition-colors">
                       Campus Lost & Found
                     </h3>
-                    <p className="text-xs text-base-content/60 leading-relaxed mt-2 font-medium">
+                    <p className="text-xs text-black/60 leading-relaxed mt-2 font-medium">
                       Aplikasi manajemen barang hilang terintegrasi di
                       lingkungan kampus ITS berbasis Web.
                     </p>
                     <div className="mt-4 flex items-center gap-2">
-                      <span className="text-[9px] bg-base-200 px-2 py-1 rounded font-bold uppercase text-base-content/40">
+                      <span className="text-[9px] bg-primary/10 px-2 py-1 rounded font-bold uppercase text-primary border border-primary/10">
                         Next.js
                       </span>
-                      <span className="text-[9px] bg-base-200 px-2 py-1 rounded font-bold uppercase text-base-content/40">
+                      <span className="text-[9px] bg-primary/10 px-2 py-1 rounded font-bold uppercase text-primary border border-primary/10">
                         Go
                       </span>
                     </div>
@@ -323,9 +331,9 @@ function ProfileContent() {
 
                   <div
                     onClick={handleTambahProyek}
-                    className="border-2 border-dashed border-base-300 rounded-2xl flex flex-col items-center justify-center p-8 text-base-content/30 hover:border-primary hover:bg-primary/5 hover:text-primary transition-all cursor-pointer group"
+                    className="border-2 border-dashed border-slate-200 rounded-md flex flex-col items-center justify-center p-8 text-black/30 hover:border-primary hover:bg-primary/5 hover:text-primary transition-all cursor-pointer group"
                   >
-                    <div className="h-10 w-10 rounded-full bg-base-200 flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
+                    <div className="h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
                       <span className="text-2xl font-light">+</span>
                     </div>
                     <span className="font-bold text-xs tracking-widest uppercase">
@@ -344,7 +352,7 @@ function ProfileContent() {
       {/* ========================================================= */}
       {isAddProjectModalOpen && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="w-full max-w-xl bg-white rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+          <div className="w-full max-w-xl bg-white rounded-md shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
             {/* Header */}
             <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
               <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
@@ -374,7 +382,6 @@ function ProfileContent() {
                     className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-sm"
                   />
                 </div>
-
                 {/* Deskripsi */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1.5">
@@ -387,7 +394,6 @@ function ProfileContent() {
                     className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-sm resize-y"
                   />
                 </div>
-
                 {/* Teknologi / Tech Stack */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1.5">
@@ -408,7 +414,6 @@ function ProfileContent() {
                     Pisahkan masing-masing teknologi dengan tanda koma.
                   </p>
                 </div>
-
                 {/* Tautan Proyek */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1.5">
@@ -426,7 +431,6 @@ function ProfileContent() {
                     />
                   </div>
                 </div>
-
                 {/* Tombol Aksi */}
                 <div className="flex justify-end gap-3 pt-4 mt-2">
                   <Button
@@ -455,7 +459,7 @@ function ProfileContent() {
       {/* ========================================================= */}
       {isEditModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 sm:p-6">
-          <div className="w-full max-w-6xl h-[90vh] sm:h-[85vh] bg-gray-50 rounded-2xl shadow-2xl flex flex-col md:flex-row overflow-hidden relative border border-gray-200 animate-in fade-in zoom-in-95 duration-200">
+          <div className="w-full max-w-6xl h-[90vh] sm:h-[85vh] bg-gray-50 rounded-md shadow-2xl flex flex-col md:flex-row overflow-hidden relative border border-gray-200 animate-in fade-in zoom-in-95 duration-200">
             <div className="w-full md:w-80 bg-white border-r border-gray-200 p-6 flex flex-col flex-shrink-0 overflow-y-auto">
               <div className="flex flex-col items-center mb-8 pt-4">
                 <div className="relative h-28 w-28 mb-4">

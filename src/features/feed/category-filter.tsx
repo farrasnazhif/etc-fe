@@ -23,7 +23,12 @@ export default function CategoryFilter({
   isDisabled,
 }: CategoryFilterProps) {
   return (
-    <div className={cn("rounded-xl border border-border bg-card p-5 shadow-sm", isDisabled && "opacity-40 transition-opacity duration-200")}>
+    <div
+      className={cn(
+        "rounded-md border border-border bg-card p-5 shadow-xs",
+        isDisabled && "opacity-40 transition-opacity duration-200",
+      )}
+    >
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <SlidersHorizontal className="h-4 w-4 text-primary" />
@@ -38,12 +43,14 @@ export default function CategoryFilter({
             <Button
               key={category.id}
               variant="ghost"
-              onClick={() => onKegiatanChange(isActive ? undefined : category.id)}
+              onClick={() =>
+                onKegiatanChange(isActive ? undefined : category.id)
+              }
               className={cn(
                 "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-left h-auto justify-start",
                 isActive
-                  ? "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 hover:text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  ? "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 hover:text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted",
               )}
             >
               {category.label}

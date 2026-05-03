@@ -11,7 +11,11 @@ export type RekrutmenCardProps = {
   href?: string;
 };
 
-export default function RekrutmenCard({ item, status, href }: RekrutmenCardProps) {
+export default function RekrutmenCard({
+  item,
+  status,
+  href,
+}: RekrutmenCardProps) {
   const formatRupiah = (angka: number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -35,8 +39,11 @@ export default function RekrutmenCard({ item, status, href }: RekrutmenCardProps
   };
 
   return (
-    <Link href={href ?? `/feed/${item.rekrutmen_id}`} className="block h-full cursor-pointer">
-      <div className="group rounded-xl border border-border bg-card p-5 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300 flex flex-col h-full">
+    <Link
+      href={href ?? `/feed/${item.rekrutmen_id}`}
+      className="block h-full cursor-pointer"
+    >
+      <div className="group rounded-md border border-border bg-card p-5 shadow-xs hover:shadow-sm hover:border-primary/30 transition-all duration-300 flex flex-col h-full">
         <div className="flex items-start justify-between mb-3 gap-2">
           <span className="shrink-0 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
             {item.kegiatan}
@@ -45,9 +52,12 @@ export default function RekrutmenCard({ item, status, href }: RekrutmenCardProps
             <span
               className={cn(
                 "shrink-0 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border",
-                status === "pending" && "bg-yellow-100 text-yellow-700 border-yellow-200",
-                status === "approved" && "bg-green-100 text-green-700 border-green-200",
-                status === "rejected" && "bg-red-100 text-red-700 border-red-200"
+                status === "pending" &&
+                  "bg-yellow-100 text-yellow-700 border-yellow-200",
+                status === "approved" &&
+                  "bg-green-100 text-green-700 border-green-200",
+                status === "rejected" &&
+                  "bg-red-100 text-red-700 border-red-200",
               )}
             >
               {status}
@@ -68,11 +78,16 @@ export default function RekrutmenCard({ item, status, href }: RekrutmenCardProps
           </div>
           <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4 shrink-0 text-muted-foreground" />
-            <p>{formatDate(item.tanggal_mulai)} – {formatDate(item.tanggal_selesai)}</p>
+            <p>
+              {formatDate(item.tanggal_mulai)} –{" "}
+              {formatDate(item.tanggal_selesai)}
+            </p>
           </div>
           <div className="flex items-center gap-2">
             <HandCoins className="w-4 h-4 shrink-0 text-muted-foreground" />
-            <p className="font-semibold text-foreground">{formatRupiah(item.fee)}</p>
+            <p className="font-semibold text-foreground">
+              {formatRupiah(item.fee)}
+            </p>
           </div>
         </div>
 

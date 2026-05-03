@@ -56,29 +56,29 @@ function extractToken(payload: AuthPayload): string | undefined {
 }
 
 function extractUser(payload: AuthPayload): AuthUser | undefined {
-  if (payload.user) return payload.user;
+  let rawUser: Record<string, unknown> | undefined;
 
-  if ("personal_info" in payload) {
-    return payload.personal_info as AuthUser;
+  if (payload.user) {
+    rawUser = payload.user as Record<string, unknown>;
+  } else if ("personal_info" in payload) {
+    rawUser = payload.personal_info as Record<string, unknown>;
+  } else if (payload.data && typeof payload.data === "object") {
+    return extractUser(payload.data as AuthPayload);
   }
 
-  if (payload.data) {
-    if (typeof payload.data === "object") {
-      if ("user" in payload.data) {
-        return extractUser(payload.data as AuthPayload);
-      }
+  if (!rawUser) return undefined;
 
-      if ("personal_info" in payload.data) {
-        return (payload.data as { personal_info: AuthUser }).personal_info;
-      }
-    }
-
-    return payload.data as AuthUser;
-  }
-
-  return undefined;
+  return {
+    user_id: rawUser.user_id as string,
+    nama: rawUser.nama as string,
+    jurusan: (rawUser.jurusan || rawUser.Jurusan) as string | undefined,
+    no_pengenal: rawUser.no_pengenal as string,
+    no_telp: rawUser.no_telp as string,
+    role: rawUser.role as UserRole,
+    profile_picture: (rawUser.profile_picture as string) || null,
+    spesialisasi: (rawUser.spesialisasi as string[]) || [],
+  };
 }
-
 async function fetchMe(): Promise<AuthUser> {
   const response = await api.get<AuthPayload>("/auth/me");
   const user = extractUser(response.data);

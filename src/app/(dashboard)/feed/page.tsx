@@ -74,7 +74,7 @@ export default function FeedPage() {
           {/* Stat cards */}
           <div className="flex items-center gap-3 shrink-0">
             {/* Active Recruitments */}
-            <div className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 shadow-sm">
+            <div className="flex items-center gap-3 rounded-md border border-border bg-card px-4 py-3 shadow-xs">
               <div className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10">
                 <Users className="h-5 w-5 text-primary" />
               </div>
@@ -89,7 +89,7 @@ export default function FeedPage() {
             </div>
 
             {/* Pending Applications */}
-            <div className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 shadow-sm">
+            <div className="flex items-center gap-3 rounded-md border border-border bg-card px-4 py-3 shadow-xs">
               <div className="flex items-center justify-center h-10 w-10 rounded-full bg-secondary">
                 <ClipboardList className="h-5 w-5 text-secondary-foreground" />
               </div>
@@ -123,7 +123,7 @@ export default function FeedPage() {
             )}
 
             {/* CTA Card */}
-            <div className="relative rounded-xl bg-primary p-5 text-primary-foreground overflow-hidden shadow-lg">
+            <div className="relative rounded-md bg-primary p-5 text-primary-foreground overflow-hidden shadow-lg">
               {/* Decorative circles */}
               <div className="absolute -bottom-6 -right-6 h-24 w-24 rounded-full bg-primary-foreground/10 pointer-events-none" />
               <div className="absolute -top-4 -right-4 h-16 w-16 rounded-full bg-primary-foreground/5 pointer-events-none" />
@@ -136,7 +136,7 @@ export default function FeedPage() {
               </p>
               <Link
                 href="/buat-postingan"
-                className="w-full block text-center rounded-lg bg-primary-foreground text-primary px-4 py-2 text-sm font-semibold hover:bg-primary-foreground/90 transition-colors cursor-pointer shadow-sm"
+                className="w-full block text-center rounded-md bg-primary-foreground text-primary px-4 py-2 text-sm font-semibold hover:bg-primary-foreground/90 transition-colors cursor-pointer shadow-xs"
               >
                 Mulai Rekrutmen
               </Link>
@@ -192,7 +192,7 @@ export default function FeedPage() {
                 )}
 
                 {/* CTA Card mobile */}
-                <div className="relative rounded-xl bg-primary p-5 text-primary-foreground overflow-hidden">
+                <div className="relative rounded-md bg-primary p-5 text-primary-foreground overflow-hidden">
                   <div className="absolute -bottom-6 -right-6 h-24 w-24 rounded-full bg-primary-foreground/10 pointer-events-none" />
                   <Sparkles className="h-5 w-5 mb-3 text-primary-foreground/70" />
                   <h3 className="text-base font-bold mb-2">Butuh Mitra?</h3>
@@ -202,7 +202,7 @@ export default function FeedPage() {
                   </p>
                   <Link
                     href="/tim-saya"
-                    className="w-full block text-center rounded-lg bg-primary-foreground text-primary px-4 py-2 text-sm font-semibold hover:bg-primary-foreground/90 transition-colors cursor-pointer"
+                    className="w-full block text-center rounded-md bg-primary-foreground text-primary px-4 py-2 text-sm font-semibold hover:bg-primary-foreground/90 transition-colors cursor-pointer"
                   >
                     Mulai Rekrutmen
                   </Link>
@@ -216,14 +216,14 @@ export default function FeedPage() {
             {/* Search bar + Tab switcher */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
               {/* Tabs */}
-              <div className="flex items-center rounded-xl border border-border bg-card p-1 shrink-0 shadow-sm">
+              <div className="flex items-center rounded-md border border-border bg-card p-1 shrink-0 shadow-xs">
                 <Button
                   variant="ghost"
                   onClick={() => setActiveTab("all")}
                   className={cn(
-                    "px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer h-auto",
+                    "px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer h-auto",
                     activeTab === "all"
-                      ? "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 hover:text-primary-foreground"
+                      ? "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 hover:text-primary-foreground"
                       : "text-muted-foreground hover:text-foreground hover:bg-transparent",
                   )}
                 >
@@ -233,9 +233,9 @@ export default function FeedPage() {
                   variant="ghost"
                   onClick={() => setActiveTab("my")}
                   className={cn(
-                    "px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer h-auto",
+                    "px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer h-auto",
                     activeTab === "my"
-                      ? "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 hover:text-primary-foreground"
+                      ? "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 hover:text-primary-foreground"
                       : "text-muted-foreground hover:text-foreground hover:bg-transparent",
                   )}
                 >
@@ -257,7 +257,7 @@ export default function FeedPage() {
 
                   {isError && (
                     <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground">
-                      <div className="bg-destructive/10 text-destructive p-4 rounded-xl border border-destructive/20 text-center">
+                      <div className="bg-destructive/10 text-destructive p-4 rounded-md border border-destructive/20 text-center">
                         <p className="font-semibold mb-1">Gagal memuat data</p>
                         <p className="text-sm">
                           {error instanceof Error
@@ -279,7 +279,7 @@ export default function FeedPage() {
                     !isError &&
                     data?.data &&
                     data.data.length === 0 && (
-                      <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground bg-card rounded-xl border border-border">
+                      <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground bg-card rounded-md border border-border">
                         <ClipboardList className="w-12 h-12 mb-4 text-muted-foreground/50" />
                         <p className="font-medium text-foreground">
                           Tidak ada rekrutmen
@@ -346,7 +346,7 @@ export default function FeedPage() {
 
                   {isAppliedError && (
                     <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground">
-                      <div className="bg-destructive/10 text-destructive p-4 rounded-xl border border-destructive/20 text-center">
+                      <div className="bg-destructive/10 text-destructive p-4 rounded-md border border-destructive/20 text-center">
                         <p className="font-semibold mb-1">Gagal memuat data</p>
                         <p className="text-sm">
                           {appliedError instanceof Error
@@ -367,7 +367,7 @@ export default function FeedPage() {
                   {!isAppliedLoading &&
                     !isAppliedError &&
                     (!appliedData || appliedData.length === 0) && (
-                      <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground bg-card rounded-xl border border-border">
+                      <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground bg-card rounded-md border border-border">
                         <ClipboardList className="w-12 h-12 mb-4 text-muted-foreground/50" />
                         <p className="font-medium text-foreground">
                           Tidak ada aplikasi

@@ -32,14 +32,14 @@ export default function TimSayaListPage() {
         {!isPending &&
           !isError &&
           (!rekrutmenList || rekrutmenList.length === 0) && (
-            <div className="text-center py-20 bg-card rounded-xl border border-border shadow-sm">
+            <div className="text-center py-20 bg-card rounded-md border border-border shadow-xs">
               <h3 className="text-lg font-medium text-primary mb-2">
                 Kamu belum membuat rekrutmen apapun
               </h3>
               <p className="text-muted-foreground mb-6">
                 Mulai bangun tim kamu dengan membuat postingan rekrutmen baru.
               </p>
-              <Link href="/buat-postingan">
+              <Link href="/buat-postingan" data-theme="light">
                 <Button>Buat Rekrutmen</Button>
               </Link>
             </div>

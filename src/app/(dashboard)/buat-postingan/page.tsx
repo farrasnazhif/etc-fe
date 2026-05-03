@@ -12,6 +12,8 @@ import api from "@/lib/api";
 
 import { Lightbulb, Eye } from "lucide-react";
 import RekrutmenCard from "@/components/ui/rekrutmen-card";
+import Select from "@/components/ui/select";
+import TextArea from "@/components/ui/text-area";
 
 function BuatPostinganContent() {
   const router = useRouter();
@@ -93,7 +95,7 @@ function BuatPostinganContent() {
         <div className="flex min-h-screen items-center justify-center bg-white">
           <div className="flex flex-col items-center gap-4 text-center">
             <span className="loading loading-spinner loading-lg text-primary"></span>
-            <p className="text-sm font-medium text-base-content/60 italic">
+            <p className="text-sm font-medium text-black/60 italic">
               Memverifikasi sesi...
             </p>
           </div>
@@ -150,139 +152,175 @@ function BuatPostinganContent() {
 
   return (
     <DashboardLayout withNavbar>
-      <main
-        data-theme="light"
-        className="min-h-screen bg-base-200/30 px-2 py-2 md:px-4 text-base-content font-sans"
-      >
+      <main className="min-h-screen  px-2 py-2 md:px-4 text-black">
         <div className="mx-auto max-w-[1200px]">
           {/* <div className="flex items-center gap-2 text-sm font-medium mb-6">
             <Link
               href="/feed"
-              className="text-base-content/50 hover:text-primary transition-colors"
+              className="text-black/50 hover:text-primary transition-colors"
             >
               Feed Rekrutmen
             </Link>
-            <ChevronRight size={14} className="text-base-content/30" />
+            <ChevronRight size={14} className="text-black/30" />
             <span className="text-primary font-bold">Buat Postingan Baru</span>
           </div> */}
 
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-base-content mb-2">
+            <h1 className="text-2xl font-bold text-black mb-2">
               Buat Rekrutmen
             </h1>
-            <p className="text-base-content/60 text-sm">
+            <p className="text-black/60 text-sm">
               Tentukan detail rekrutmen Anda berdasarkan kriteria, peran, dan
               durasi yang dibutuhkan.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-            <div className="lg:col-span-2 rounded-2xl border border-base-300 bg-base-100 p-8 shadow-sm">
-              <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-sm font-bold text-base-content/70 ml-1">
-                      Jenis Kegiatan
-                    </label>
-                    <select
-                      name="kegiatan"
-                      value={formData.kegiatan}
-                      onChange={handleChange}
-                      required
-                      className="w-full rounded-xl border border-base-300 bg-base-100 p-3 text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all cursor-pointer"
-                    >
-                      <option value="riset">Riset</option>
-                      <option value="projek">Proyek IT</option>
-                      <option value="lomba">Lomba/Kompetisi</option>
-                    </select>
+            <section className="lg:col-span-2">
+              <div className="rounded-md border border-slate-200 bg-white p-6 md:p-8 shadow-xs">
+                <form
+                  data-theme="light"
+                  onSubmit={handleSubmit}
+                  className="space-y-8 w-full"
+                >
+                  {/* jenis kegiatan + kontak person */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full items-start">
+                    <div className="w-full min-w-0">
+                      <Select
+                        label="Jenis Kegiatan"
+                        value={formData.kegiatan}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            kegiatan: e.target.value,
+                          }))
+                        }
+                        required
+                        className="w-full"
+                        options={[
+                          {
+                            label: "Riset",
+                            value: "riset",
+                          },
+                          {
+                            label: "Proyek IT",
+                            value: "projek",
+                          },
+                          {
+                            label: "Lomba/Kompetisi",
+                            value: "lomba",
+                          },
+                        ]}
+                      />
+                    </div>
+
+                    <div className="w-full min-w-0">
+                      <Input
+                        label="Kontak Person"
+                        name="contact_person"
+                        value={formData.contact_person}
+                        onChange={handleChange}
+                        placeholder="Contoh: 08123456789 atau email@its.ac.id"
+                        required
+                        className="w-full"
+                      />
+                    </div>
                   </div>
 
-                  <Input
-                    label="Kontak Person"
-                    name="contact_person"
-                    value={formData.contact_person}
-                    onChange={handleChange}
-                    placeholder="Contoh: 08123456789 atau email@its.ac.id"
-                    required
-                  />
-                </div>
+                  {/* kriteria */}
+                  <div className="w-full">
+                    <TextArea
+                      label="Kriteria & Deskripsi"
+                      name="kriteria"
+                      value={formData.kriteria}
+                      onChange={handleChange}
+                      rows={5}
+                      placeholder="Jelaskan spesifikasi, metodologi, dan persyaratan yang dibutuhkan..."
+                      required
+                      className="w-full"
+                    />
+                  </div>
 
-                <div className="mb-6 flex flex-col gap-2">
-                  <label className="text-sm font-bold text-base-content/70 ml-1">
-                    Kriteria & Deskripsi
-                  </label>
-                  <textarea
-                    name="kriteria"
-                    value={formData.kriteria}
-                    onChange={handleChange}
-                    rows={5}
-                    className="w-full rounded-xl border border-base-300 bg-base-100 p-4 text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-base-content/40"
-                    placeholder="Jelaskan spesifikasi, metodologi, dan persyaratan yang dibutuhkan..."
-                    required
-                  ></textarea>
-                </div>
+                  {/* tanggal */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full items-start">
+                    <div className="w-full min-w-0">
+                      <Input
+                        type="date"
+                        label="Tanggal Mulai"
+                        name="tanggal_mulai"
+                        value={formData.tanggal_mulai}
+                        onChange={handleChange}
+                        required
+                        className="w-full"
+                      />
+                    </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                  <Input
-                    type="date"
-                    label="Tanggal Mulai"
-                    name="tanggal_mulai"
-                    value={formData.tanggal_mulai}
-                    onChange={handleChange}
-                    required
-                  />
-                  <Input
-                    type="date"
-                    label="Tanggal Selesai"
-                    name="tanggal_selesai"
-                    value={formData.tanggal_selesai}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
+                    <div className="w-full min-w-0">
+                      <Input
+                        type="date"
+                        label="Tanggal Selesai"
+                        name="tanggal_selesai"
+                        value={formData.tanggal_selesai}
+                        onChange={handleChange}
+                        required
+                        className="w-full"
+                      />
+                    </div>
+                  </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-                  <Input
-                    label="Peran yang Dibutuhkan"
-                    name="role"
-                    value={formData.role}
-                    onChange={handleChange}
-                    placeholder="Contoh: UI/UX, Data Analyst"
-                    required
-                  />
-                  <Input
-                    type="number"
-                    label="Honorarium / Fee (Rp)"
-                    name="fee"
-                    value={formData.fee}
-                    onChange={handleChange}
-                    placeholder="Contoh: 500000 (Kosongi jika tidak ada)"
-                  />
-                </div>
+                  {/* role + fee */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full items-start">
+                    <div className="w-full min-w-0">
+                      <Input
+                        label="Peran yang Dibutuhkan"
+                        name="role"
+                        value={formData.role}
+                        onChange={handleChange}
+                        placeholder="Contoh: UI/UX, Data Analyst"
+                        required
+                        className="w-full"
+                      />
+                    </div>
 
-                <div className="flex items-center justify-end gap-3 pt-6 border-t border-base-200">
-                  <Button
-                    variant="ghost"
-                    type="button"
-                    className="font-bold"
-                    onClick={() => router.back()}
-                  >
-                    Batal
-                  </Button>
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    className="font-bold px-6"
-                    isLoading={isSubmitting}
-                  >
-                    Publikasikan Postingan
-                  </Button>
-                </div>
-              </form>
-            </div>
+                    <div className="w-full min-w-0">
+                      <Input
+                        type="number"
+                        label="Honorarium / Fee (Rp)"
+                        name="fee"
+                        value={formData.fee}
+                        onChange={handleChange}
+                        placeholder="Contoh: 500000 (Kosongi jika tidak ada)"
+                        className="w-full"
+                      />
+                    </div>
+                  </div>
+
+                  {/* actions */}
+                  <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-3 pt-6 border-t border-slate-200">
+                    <Button
+                      variant="ghost"
+                      type="button"
+                      className="w-full sm:w-auto font-bold"
+                      onClick={() => router.back()}
+                    >
+                      Batal
+                    </Button>
+
+                    <Button
+                      variant="primary"
+                      type="submit"
+                      className="w-full sm:w-auto font-bold px-6"
+                      isLoading={isSubmitting}
+                    >
+                      Publikasikan Postingan
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            </section>
 
             <div className="lg:col-span-1 space-y-6">
-              <div className="bg-indigo-600 rounded-2xl p-6 text-white shadow-md">
+              <div className="bg-indigo-600 rounded-md p-6 text-white shadow-md">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="bg-white/20 p-2 rounded-xl backdrop-blur-sm">
                     <Lightbulb size={20} className="text-white" />
@@ -318,11 +356,11 @@ function BuatPostinganContent() {
                 </div>
               </div>
 
-              <div className="bg-base-100 border border-base-300 rounded-2xl p-6 shadow-sm">
+              <div className="bg-slate-50 border border-slate-200 rounded-md p-6 shadow-xs">
                 <div className="flex items-center gap-2 mb-6">
-                  <Eye size={18} className="text-base-content/50" />
+                  <Eye size={18} className="text-black/50" />
 
-                  <h3 className="font-bold text-sm text-base-content/70">
+                  <h3 className="font-bold text-sm text-black/70">
                     Pratinjau Langsung
                   </h3>
                 </div>
@@ -331,16 +369,16 @@ function BuatPostinganContent() {
                   <RekrutmenCard item={previewData} href="#" />
                 </div>
 
-                <p className="text-center text-xs text-base-content/40 italic mt-3 font-medium">
+                <p className="text-center text-xs text-black/40 italic mt-3 font-medium">
                   Postingan Anda akan terlihat seperti ini di feed rekrutmen.
                 </p>
               </div>
 
               <div className="bg-blue-300/20 border-l-4 border-indigo-600 p-6">
-                <h3 className="font-bold text-sm mb-2 text-base-content">
+                <h3 className="font-bold text-sm mb-2 text-black">
                   Ketentuan Institusi
                 </h3>
-                <p className="text-xs text-base-content/60 leading-relaxed font-medium">
+                <p className="text-xs text-black/60 leading-relaxed font-medium">
                   Dengan mempublikasikan, Anda menyetujui{" "}
                   <a
                     href="#"

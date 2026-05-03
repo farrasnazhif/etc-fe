@@ -3,7 +3,7 @@
 import { Users, MoreVertical, ShieldCheck, Trash2 } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarImage, AvatarFallback, AvatarBadge } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -14,11 +14,13 @@ import {
 import { cn } from "@/lib/utils";
 import type { TimMember } from "@/hooks/useTimMembers";
 import { Skeleton } from "@/components/ui/skeleton";
+import Button from "@/components/ui/button";
 
 interface ActiveMembersCardProps {
   members: TimMember[];
   isLoading?: boolean;
 }
+
 
 export default function ActiveMembersCard({ members, isLoading }: ActiveMembersCardProps) {
   return (
@@ -28,9 +30,9 @@ export default function ActiveMembersCard({ members, isLoading }: ActiveMembersC
           <Users className="size-5 text-primary" />
           <CardTitle className="text-base font-semibold">Anggota Aktif</CardTitle>
         </div>
-        <button className="text-sm font-medium text-primary hover:underline transition-colors cursor-pointer">
+        <Button variant="ghost" className="text-sm font-medium text-primary hover:underline transition-colors h-auto p-0 hover:bg-transparent">
           Kelola Peran
-        </button>
+        </Button>
       </CardHeader>
       <CardContent className="space-y-0 p-0">
         {isLoading ? (

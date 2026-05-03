@@ -3,6 +3,7 @@
 import { SlidersHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { type KegiatanType } from "@/hooks/useRekrutmen";
+import Button from "@/components/ui/button";
 
 type CategoryFilterProps = {
   activeKegiatan: KegiatanType | undefined;
@@ -34,18 +35,19 @@ export default function CategoryFilter({
         {categories.map((category) => {
           const isActive = activeKegiatan === category.id;
           return (
-            <button
+            <Button
               key={category.id}
+              variant="ghost"
               onClick={() => onKegiatanChange(isActive ? undefined : category.id)}
               className={cn(
-                "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-left",
+                "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer text-left h-auto justify-start",
                 isActive
-                  ? "bg-primary text-primary-foreground shadow-sm"
+                  ? "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 hover:text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
               )}
             >
               {category.label}
-            </button>
+            </Button>
           );
         })}
       </div>

@@ -1,15 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Search, Users, ClipboardList, Sparkles, Calendar, HandCoins, User, FileText, Loader2 } from "lucide-react";
+import { Search, Users, ClipboardList, Sparkles, Loader2 } from "lucide-react";
 import DashboardLayout from "@/layouts/dashboard/dashboard-layout";
-import Input from "@/components/ui/input";
 import Button from "@/components/ui/button";
 import TypewriterSubtitle from "@/features/feed/typewriter-subtitle";
 import CategoryFilter from "@/features/feed/category-filter";
 import RoleSearch from "@/features/feed/role-search";
 import RekrutmenCard from "@/components/ui/rekrutmen-card";
-import { useRekrutmen, Rekrutmen, KegiatanType } from "@/hooks/useRekrutmen";
+import { useRekrutmen, KegiatanType } from "@/hooks/useRekrutmen";
 import { useAppliedRekrutmen } from "@/hooks/useAppliedRekrutmen";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -153,12 +152,13 @@ export default function FeedPage() {
               <div className="relative z-50 w-[280px] bg-muted p-4 space-y-4 overflow-y-auto animate-in slide-in-from-left">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-semibold text-foreground">Filter</h3>
-                  <button
+                  <Button
+                    variant="ghost"
                     onClick={() => setSidebarOpen(false)}
-                    className="text-muted-foreground hover:text-foreground cursor-pointer"
+                    className="text-muted-foreground hover:text-foreground cursor-pointer p-0 h-auto hover:bg-transparent"
                   >
                     ✕
-                  </button>
+                  </Button>
                 </div>
                 {activeTab === "all" ? (
                   <>
@@ -201,28 +201,30 @@ export default function FeedPage() {
 
               {/* Tabs */}
               <div className="flex items-center rounded-xl border border-border bg-card p-1 shrink-0 shadow-sm">
-                <button
+                <Button
+                  variant="ghost"
                   onClick={() => setActiveTab("all")}
                   className={cn(
-                    "px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer",
+                    "px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer h-auto",
                     activeTab === "all"
-                      ? "bg-primary text-primary-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground",
+                      ? "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 hover:text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground hover:bg-transparent",
                   )}
                 >
                   Semua Rekrutan
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="ghost"
                   onClick={() => setActiveTab("my")}
                   className={cn(
-                    "px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer",
+                    "px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer h-auto",
                     activeTab === "my"
-                      ? "bg-primary text-primary-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground",
+                      ? "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 hover:text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground hover:bg-transparent",
                   )}
                 >
                   Aplikasi Saya
-                </button>
+                </Button>
               </div>
             </div>
 

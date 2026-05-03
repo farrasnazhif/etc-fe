@@ -1,11 +1,10 @@
 "use client";
 
-import { UserPlus, ExternalLink, Loader2 } from "lucide-react";
+import { UserPlus, ExternalLink } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Button from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import type { Pendaftar } from "@/hooks/useApplicants";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -126,30 +125,24 @@ export default function ApplicantsCard({
                 {/* Action Buttons */}
                 <div className="flex gap-2 shrink-0 self-center mt-2 sm:mt-0">
                   <Button
-                    variant="outline"
+                    variant="error"
                     size="sm"
-                    className="border-destructive text-destructive hover:bg-destructive/10 w-20 justify-center"
+                    className="w-20 justify-center"
                     disabled={isRejecting && activePendaftarId === applicant.pendaftar_id}
+                    isLoading={isRejecting && activePendaftarId === applicant.pendaftar_id}
                     onClick={() => onReject(applicant.pendaftar_id)}
                   >
-                    {isRejecting && activePendaftarId === applicant.pendaftar_id ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                      "Tolak"
-                    )}
+                    Tolak
                   </Button>
                   <Button
-                    variant="primary"
+                    variant="success"
                     size="sm"
-                    className="bg-primary text-primary-foreground hover:bg-primary/90 w-20 justify-center"
+                    className="w-20 justify-center"
                     disabled={isAccepting && activePendaftarId === applicant.pendaftar_id}
+                    isLoading={isAccepting && activePendaftarId === applicant.pendaftar_id}
                     onClick={() => onAccept(applicant.pendaftar_id)}
                   >
-                    {isAccepting && activePendaftarId === applicant.pendaftar_id ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                      "Terima"
-                    )}
+                    Terima
                   </Button>
                 </div>
               </CardContent>

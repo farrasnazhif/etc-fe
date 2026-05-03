@@ -5,17 +5,17 @@ import ActiveMembersCard from "@/features/tim-saya/active-members-card";
 import ApplicantsCard from "@/features/tim-saya/applicants-card";
 import { useParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
-import {
-  projectItems,
-  onlineUsers,
-  additionalOnlineCount,
-  teamStats,
-} from "@/_mock/team-data";
+
 
 import { useRekrutmenDetail } from "@/hooks/useRekrutmenDetail";
 import { useApplicants } from "@/hooks/useApplicants";
 import { useAcceptRejectApplicant } from "@/hooks/useAcceptRejectApplicant";
 import { useTimMembers } from "@/hooks/useTimMembers";
+import { useState } from "react";
+import Button from "@/components/ui/button";
+import EditRekrutmenModal from "@/features/tim-saya/edit-rekrutmen-modal";
+import { useUpdateDeleteRekrutmen } from "@/hooks/useUpdateDeleteRekrutmen";
+import { useToast } from "@/components/ui/toaster";
 
 export default function TimSayaPage() {
   const params = useParams();
@@ -27,6 +27,10 @@ export default function TimSayaPage() {
 
   const timId = rekrutmenDetail?.tim_id;
   const { data: timMembers, isPending: isTimMembersLoading } = useTimMembers(timId);
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const { deletee, isDeleting } = useUpdateDeleteRekrutmen(rekrutmenId);
+  const { addToast } = useToast();
 
   if (isDetailLoading) {
     return (
@@ -58,6 +62,31 @@ export default function TimSayaPage() {
               Manajemen Tim
             </h1>
           </div>
+          
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setIsEditModalOpen(true)}
+              disabled={isDeleting}
+            >
+              Edit
+            </Button>
+            <Button
+              variant="error"
+              onClick={() => {
+                if (window.confirm("Yakin ingin menghapus rekrutmen ini?")) {
+                  deletee(undefined, {
+                    onSuccess: () => addToast("Rekrutmen berhasil dihapus", "success"),
+                    onError: () => addToast("Gagal menghapus rekrutmen", "error"),
+                  });
+                }
+              }}
+              disabled={isDeleting}
+              isLoading={isDeleting}
+            >
+              Hapus
+            </Button>
+          </div>
         </div>
 
         {/* Two-column layout */}
@@ -78,9 +107,25 @@ export default function TimSayaPage() {
               activePendaftarId={activePendaftarId}
             />
           </div>
-
         </div>
       </div>
+
+      {rekrutmenDetail && (
+        <EditRekrutmenModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          rekrutmenId={rekrutmenId}
+          defaultValues={{
+            kegiatan: rekrutmenDetail.kegiatan as "projek" | "lomba" | "riset",
+            role: rekrutmenDetail.role,
+            Kriteria: rekrutmenDetail.Kriteria,
+            fee: rekrutmenDetail.fee,
+            tanggal_mulai: rekrutmenDetail.tanggal_mulai,
+            tanggal_selesai: rekrutmenDetail.tanggal_selesai,
+            contact_person: rekrutmenDetail.contact_person,
+          }}
+        />
+      )}
     </DashboardLayout>
   );
 }

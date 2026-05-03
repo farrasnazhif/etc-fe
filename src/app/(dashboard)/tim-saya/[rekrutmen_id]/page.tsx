@@ -6,7 +6,6 @@ import ApplicantsCard from "@/features/tim-saya/applicants-card";
 import { useParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
-
 import { useRekrutmenDetail } from "@/hooks/useRekrutmenDetail";
 import { useApplicants } from "@/hooks/useApplicants";
 import { useAcceptRejectApplicant } from "@/hooks/useAcceptRejectApplicant";
@@ -17,17 +16,22 @@ import EditRekrutmenModal from "@/features/tim-saya/edit-rekrutmen-modal";
 import { useUpdateDeleteRekrutmen } from "@/hooks/useUpdateDeleteRekrutmen";
 import { useToast } from "@/components/ui/toaster";
 import ConfirmDialog from "@/components/ui/confirm-dialog";
+import Breadcrumbs from "@/components/ui/breadcrumbs";
 
 export default function TimSayaPage() {
   const params = useParams();
   const rekrutmenId = params.rekrutmen_id as string;
 
-  const { data: rekrutmenDetail, isPending: isDetailLoading } = useRekrutmenDetail(rekrutmenId);
-  const { data: applicantsData, isPending: isApplicantsLoading } = useApplicants(rekrutmenId);
-  const { accept, reject, isAccepting, isRejecting, activePendaftarId } = useAcceptRejectApplicant(rekrutmenId, rekrutmenDetail?.tim_id);
+  const { data: rekrutmenDetail, isPending: isDetailLoading } =
+    useRekrutmenDetail(rekrutmenId);
+  const { data: applicantsData, isPending: isApplicantsLoading } =
+    useApplicants(rekrutmenId);
+  const { accept, reject, isAccepting, isRejecting, activePendaftarId } =
+    useAcceptRejectApplicant(rekrutmenId, rekrutmenDetail?.tim_id);
 
   const timId = rekrutmenDetail?.tim_id;
-  const { data: timMembers, isPending: isTimMembersLoading } = useTimMembers(timId);
+  const { data: timMembers, isPending: isTimMembersLoading } =
+    useTimMembers(timId);
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -46,25 +50,31 @@ export default function TimSayaPage() {
 
   return (
     <DashboardLayout withNavbar withSidebar>
-      <div className="max-w-7xl mx-auto space-y-6">
+      <div className="max-w-7xl mx-auto space-y-6 px-2 py-2 md:px-4">
+        <Breadcrumbs
+          customLabels={{
+            feed: "Feed",
+            [rekrutmenId]: `${rekrutmenId.slice(0, 8)}`,
+          }}
+        />
         {/* Header Section */}
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div className="space-y-1">
             {/* Breadcrumb */}
-            <nav className="flex items-center gap-1.5 text-sm">
+            {/* <nav className="flex items-center gap-1.5 text-sm">
               <span className="text-muted-foreground">Tim Saya</span>
               <span className="text-muted-foreground">/</span>
               <span className="font-semibold text-primary">
                 {rekrutmenDetail?.role ?? "Loading..."}
               </span>
-            </nav>
+            </nav> */}
 
             {/* Title */}
             <h1 className="text-2xl font-bold text-foreground tracking-tight">
               Manajemen Tim
             </h1>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
@@ -73,10 +83,7 @@ export default function TimSayaPage() {
             >
               Edit
             </Button>
-            <Button
-              variant="error"
-              onClick={() => setIsDeleteDialogOpen(true)}
-            >
+            <Button variant="error" onClick={() => setIsDeleteDialogOpen(true)}>
               Hapus
             </Button>
           </div>

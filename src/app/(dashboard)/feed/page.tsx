@@ -15,13 +15,14 @@ import Link from "next/link";
 
 type Tab = "all" | "my";
 
-
 export default function FeedPage() {
   const [activeTab, setActiveTab] = useState<Tab>("all");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 10;
-  const [activeKegiatan, setActiveKegiatan] = useState<KegiatanType | undefined>(undefined);
+  const [activeKegiatan, setActiveKegiatan] = useState<
+    KegiatanType | undefined
+  >(undefined);
   const [roleSearch, setRoleSearch] = useState("");
   const [debouncedRoleSearch, setDebouncedRoleSearch] = useState("");
 
@@ -44,12 +45,22 @@ export default function FeedPage() {
     setPage(1);
   };
 
-  const { data, isLoading, isError, error } = useRekrutmen(page, limit, activeKegiatan, debouncedRoleSearch || undefined);
-  const { data: appliedData, isLoading: isAppliedLoading, isError: isAppliedError, error: appliedError } = useAppliedRekrutmen();
+  const { data, isLoading, isError, error } = useRekrutmen(
+    page,
+    limit,
+    activeKegiatan,
+    debouncedRoleSearch || undefined,
+  );
+  const {
+    data: appliedData,
+    isLoading: isAppliedLoading,
+    isError: isAppliedError,
+    error: appliedError,
+  } = useAppliedRekrutmen();
 
   return (
     <DashboardLayout withNavbar withSidebar>
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-2 py-2 md:px-4">
         {/* ===== HEADER SECTION ===== */}
         <header className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-8">
           {/* Title & subtitle */}
@@ -86,9 +97,7 @@ export default function FeedPage() {
                 <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                   Aplikasi Tertunda
                 </p>
-                <p className="text-xl font-bold text-foreground">
-                  0
-                </p>
+                <p className="text-xl font-bold text-foreground">0</p>
               </div>
             </div>
           </div>
@@ -125,7 +134,10 @@ export default function FeedPage() {
                 Mulai rekrutmen Anda sendiri dan temukan kolaborator sempurna
                 untuk proyek riset berikutnya.
               </p>
-              <Link href="/buat-postingan" className="w-full block text-center rounded-lg bg-primary-foreground text-primary px-4 py-2 text-sm font-semibold hover:bg-primary-foreground/90 transition-colors cursor-pointer shadow-sm">
+              <Link
+                href="/buat-postingan"
+                className="w-full block text-center rounded-lg bg-primary-foreground text-primary px-4 py-2 text-sm font-semibold hover:bg-primary-foreground/90 transition-colors cursor-pointer shadow-sm"
+              >
                 Mulai Rekrutmen
               </Link>
             </div>
@@ -174,7 +186,9 @@ export default function FeedPage() {
                     />
                   </>
                 ) : (
-                  <p className="text-sm text-muted-foreground italic mb-4">Filter tidak tersedia untuk tab ini.</p>
+                  <p className="text-sm text-muted-foreground italic mb-4">
+                    Filter tidak tersedia untuk tab ini.
+                  </p>
                 )}
 
                 {/* CTA Card mobile */}
@@ -186,7 +200,10 @@ export default function FeedPage() {
                     Mulai rekrutmen Anda sendiri dan temukan kolaborator
                     sempurna untuk proyek riset berikutnya.
                   </p>
-                  <Link href="/tim-saya" className="w-full block text-center rounded-lg bg-primary-foreground text-primary px-4 py-2 text-sm font-semibold hover:bg-primary-foreground/90 transition-colors cursor-pointer">
+                  <Link
+                    href="/tim-saya"
+                    className="w-full block text-center rounded-lg bg-primary-foreground text-primary px-4 py-2 text-sm font-semibold hover:bg-primary-foreground/90 transition-colors cursor-pointer"
+                  >
                     Mulai Rekrutmen
                   </Link>
                 </div>
@@ -198,7 +215,6 @@ export default function FeedPage() {
           <div className="flex-1 min-w-0">
             {/* Search bar + Tab switcher */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
-
               {/* Tabs */}
               <div className="flex items-center rounded-xl border border-border bg-card p-1 shrink-0 shadow-sm">
                 <Button
@@ -243,7 +259,11 @@ export default function FeedPage() {
                     <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground">
                       <div className="bg-destructive/10 text-destructive p-4 rounded-xl border border-destructive/20 text-center">
                         <p className="font-semibold mb-1">Gagal memuat data</p>
-                        <p className="text-sm">{error instanceof Error ? error.message : "Terjadi kesalahan yang tidak diketahui"}</p>
+                        <p className="text-sm">
+                          {error instanceof Error
+                            ? error.message
+                            : "Terjadi kesalahan yang tidak diketahui"}
+                        </p>
                         <Button
                           variant="outline"
                           className="mt-4"
@@ -255,48 +275,65 @@ export default function FeedPage() {
                     </div>
                   )}
 
-                  {!isLoading && !isError && data?.data && data.data.length === 0 && (
-                    <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground bg-card rounded-xl border border-border">
-                      <ClipboardList className="w-12 h-12 mb-4 text-muted-foreground/50" />
-                      <p className="font-medium text-foreground">Tidak ada rekrutmen</p>
-                      <p className="text-sm">Belum ada data rekrutmen yang tersedia saat ini.</p>
-                    </div>
-                  )}
-
-                  {!isLoading && !isError && data?.data && data.data.length > 0 && (
-                    <>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                        {data.data.map((recruitment) => (
-                          <RekrutmenCard key={recruitment.rekrutmen_id} item={recruitment} />
-                        ))}
+                  {!isLoading &&
+                    !isError &&
+                    data?.data &&
+                    data.data.length === 0 && (
+                      <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground bg-card rounded-xl border border-border">
+                        <ClipboardList className="w-12 h-12 mb-4 text-muted-foreground/50" />
+                        <p className="font-medium text-foreground">
+                          Tidak ada rekrutmen
+                        </p>
+                        <p className="text-sm">
+                          Belum ada data rekrutmen yang tersedia saat ini.
+                        </p>
                       </div>
+                    )}
 
-                      {/* Pagination controls */}
-                      {data.total_pages > 1 && (
-                        <div className="flex items-center justify-center gap-4 mt-8 pt-6 border-t border-border">
-                          <Button
-                            variant="outline"
-                            onClick={() => setPage((p) => Math.max(1, p - 1))}
-                            disabled={page === 1}
-                            className="cursor-pointer"
-                          >
-                            Sebelumnya
-                          </Button>
-                          <span className="text-sm font-medium text-muted-foreground">
-                            Halaman {data.page} dari {data.total_pages}
-                          </span>
-                          <Button
-                            variant="outline"
-                            onClick={() => setPage((p) => Math.min(data.total_pages, p + 1))}
-                            disabled={page === data.total_pages}
-                            className="cursor-pointer"
-                          >
-                            Selanjutnya
-                          </Button>
+                  {!isLoading &&
+                    !isError &&
+                    data?.data &&
+                    data.data.length > 0 && (
+                      <>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                          {data.data.map((recruitment) => (
+                            <RekrutmenCard
+                              key={recruitment.rekrutmen_id}
+                              item={recruitment}
+                            />
+                          ))}
                         </div>
-                      )}
-                    </>
-                  )}
+
+                        {/* Pagination controls */}
+                        {data.total_pages > 1 && (
+                          <div className="flex items-center justify-center gap-4 mt-8 pt-6 border-t border-border">
+                            <Button
+                              variant="outline"
+                              onClick={() => setPage((p) => Math.max(1, p - 1))}
+                              disabled={page === 1}
+                              className="cursor-pointer"
+                            >
+                              Sebelumnya
+                            </Button>
+                            <span className="text-sm font-medium text-muted-foreground">
+                              Halaman {data.page} dari {data.total_pages}
+                            </span>
+                            <Button
+                              variant="outline"
+                              onClick={() =>
+                                setPage((p) =>
+                                  Math.min(data.total_pages, p + 1),
+                                )
+                              }
+                              disabled={page === data.total_pages}
+                              className="cursor-pointer"
+                            >
+                              Selanjutnya
+                            </Button>
+                          </div>
+                        )}
+                      </>
+                    )}
                 </>
               ) : (
                 <>
@@ -311,7 +348,11 @@ export default function FeedPage() {
                     <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground">
                       <div className="bg-destructive/10 text-destructive p-4 rounded-xl border border-destructive/20 text-center">
                         <p className="font-semibold mb-1">Gagal memuat data</p>
-                        <p className="text-sm">{appliedError instanceof Error ? appliedError.message : "Terjadi kesalahan yang tidak diketahui"}</p>
+                        <p className="text-sm">
+                          {appliedError instanceof Error
+                            ? appliedError.message
+                            : "Terjadi kesalahan yang tidak diketahui"}
+                        </p>
                         <Button
                           variant="outline"
                           className="mt-4"
@@ -323,25 +364,34 @@ export default function FeedPage() {
                     </div>
                   )}
 
-                  {!isAppliedLoading && !isAppliedError && (!appliedData || appliedData.length === 0) && (
-                    <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground bg-card rounded-xl border border-border">
-                      <ClipboardList className="w-12 h-12 mb-4 text-muted-foreground/50" />
-                      <p className="font-medium text-foreground">Tidak ada aplikasi</p>
-                      <p className="text-sm">Kamu belum mendaftar ke rekrutmen apapun</p>
-                    </div>
-                  )}
+                  {!isAppliedLoading &&
+                    !isAppliedError &&
+                    (!appliedData || appliedData.length === 0) && (
+                      <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground bg-card rounded-xl border border-border">
+                        <ClipboardList className="w-12 h-12 mb-4 text-muted-foreground/50" />
+                        <p className="font-medium text-foreground">
+                          Tidak ada aplikasi
+                        </p>
+                        <p className="text-sm">
+                          Kamu belum mendaftar ke rekrutmen apapun
+                        </p>
+                      </div>
+                    )}
 
-                  {!isAppliedLoading && !isAppliedError && appliedData && appliedData.length > 0 && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                      {appliedData.map((applied) => (
-                        <RekrutmenCard
-                          key={applied.pendaftar_id}
-                          item={applied.rekrutmen}
-                          status={applied.status}
-                        />
-                      ))}
-                    </div>
-                  )}
+                  {!isAppliedLoading &&
+                    !isAppliedError &&
+                    appliedData &&
+                    appliedData.length > 0 && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        {appliedData.map((applied) => (
+                          <RekrutmenCard
+                            key={applied.pendaftar_id}
+                            item={applied.rekrutmen}
+                            status={applied.status}
+                          />
+                        ))}
+                      </div>
+                    )}
                 </>
               )}
             </div>

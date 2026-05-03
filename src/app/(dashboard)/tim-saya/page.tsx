@@ -12,7 +12,7 @@ export default function TimSayaListPage() {
 
   return (
     <DashboardLayout withNavbar withSidebar>
-      <div className="max-w-7xl mx-auto space-y-6">
+      <div className="max-w-7xl mx-auto space-y-6 px-2 py-2 md:px-4">
         <h1 className="text-2xl font-bold text-foreground tracking-tight">
           Tim Saya
         </h1>
@@ -29,27 +29,36 @@ export default function TimSayaListPage() {
           </div>
         )}
 
-        {!isPending && !isError && (!rekrutmenList || rekrutmenList.length === 0) && (
-          <div className="text-center py-20 bg-card rounded-xl border border-border shadow-sm">
-            <h3 className="text-lg font-medium text-primary mb-2">
-              Kamu belum membuat rekrutmen apapun
-            </h3>
-            <p className="text-muted-foreground mb-6">
-              Mulai bangun tim kamu dengan membuat postingan rekrutmen baru.
-            </p>
-            <Link href="/buat-postingan">
-              <Button>Buat Rekrutmen</Button>
-            </Link>
-          </div>
-        )}
+        {!isPending &&
+          !isError &&
+          (!rekrutmenList || rekrutmenList.length === 0) && (
+            <div className="text-center py-20 bg-card rounded-xl border border-border shadow-sm">
+              <h3 className="text-lg font-medium text-primary mb-2">
+                Kamu belum membuat rekrutmen apapun
+              </h3>
+              <p className="text-muted-foreground mb-6">
+                Mulai bangun tim kamu dengan membuat postingan rekrutmen baru.
+              </p>
+              <Link href="/buat-postingan">
+                <Button>Buat Rekrutmen</Button>
+              </Link>
+            </div>
+          )}
 
-        {!isPending && !isError && rekrutmenList && rekrutmenList.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {rekrutmenList.map((item) => (
-              <RekrutmenCard key={item.rekrutmen_id} item={item} href={`/tim-saya/${item.rekrutmen_id}`} />
-            ))}
-          </div>
-        )}
+        {!isPending &&
+          !isError &&
+          rekrutmenList &&
+          rekrutmenList.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {rekrutmenList.map((item) => (
+                <RekrutmenCard
+                  key={item.rekrutmen_id}
+                  item={item}
+                  href={`/tim-saya/${item.rekrutmen_id}`}
+                />
+              ))}
+            </div>
+          )}
       </div>
     </DashboardLayout>
   );

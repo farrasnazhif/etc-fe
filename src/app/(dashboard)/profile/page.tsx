@@ -178,7 +178,7 @@ function ProfileContent() {
                       disabled={isUploadingPhoto}
                     />
 
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-primary text-white shadow-lg transition-transform hover:scale-110">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-primary text-white shadow-lg transition-transform ">
                       {isUploadingPhoto ? (
                         <span className="loading loading-spinner loading-xs"></span>
                       ) : (

@@ -1,7 +1,8 @@
 import axios, { AxiosError } from "axios";
 import { GetServerSidePropsContext } from "next/types";
 import Cookies from "universal-cookie";
-import { getToken } from "@/lib/cookies";
+
+import { getToken, removeToken } from "@/lib/cookies";
 import { UninterceptedApiError } from "@/types/api";
 
 let context: GetServerSidePropsContext | undefined;
@@ -25,7 +26,11 @@ export const api = axios.create({
 });
 
 api.defaults.withCredentials = false;
+
 const isBrowser = typeof window !== "undefined";
+
+// prevent multiple expired-session events firing at once
+let hasDispatchedSessionExpired = false;
 
 api.interceptors.request.use((config) => {
   if (config.headers) {
@@ -39,6 +44,7 @@ api.interceptors.request.use((config) => {
       }
 
       const cookies = new Cookies(context.req?.headers.cookie);
+
       token = cookies.get("@next-starter/token");
     } else {
       token = getToken();
@@ -52,9 +58,33 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use(
   (response) => response,
+
   (error: AxiosError<UninterceptedApiError>) => {
+    const status = error.response?.status;
+
     if (error.response?.data?.message) {
       error.message = error.response.data.message;
+    }
+
+    if (status === 401 && isBrowser) {
+      removeToken();
+
+      if (!hasDispatchedSessionExpired) {
+        hasDispatchedSessionExpired = true;
+
+        window.dispatchEvent(
+          new CustomEvent("auth:expired", {
+            detail: {
+              message: "Sesi kamu telah berakhir. Silakan login kembali.",
+            },
+          }),
+        );
+
+        // reset after short delay to avoid spam
+        setTimeout(() => {
+          hasDispatchedSessionExpired = false;
+        }, 1500);
+      }
     }
 
     return Promise.reject(error);

@@ -4,6 +4,7 @@ import { QueryProvider } from "@/components/providers/query-provider";
 import "./globals.css";
 import { ToastProvider } from "@/components/ui/toaster";
 import { BASE_METADATA } from "@/contents/metadata";
+import SessionExpiredHandler from "@/components/providers/session-expired-provider";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -31,7 +32,10 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <QueryProvider>
-          <ToastProvider>{children}</ToastProvider>
+          <ToastProvider>
+            <SessionExpiredHandler />
+            {children}
+          </ToastProvider>
         </QueryProvider>
       </body>
     </html>

@@ -53,7 +53,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
               : "focus:border-blue-500",
             className,
           )}
-          defaultValue=""
+          {...(props.value === undefined && { defaultValue: "" })}
           {...props}
         >
           {/* placeholder */}

@@ -26,7 +26,7 @@ export default function Input({
   ...props
 }: InputProps) {
   return (
-    <div className="form-control w-full max-w-md">
+    <div className="form-control w-full">
       {/* label */}
       {label && (
         <label className="label">

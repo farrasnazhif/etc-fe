@@ -11,7 +11,9 @@ export const getMetadataItems = (
 
   const pathname = `${baseUrl}${slug}`;
 
-  const title = templateTitle ? `${templateTitle} | ETC` : "ETC";
+  const title = templateTitle
+    ? `${templateTitle} | ETC`
+    : "ETC | Elite TC Champions";
 
   const description =
     templateDescription ||

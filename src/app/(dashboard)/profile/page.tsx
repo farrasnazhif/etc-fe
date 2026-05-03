@@ -21,6 +21,7 @@ import {
 import Image from "next/image";
 import EditProfileModal from "@/features/profile/edit-profile-modal";
 import AddProjectModal from "@/features/profile/add-project-modal";
+import { useMyRekrutmen } from "@/hooks/useMyRekrutmen";
 
 function ProfileContent() {
   const {
@@ -110,6 +111,10 @@ function ProfileContent() {
 
     return `https://lh3.googleusercontent.com/d/${fileId}`;
   }
+
+  const { data: myRekrutmen } = useMyRekrutmen();
+
+  const currentTeam = myRekrutmen?.[0];
 
   if (isLoadingUser) {
     return (
@@ -296,6 +301,7 @@ function ProfileContent() {
                 </div>
               )}
 
+              {/* Tim Saat Ini */}
               <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white flex-1">
                 <div className="mb-5 flex items-center justify-between">
                   <h2 className="text-xs font-bold uppercase tracking-widest text-black">
@@ -310,18 +316,35 @@ function ProfileContent() {
                   </Link>
                 </div>
 
-                <div className="flex items-center gap-3 p-3 rounded-xl border border-primary/10 bg-primary/10 hover:bg-blue-200/40 transition-all cursor-pointer group">
-                  <div className="h-10 w-10 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-md flex items-center justify-center font-bold text-white shadow-xs bg-white group-hover:scale-105 transition-transform">
-                    E
-                  </div>
+                {!currentTeam ? (
+                  <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 py-8 text-center">
+                    <p className="text-sm font-medium text-black/50">
+                      Belum memiliki tim aktif
+                    </p>
 
-                  <div>
-                    <p className="text-sm font-bold">ETC Frontend Core</p>
-                    <p className="text-[10px] text-black/40 font-bold uppercase">
-                      4 Anggota
+                    <p className="mt-1 text-xs text-black/30">
+                      Mulai buat atau gabung tim baru.
                     </p>
                   </div>
-                </div>
+                ) : (
+                  <Link href={`/tim-saya/${currentTeam.rekrutmen_id}`}>
+                    <div className="flex items-center gap-3 rounded-md border border-primary/10 bg-primary/10 p-3 transition-all cursor-pointer group hover:bg-blue-200/40">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-blue-400 to-indigo-500 font-bold text-white shadow-xs transition-transform">
+                        {currentTeam.kegiatan?.charAt(0).toUpperCase() || "T"}
+                      </div>
+
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-bold">
+                          {currentTeam.role || "Tanpa Role"}
+                        </p>
+
+                        <p className="text-[10px] text-black/40 font-bold uppercase truncate">
+                          {currentTeam.kegiatan || "Tim Aktif"}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                )}
               </div>
             </aside>
 

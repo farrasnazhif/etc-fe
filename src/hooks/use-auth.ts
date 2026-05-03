@@ -22,6 +22,7 @@ type AuthPayload = {
   token?: string;
   role?: UserRole;
   user?: AuthUser;
+  personal_info?: AuthUser;
   data?: AuthPayload | AuthUser;
   [key: string]: unknown;
 };
@@ -39,6 +40,13 @@ export type RegisterInput = {
 export type LoginInput = {
   no_pengenal: string;
   password: string;
+};
+
+export type UpdateUserInput = {
+  nama: string;
+  jurusan?: string;
+  no_telp: string;
+  spesialisasi?: string[];
 };
 
 const authKeys = {
@@ -60,13 +68,15 @@ function extractUser(payload: AuthPayload): AuthUser | undefined {
 
   if (payload.user) {
     rawUser = payload.user as Record<string, unknown>;
-  } else if ("personal_info" in payload) {
+  } else if (payload.personal_info) {
     rawUser = payload.personal_info as Record<string, unknown>;
   } else if (payload.data && typeof payload.data === "object") {
     return extractUser(payload.data as AuthPayload);
+  } else {
+    rawUser = payload as Record<string, unknown>;
   }
 
-  if (!rawUser) return undefined;
+  if (!rawUser?.user_id) return undefined;
 
   return {
     user_id: rawUser.user_id as string,
@@ -79,6 +89,7 @@ function extractUser(payload: AuthPayload): AuthUser | undefined {
     spesialisasi: (rawUser.spesialisasi as string[]) || [],
   };
 }
+
 async function fetchMe(): Promise<AuthUser> {
   const response = await api.get<AuthPayload>("/auth/me");
   const user = extractUser(response.data);
@@ -147,6 +158,28 @@ export function useAuth() {
     },
   });
 
+  const updateUser = useMutation({
+    mutationFn: async (input: UpdateUserInput) => {
+      const response = await api.patch<AuthPayload>("/auth/me", input);
+
+      const updatedUser = extractUser(response.data);
+
+      if (!updatedUser) {
+        throw new Error("Gagal memperbarui data user.");
+      }
+
+      return updatedUser;
+    },
+
+    onSuccess: async (updatedUser) => {
+      queryClient.setQueryData(authKeys.me, updatedUser);
+
+      await queryClient.invalidateQueries({
+        queryKey: authKeys.me,
+      });
+    },
+  });
+
   function logout() {
     removeToken();
     setAuthToken(undefined);
@@ -165,6 +198,7 @@ export function useAuth() {
 
     login,
     register,
+    updateUser,
     logout,
   };
 }

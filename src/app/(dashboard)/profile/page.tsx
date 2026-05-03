@@ -66,8 +66,8 @@ function ProfileContent() {
   };
 
   // --- Handler Lainnya ---
-  const handleUbahFoto = () =>
-    addToast("Membuka dialog pilih foto...", "success");
+  // const handleUbahFoto = () =>
+  //   addToast("Membuka dialog pilih foto...", "success");
 
   // ==========================================
 
@@ -115,10 +115,10 @@ function ProfileContent() {
   return (
     <DashboardLayout withNavbar withSidebar>
       <main className="min-h-screen  px-2 py-2 md:px-4 text-black font-sans">
-        <div className="mx-auto max-w-[1440px] space-y-8">
+        <div className="mx-auto max-w-[1440px] space-y-4">
           {/* ================= HEADER PROFIL ================= */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <section className="lg:col-span-2 rounded-md border border-slate-200 p-6 shadow-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <section className="lg:col-span-2 rounded-md border border-slate-200 p-6 shadow-xs bg-white ">
               <div className="flex flex-col  md:flex-row md:items-start gap-6">
                 {/* profile image */}
                 <div className="relative h-32 w-32 flex-shrink-0 mx-auto md:mx-0">
@@ -144,12 +144,12 @@ function ProfileContent() {
                     {(user?.nama?.trim()?.charAt(0) || "U").toUpperCase()}
                   </div>
 
-                  <button
+                  {/* <button
                     onClick={handleUbahFoto}
                     className="absolute -bottom-2 -right-2 z-20 flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-primary text-white shadow-lg hover:scale-110 transition-transform cursor-pointer"
                   >
                     <UserPen size={14} />
-                  </button>
+                  </button> */}
                 </div>
 
                 {/* content */}
@@ -157,7 +157,7 @@ function ProfileContent() {
                   {/* top section */}
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                     <div className="min-w-0">
-                      <h1 className="text-xl sm:text-4xl font-extrabold tracking-tight text-slate-900 break-words">
+                      <h1 className="text-xl text-center md:text-start sm:text-4xl font-extrabold tracking-tight text-slate-900 break-words">
                         {user?.nama}
                       </h1>
                     </div>
@@ -207,11 +207,12 @@ function ProfileContent() {
                 </div>
               </div>
             </section>
+
             <section className="lg:col-span-1 h-full">
-              <div className="rounded-md border border-slate-200 p-6 shadow-sm ring-1 ring-primary/10 h-full flex flex-col items-center justify-center text-center min-h-full">
-                <span className="text-[11px] uppercase font-bold tracking-[0.3em] text-black/50">
-                  Total User Rating
-                </span>
+              <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white h-full flex flex-col items-center justify-center text-center min-h-full">
+                <h2 className=" text-xs font-bold uppercase tracking-widest text-black">
+                  TOTAL RATING USER
+                </h2>
 
                 <div className="mt-4 flex items-end gap-1">
                   <span className="text-5xl font-black text-primary leading-none">
@@ -230,13 +231,14 @@ function ProfileContent() {
             </section>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
             {/* ================= SIDEBAR ================= */}
-            <aside className="lg:col-span-1 space-y-6">
-              <div className="rounded-md border border-slate-200  p-6 shadow-sm">
-                <h2 className="mb-5 text-xs font-bold uppercase tracking-widest text-black/50">
+            <aside className="lg:col-span-1 flex flex-col gap-6 h-full">
+              <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white flex-1">
+                <h2 className="mb-5 text-xs font-bold uppercase tracking-widest text-black">
                   Keahlian Utama
                 </h2>
+
                 <div className="flex flex-wrap gap-2">
                   {user?.spesialisasi?.map((s) => (
                     <span
@@ -253,11 +255,12 @@ function ProfileContent() {
                 </div>
               </div>
 
-              <div className="rounded-md border border-slate-200  p-6 shadow-sm">
+              <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white flex-1">
                 <div className="mb-5 flex items-center justify-between">
-                  <h2 className="text-xs font-bold uppercase tracking-widest text-black/50">
+                  <h2 className="text-xs font-bold uppercase tracking-widest text-black">
                     Tim Saat Ini
                   </h2>
+
                   <Link
                     href="/tim-saya"
                     className="text-xs font-bold text-primary hover:underline cursor-pointer"
@@ -265,10 +268,12 @@ function ProfileContent() {
                     Lihat Semua
                   </Link>
                 </div>
-                <div className="flex items-center gap-3 p-3 rounded-xl  border border-primary/10 bg-primary/10 hover:bg-blue-200/40 transition-all cursor-pointer group">
-                  <div className="h-10 w-10 bg-gradient-to-br from-blue-400 to-indigo-500  rounded-md flex items-center justify-center font-bold text-white shadow-sm group-hover:scale-105 transition-transform">
+
+                <div className="flex items-center gap-3 p-3 rounded-xl border border-primary/10 bg-primary/10 hover:bg-blue-200/40 transition-all cursor-pointer group">
+                  <div className="h-10 w-10 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-md flex items-center justify-center font-bold text-white shadow-xs bg-white group-hover:scale-105 transition-transform">
                     E
                   </div>
+
                   <div>
                     <p className="text-sm font-bold">ETC Frontend Core</p>
                     <p className="text-[10px] text-black/40 font-bold uppercase">
@@ -280,12 +285,13 @@ function ProfileContent() {
             </aside>
 
             {/* ================= KONTEN UTAMA ================= */}
-            <div className="lg:col-span-2 space-y-8">
-              <div className="rounded-md border border-slate-200  p-6 shadow-sm">
-                <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-xs font-bold uppercase tracking-widest text-black/50">
+            <div className="lg:col-span-2 h-full">
+              <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white h-full flex flex-col">
+                <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-6">
+                  <h2 className="text-xs font-bold uppercase tracking-widest text-black">
                     Portofolio Proyek
                   </h2>
+
                   <div
                     data-theme="light"
                     className="flex gap-2 bg-slate-200 p-1 rounded-md"
@@ -297,32 +303,37 @@ function ProfileContent() {
                     >
                       Semua
                     </Button>
+
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="px-6 text-black/50 rounded-md"
+                      className="px-6 text-black rounded-md"
                     >
                       Selesai
                     </Button>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="rounded-md border border-slate-200 p-6 group hover:border-primary hover:shadow-xl transition-all cursor-pointer  relative overflow-hidden">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1">
+                  <div className="rounded-md border border-slate-200 p-6 group hover:border-primary hover:shadow-xl transition-all cursor-pointer relative overflow-hidden h-full">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
                       <ExternalLink size={20} className="text-black" />
                     </div>
+
                     <h3 className="font-bold text-lg group-hover:text-primary transition-colors">
                       Campus Lost & Found
                     </h3>
+
                     <p className="text-xs text-black/60 leading-relaxed mt-2 font-medium">
                       Aplikasi manajemen barang hilang terintegrasi di
                       lingkungan kampus ITS berbasis Web.
                     </p>
+
                     <div className="mt-4 flex items-center gap-2">
                       <span className="text-[9px] bg-primary/10 px-2 py-1 rounded font-bold uppercase text-primary border border-primary/10">
                         Next.js
                       </span>
+
                       <span className="text-[9px] bg-primary/10 px-2 py-1 rounded font-bold uppercase text-primary border border-primary/10">
                         Go
                       </span>
@@ -331,11 +342,12 @@ function ProfileContent() {
 
                   <div
                     onClick={handleTambahProyek}
-                    className="border-2 border-dashed border-slate-200 rounded-md flex flex-col items-center justify-center p-8 text-black/30 hover:border-primary hover:bg-primary/5 hover:text-primary transition-all cursor-pointer group"
+                    className="border-2 border-dashed border-slate-200 rounded-md flex flex-col items-center justify-center p-8 text-black/30 hover:border-primary hover:bg-primary/5 hover:text-primary transition-all cursor-pointer group h-full"
                   >
-                    <div className="h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
+                    <div className="h-10 w-10 rounded-full  flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-white transition-all shadow-xs bg-white">
                       <span className="text-2xl font-light">+</span>
                     </div>
+
                     <span className="font-bold text-xs tracking-widest uppercase">
                       Tambah Proyek
                     </span>
@@ -466,7 +478,7 @@ function ProfileContent() {
                   <div className="h-full w-full rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold shadow-md border-4 border-white outline  outline-gray-200">
                     {user?.nama?.charAt(0) || "U"}
                   </div>
-                  <button className="absolute bottom-0 right-0 p-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors shadow-sm">
+                  <button className="absolute bottom-0 right-0 p-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors shadow-xs ">
                     <UserPen size={14} />
                   </button>
                 </div>
@@ -529,7 +541,7 @@ function ProfileContent() {
               </div>
 
               <div className="flex-1 overflow-y-auto px-8 py-6 space-y-6">
-                <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+                <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-xs ">
                   <div className="flex items-center gap-2 mb-6 text-indigo-700 font-semibold">
                     <User size={18} />
                     <h3>Personal Identity</h3>
@@ -568,7 +580,7 @@ function ProfileContent() {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+                <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-xs ">
                   <div className="flex items-center gap-2 mb-6 text-indigo-700 font-semibold">
                     <Globe size={18} />
                     <h3>Presence & Contact</h3>
@@ -625,7 +637,7 @@ function ProfileContent() {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+                <div className=" rounded-xl border border-gray-200 p-6 shadow-xs bg-white">
                   <div className="flex items-center gap-2 mb-6 text-indigo-700 font-semibold">
                     <Briefcase size={18} />
                     <h3>Expertise</h3>

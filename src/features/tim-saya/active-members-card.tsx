@@ -47,7 +47,7 @@ export default function ActiveMembersCard({ members, isLoading }: ActiveMembersC
               </div>
             ))}
           </div>
-        ) : members.length === 0 ? (
+        ) : !members || members.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-6">
             Tidak ada anggota aktif.
           </p>

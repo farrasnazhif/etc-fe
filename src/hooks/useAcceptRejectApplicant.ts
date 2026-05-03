@@ -17,13 +17,27 @@ export function useAcceptRejectApplicant(rekrutmenId: string, timId?: string) {
         }
       );
     },
-    onSuccess: () => {
-      queryClient.refetchQueries({
+    onSuccess: async () => {
+      // Step 1 — refresh applicants
+      await queryClient.refetchQueries({
         queryKey: ["rekrutmen", rekrutmenId, "applicants"],
       });
-      if (timId) {
-        queryClient.refetchQueries({
-          queryKey: ["tim", timId, "members"],
+
+      // Step 2 — refresh rekrutmen detail to get fresh tim_id
+      await queryClient.refetchQueries({
+        queryKey: ["rekrutmen", rekrutmenId],
+      });
+
+      // Step 3 — read fresh tim_id from cache after refetch
+      const freshDetail = queryClient.getQueryData<{ tim_id?: string }>(
+        ["rekrutmen", rekrutmenId]
+      );
+      const freshTimId = freshDetail?.tim_id ?? timId;
+
+      // Step 4 — refetch members using fresh tim_id
+      if (freshTimId) {
+        await queryClient.refetchQueries({
+          queryKey: ["tim", freshTimId, "members"],
         });
       }
     },
@@ -41,13 +55,27 @@ export function useAcceptRejectApplicant(rekrutmenId: string, timId?: string) {
         }
       );
     },
-    onSuccess: () => {
-      queryClient.refetchQueries({
+    onSuccess: async () => {
+      // Step 1 — refresh applicants
+      await queryClient.refetchQueries({
         queryKey: ["rekrutmen", rekrutmenId, "applicants"],
       });
-      if (timId) {
-        queryClient.refetchQueries({
-          queryKey: ["tim", timId, "members"],
+
+      // Step 2 — refresh rekrutmen detail to get fresh tim_id
+      await queryClient.refetchQueries({
+        queryKey: ["rekrutmen", rekrutmenId],
+      });
+
+      // Step 3 — read fresh tim_id from cache after refetch
+      const freshDetail = queryClient.getQueryData<{ tim_id?: string }>(
+        ["rekrutmen", rekrutmenId]
+      );
+      const freshTimId = freshDetail?.tim_id ?? timId;
+
+      // Step 4 — refetch members using fresh tim_id
+      if (freshTimId) {
+        await queryClient.refetchQueries({
+          queryKey: ["tim", freshTimId, "members"],
         });
       }
     },
@@ -61,7 +89,7 @@ export function useAcceptRejectApplicant(rekrutmenId: string, timId?: string) {
     activePendaftarId: acceptMutation.isPending
       ? acceptMutation.variables
       : rejectMutation.isPending
-      ? rejectMutation.variables
-      : null,
+        ? rejectMutation.variables
+        : null,
   };
 }

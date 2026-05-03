@@ -1,12 +1,8 @@
 "use client";
 
 import DashboardLayout from "@/layouts/dashboard/dashboard-layout";
-import RecruitmentStatusToggle from "@/features/tim-saya/recruitment-status-toggle";
 import ActiveMembersCard from "@/features/tim-saya/active-members-card";
 import ApplicantsCard from "@/features/tim-saya/applicants-card";
-import TeamStatsCard from "@/features/tim-saya/team-stats-card";
-import ProjectOverviewCard from "@/features/tim-saya/project-overview-card";
-import UserPresenceCard from "@/features/tim-saya/user-presence-card";
 import { useParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import {
@@ -70,7 +66,7 @@ export default function TimSayaPage() {
           <div className="space-y-6">
             <ActiveMembersCard
               members={timMembers ?? []}
-              isLoading={isTimMembersLoading}
+              isLoading={!!timId && isTimMembersLoading}
             />
             <ApplicantsCard
               applicants={applicantsData?.pendaftar ?? []}

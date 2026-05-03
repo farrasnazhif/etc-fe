@@ -16,6 +16,7 @@ import Button from "@/components/ui/button";
 import EditRekrutmenModal from "@/features/tim-saya/edit-rekrutmen-modal";
 import { useUpdateDeleteRekrutmen } from "@/hooks/useUpdateDeleteRekrutmen";
 import { useToast } from "@/components/ui/toaster";
+import ConfirmDialog from "@/components/ui/confirm-dialog";
 
 export default function TimSayaPage() {
   const params = useParams();
@@ -29,6 +30,7 @@ export default function TimSayaPage() {
   const { data: timMembers, isPending: isTimMembersLoading } = useTimMembers(timId);
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const { deletee, isDeleting } = useUpdateDeleteRekrutmen(rekrutmenId);
   const { addToast } = useToast();
 
@@ -73,16 +75,7 @@ export default function TimSayaPage() {
             </Button>
             <Button
               variant="error"
-              onClick={() => {
-                if (window.confirm("Yakin ingin menghapus rekrutmen ini?")) {
-                  deletee(undefined, {
-                    onSuccess: () => addToast("Rekrutmen berhasil dihapus", "success"),
-                    onError: () => addToast("Gagal menghapus rekrutmen", "error"),
-                  });
-                }
-              }}
-              disabled={isDeleting}
-              isLoading={isDeleting}
+              onClick={() => setIsDeleteDialogOpen(true)}
             >
               Hapus
             </Button>
@@ -126,6 +119,25 @@ export default function TimSayaPage() {
           }}
         />
       )}
+
+      <ConfirmDialog
+        isOpen={isDeleteDialogOpen}
+        title="Hapus Rekrutmen"
+        description="Yakin ingin menghapus rekrutmen ini? Tindakan ini tidak dapat dibatalkan."
+        confirmLabel="Ya, Hapus"
+        cancelLabel="Batal"
+        isLoading={isDeleting}
+        onConfirm={() => {
+          deletee(undefined, {
+            onSuccess: () => {
+              addToast("Rekrutmen berhasil dihapus", "success");
+              setIsDeleteDialogOpen(false);
+            },
+            onError: () => addToast("Gagal menghapus rekrutmen", "error"),
+          });
+        }}
+        onCancel={() => setIsDeleteDialogOpen(false)}
+      />
     </DashboardLayout>
   );
 }

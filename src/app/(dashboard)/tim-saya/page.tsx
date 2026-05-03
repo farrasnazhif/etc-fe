@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import DashboardLayout from "@/layouts/dashboard/dashboard-layout";
 
@@ -20,9 +20,15 @@ type ViewMode = "created" | "applied";
 type AppliedFilter = "all" | "pending" | "accepted" | "rejected";
 
 export default function TimSayaListPage() {
-  const { isAuthenticated } = useAuth();
+  const [mounted, setMounted] = useState(false);
+  const { isAuthenticated, isLoadingUser } = useAuth();
 
   const { data: rekrutmenList, isPending, isError } = useMyRekrutmen();
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
 
   const {
     data: appliedRecruitments,
@@ -76,6 +82,26 @@ export default function TimSayaListPage() {
       (application) => application.status === appliedFilter,
     );
   }, [appliedRecruitments, appliedFilter]);
+
+  if (!mounted) {
+    return (
+      <DashboardLayout withNavbar withSidebar>
+        <div className="mx-auto max-w-7xl space-y-8 px-2 py-2 md:px-4" />
+      </DashboardLayout>
+    );
+  }
+
+  if (isLoadingUser) {
+    return (
+      <DashboardLayout withNavbar withSidebar>
+        <div className="mx-auto max-w-7xl px-2 py-20 md:px-4">
+          <div className="flex items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout withNavbar withSidebar>

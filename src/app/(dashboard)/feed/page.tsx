@@ -64,8 +64,8 @@ export default function FeedPage() {
         {/* ===== HEADER SECTION ===== */}
         <header className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-8">
           {/* Title & subtitle */}
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-primary tracking-tight">
+          <div className="space-y-3">
+            <h1 className="text-2xl font-bold tracking-tight text-foreground">
               Discovery Dashboard
             </h1>
             <TypewriterSubtitle />

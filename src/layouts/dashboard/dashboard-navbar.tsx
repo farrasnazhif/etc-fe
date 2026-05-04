@@ -219,6 +219,23 @@ export default function DashboardNavbar() {
                   </Link>
                 );
               })}
+
+              {isAuthenticated && (
+                <>
+                  <Link
+                    href="/profile"
+                    onClick={() => setMobileOpen(false)}
+                    className={cn(
+                      "text-md font-medium transition  px-2",
+                      pathname === "/profile"
+                        ? "text-blue-600 border-l-2 border-blue-600 "
+                        : "text-gray-500 hover:text-black",
+                    )}
+                  >
+                    Profile
+                  </Link>
+                </>
+              )}
             </div>
 
             {/* bottom section */}

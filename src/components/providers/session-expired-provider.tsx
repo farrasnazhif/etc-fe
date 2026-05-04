@@ -17,7 +17,13 @@ export default function SessionExpiredHandler() {
       if (hasHandled.current) return;
 
       // public routes that should ignore session-expired entirely
-      const publicRoutes = ["/login", "/register", "/feed"];
+      const publicRoutes = [
+        "/login",
+        "/register",
+        "/feed",
+        "/bookmark",
+        "/tim-saya",
+      ];
 
       const isPublicRoute = publicRoutes.some((route) =>
         pathname.startsWith(route),

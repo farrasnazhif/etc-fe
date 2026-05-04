@@ -192,6 +192,38 @@ export default function FeedDetailPage() {
 
   const isMaker = user?.user_id === data?.user_id;
 
+  function getContactLink(contact: string) {
+    const trimmedContact = contact.trim();
+
+    // cek apakah diawali angka (wa)
+
+    const isPhoneNumber = /^[0-9]/.test(trimmedContact);
+
+    if (isPhoneNumber) {
+      const normalizedPhone = trimmedContact.replace(/^0/, "62");
+
+      return {
+        href: `https://wa.me/${normalizedPhone}`,
+
+        label: trimmedContact,
+
+        type: "whatsapp",
+      };
+    }
+
+    // fallback email
+
+    return {
+      href: `mailto:${trimmedContact}`,
+
+      label: trimmedContact,
+
+      type: "email",
+    };
+  }
+
+  const contactInfo = getContactLink(data.contact_person);
+
   return (
     <DashboardLayout withNavbar withSidebar>
       <main className="min-h-screen text-slate-900">
@@ -279,7 +311,7 @@ export default function FeedDetailPage() {
                         type="button"
                         variant="outline"
                         onClick={handleBookmark}
-                        className={`shrink-0 rounded-md md:rounded-full px-2.5 transition-all duration-200 ${
+                        className={`shrink-0 rounded-md md:rounded-full px-2.5 transition-all duration-200 w-full ${
                           bookmarked
                             ? "bg-red-600 border-red-600 text-white hover:bg-red-700"
                             : "border-slate-300 text-slate-700 hover:border-red-500 hover:text-red-600"
@@ -354,23 +386,24 @@ export default function FeedDetailPage() {
                       </p>
                     </div>
 
-                    <Link
-                      href={`https:/wa.me/62${data.contact_person.replace(/^0/, "")}`}
-                      target="_blank"
-                    >
+                    <Link href={contactInfo.href} target="_blank">
                       <div className="rounded-md border-2 border-dashed border-blue-300 bg-gradient-to-br from-blue-50 via-white to-blue-100 p-4">
                         <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
                           Contact Person
                         </p>
                         <div className="mt-2 flex items-center gap-2">
-                          <Image
-                            width={13}
-                            height={13}
-                            alt="whatsapp icon"
-                            src="/images/wa.svg"
-                          />
+                          {contactInfo.type === "whatsapp" ? (
+                            <Image
+                              width={13}
+                              height={13}
+                              alt="whatsapp icon"
+                              src="/images/wa.svg"
+                            />
+                          ) : (
+                            <FileText className="size-4 text-blue-800" />
+                          )}
 
-                          <p className=" font-semibold text-slate-900">
+                          <p className=" font-semibold text-slate-900 truncate">
                             {data.contact_person}
                           </p>
                         </div>

@@ -153,7 +153,7 @@ export default function Form3Page({
             className="flex-1"
             disabled={registerUser.isPending || spesialisasi.length === 0}
           >
-            {registerUser.isPending ? "Memproses..." : "Sumbit"}
+            {registerUser.isPending ? "Memproses..." : "Submit"}
           </Button>
         </div>
 

@@ -1,4 +1,5 @@
 import Button from "@/components/ui/button";
+import Logo from "@/components/ui/logo";
 import Link from "next/link";
 
 export default function Footer() {
@@ -6,9 +7,7 @@ export default function Footer() {
     <footer className="px-4 pt-30 text-gray-600 md:px-16 lg:px-24">
       <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:gap-16">
         <div className="flex-1">
-          <Link href="/">
-            <h1 className="font-bold text-2xl">ETC</h1>
-          </Link>
+          <Logo />
           <p className="mt-6 max-w-sm text-sm/6">
             ETC adalah platform untuk menemukan tim, mencari partner dengan visi
             yang sama, dan memulai kolaborasi dari awal. Mulai dari lomba,

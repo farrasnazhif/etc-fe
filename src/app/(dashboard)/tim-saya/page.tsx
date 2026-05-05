@@ -64,9 +64,20 @@ export default function TimSayaListPage() {
   if (isLoadingUser) {
     return (
       <DashboardLayout withNavbar withSidebar>
-        <div className="mx-auto max-w-7xl px-2 py-20 md:px-4">
-          <div className="flex items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <div className="mx-auto max-w-7xl space-y-8 px-2 py-2 md:px-4">
+          {/* header */}
+          <div className="space-y-3">
+            <h1 className="text-2xl font-bold tracking-tight text-foreground">
+              Tim Saya
+            </h1>
+
+            <p className="text-sm text-muted-foreground">
+              Kelola tim yang kamu buat atau pantau tim yang pernah kamu lamar.
+            </p>
+          </div>
+
+          <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground">
+            <Loader2 className="w-8 h-8 animate-spin text-primary mb-4" />
           </div>
         </div>
       </DashboardLayout>
@@ -165,8 +176,8 @@ export default function TimSayaListPage() {
             {viewMode === "created" && (
               <>
                 {isPending && (
-                  <div className="flex items-center justify-center py-20">
-                    <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                  <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground">
+                    <Loader2 className="w-8 h-8 animate-spin text-primary mb-4" />
                   </div>
                 )}
 

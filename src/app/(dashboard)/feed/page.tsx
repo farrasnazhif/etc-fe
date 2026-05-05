@@ -251,7 +251,6 @@ export default function FeedPage() {
                   {isLoading && (
                     <div className="flex flex-col items-center justify-center h-[400px] text-muted-foreground">
                       <Loader2 className="w-8 h-8 animate-spin text-primary mb-4" />
-                      <p>Memuat data rekrutmen...</p>
                     </div>
                   )}
 

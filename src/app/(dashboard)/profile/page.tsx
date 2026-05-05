@@ -10,18 +10,12 @@ import { useAuth } from "@/hooks/use-auth";
 import Button from "@/components/ui/button";
 import { useToast } from "@/components/ui/toaster";
 
-import {
-  UserPen,
-  ExternalLink,
-  Users,
-  GraduationCap,
-  Phone,
-  BookOpen,
-} from "lucide-react";
+import { UserPen, Users, GraduationCap, Phone, BookOpen } from "lucide-react";
 import Image from "next/image";
 import EditProfileModal from "@/features/profile/edit-profile-modal";
-import AddProjectModal from "@/features/profile/add-project-modal";
+// import AddProjectModal from "@/features/profile/add-project-modal";
 import { useMyRekrutmen } from "@/hooks/useMyRekrutmen";
+import { useGetAllBookmarks } from "@/hooks/use-bookmark";
 
 function ProfileContent() {
   const {
@@ -39,13 +33,13 @@ function ProfileContent() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
 
-  const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
+  // const [isAddProjectModalOpen, setIsAddProjectModalOpen] = useState(false);
 
   const handleEditProfile = () => setIsEditModalOpen(true);
 
-  const handleTambahProyek = () => setIsAddProjectModalOpen(true);
+  const { data: bookmarkList, isPending, isError } = useGetAllBookmarks();
 
-  const handleCloseAddProject = () => setIsAddProjectModalOpen(false);
+  // const handleCloseAddProject = () => setIsAddProjectModalOpen(false);
 
   const handleUbahFoto = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -257,7 +251,7 @@ function ProfileContent() {
               {!isDosen && (
                 <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white flex-1 h-full">
                   <h2 className="mb-5 text-xs font-bold uppercase tracking-widest text-black">
-                    Keahlian Utama
+                    SPESIALISASI
                   </h2>
 
                   <div className="flex flex-wrap gap-2">
@@ -279,9 +273,8 @@ function ProfileContent() {
             </section>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
             <aside className="lg:col-span-1 flex flex-col gap-4 h-full">
-              {/* Tim Saat Ini */}
               <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white flex-1">
                 <div className="mb-5 flex items-center justify-between">
                   <h2 className="text-xs font-bold uppercase tracking-widest text-black">
@@ -307,35 +300,160 @@ function ProfileContent() {
                     </p>
                   </div>
                 ) : (
-                  <div className="space-y-3">
-                    {currentTeams.map((team) => (
-                      <Link
-                        key={team.rekrutmen_id}
-                        href={`/tim-saya/${team.rekrutmen_id}`}
-                      >
-                        <div className="flex items-center gap-3 rounded-md border border-primary/10 bg-primary/10 p-3 transition-all cursor-pointer group hover:bg-blue-200/40">
-                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-blue-400 to-indigo-500 font-bold text-white shadow-xs transition-transform ">
-                            {team.kegiatan?.charAt(0).toUpperCase() || "T"}
-                          </div>
+                  <div className="flex flex-col space-y-2">
+                    {currentTeams.map((team) => {
+                      const formatShortDate = (date: string) => {
+                        const d = new Date(date);
 
-                          <div className="min-w-0 flex-1">
-                            <p className="truncate text-sm font-bold">
-                              {team.role || "Tanpa Role"}
-                            </p>
+                        const day = String(d.getDate()).padStart(2, "0");
+                        const month = String(d.getMonth() + 1).padStart(2, "0");
+                        const year = String(d.getFullYear()).slice(-2);
 
-                            <p className="truncate text-[10px] font-bold uppercase text-black/40">
-                              {team.kegiatan || "Tim Aktif"}
-                            </p>
+                        return `${day}/${month}/${year}`;
+                      };
+
+                      return (
+                        <Link
+                          key={team.rekrutmen_id}
+                          href={`/tim-saya/${team.rekrutmen_id}`}
+                        >
+                          <div className="flex items-center gap-3 rounded-md border border-primary/10 bg-primary/10 p-3 transition-all cursor-pointer group hover:bg-blue-200/40">
+                            {/* icon */}
+                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-blue-400 to-indigo-500 font-bold text-white shadow-xs">
+                              {team.kegiatan?.charAt(0).toUpperCase() || "T"}
+                            </div>
+
+                            {/* content */}
+                            <div className="min-w-0 flex-1">
+                              <p className="truncate text-sm font-bold">
+                                {team.kegiatan || "Tim Aktif"}
+                              </p>
+
+                              <p className="truncate text-[10px] font-bold uppercase text-black/40">
+                                {team.role || "Tanpa Role"}
+                              </p>
+                            </div>
+
+                            <div className="grid grid-rows-2">
+                              <p className="grid-rows-2 truncate text-[10px] text-black/50 font-medium mt-1">
+                                {formatShortDate(team.tanggal_mulai)} -{" "}
+                                {formatShortDate(team.tanggal_selesai)}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      </Link>
-                    ))}
+                        </Link>
+                      );
+                    })}
                   </div>
                 )}
               </div>
             </aside>
 
-            <div className="lg:col-span-2 h-full">
+            <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white flex-1">
+              <div className="mb-5 flex items-center justify-between">
+                <h2 className="text-xs font-bold uppercase tracking-widest text-black">
+                  Bookmark Saya
+                </h2>
+
+                <Link
+                  href="/bookmark"
+                  className="text-xs font-bold text-primary hover:underline cursor-pointer"
+                >
+                  Lihat Semua
+                </Link>
+              </div>
+
+              {isPending ? (
+                <div className="flex flex-col items-center justify-center py-8">
+                  <span className="loading loading-spinner loading-md text-primary"></span>
+
+                  <p className="mt-3 text-sm text-black/50">
+                    Memuat bookmark...
+                  </p>
+                </div>
+              ) : isError ? (
+                <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-red-200 py-8 text-center">
+                  <p className="text-sm font-medium text-red-500">
+                    Gagal memuat bookmark
+                  </p>
+
+                  <p className="mt-1 text-xs text-black/30">
+                    Coba refresh halaman kembali.
+                  </p>
+                </div>
+              ) : !bookmarkList || bookmarkList.length === 0 ? (
+                <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 py-8 text-center">
+                  <p className="text-sm font-medium text-black/50">
+                    Belum memiliki bookmark
+                  </p>
+
+                  <p className="mt-1 text-xs text-black/30">
+                    Mulai bookmark rekrutmen baru.
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col space-y-2">
+                  {bookmarkList.slice(0, 3).map((bookmark) => {
+                    const formatShortDate = (date: string) => {
+                      const d = new Date(date);
+
+                      const day = String(d.getDate()).padStart(2, "0");
+                      const month = String(d.getMonth() + 1).padStart(2, "0");
+                      const year = String(d.getFullYear()).slice(-2);
+
+                      return `${day}/${month}/${year}`;
+                    };
+
+                    return (
+                      <Link
+                        key={bookmark.id}
+                        href={`/feed/${bookmark.rekrutmen_id}`}
+                      >
+                        <div className="flex items-center gap-3 rounded-md border border-primary/10 bg-primary/10 p-3 transition-all cursor-pointer group hover:bg-blue-200/40">
+                          {/* icon */}
+
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-blue-400 to-indigo-500 font-bold text-white shadow-xs">
+                            {(
+                              bookmark.rekrutmen.kegiatan?.charAt(0) || "B"
+                            ).toUpperCase()}
+                          </div>
+
+                          {/* content */}
+                          <div className="min-w-0 flex-1">
+                            <p className="truncate text-sm font-bold">
+                              {bookmark.rekrutmen.kegiatan || "Bookmark"}
+                            </p>
+
+                            <p className="truncate text-[10px] font-bold uppercase text-black/40">
+                              {bookmark.rekrutmen.role || "Tanpa Role"}
+                            </p>
+                          </div>
+
+                          <div className="grid grid-rows-2">
+                            <p className="truncate text-[10px] text-black/50 font-medium mt-1 grid-rows-2">
+                              {formatShortDate(
+                                bookmark.rekrutmen.tanggal_mulai,
+                              )}{" "}
+                              -{" "}
+                              {formatShortDate(
+                                bookmark.rekrutmen.tanggal_selesai,
+                              )}
+                            </p>
+                          </div>
+
+                          {/* <ExternalLink
+                            size={14}
+                            className="shrink-0 text-black/30 transition group-hover:text-primary"
+                          /> */}
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* <div className="lg:col-span-2 h-full">
               <div className="rounded-md border border-slate-200 p-6 shadow-xs bg-white h-full flex flex-col">
                 <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-6">
                   <h2 className="text-xs font-bold uppercase tracking-widest text-black">
@@ -404,16 +522,16 @@ function ProfileContent() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </main>
 
-      <AddProjectModal
+      {/* <AddProjectModal
         isOpen={isAddProjectModalOpen}
         onClose={handleCloseAddProject}
         // onSave={handleSaveProject}
-      />
+      /> */}
 
       <EditProfileModal
         isOpen={isEditModalOpen}

@@ -15,6 +15,7 @@ import {
 import Input from "@/components/ui/input";
 import Link from "next/link";
 import { RemoveScroll } from "react-remove-scroll";
+import Image from "next/image";
 
 type EditProfileForm = {
   nama: string;
@@ -34,8 +35,21 @@ type EditProfileModalProps = {
     no_telp?: string;
     role?: string;
     spesialisasi?: string[];
+    profile_picture?: string | null;
   } | null;
 };
+
+function getGoogleDriveImageUrl(url?: string) {
+  if (!url) return "";
+
+  const fileIdMatch = url.match(/\/d\/([^/]+)/) || url.match(/[?&]id=([^&]+)/);
+
+  if (!fileIdMatch) return url;
+
+  const fileId = fileIdMatch[1];
+
+  return `https://lh3.googleusercontent.com/d/${fileId}`;
+}
 
 export default function EditProfileModal({
   isOpen,
@@ -71,13 +85,11 @@ export default function EditProfileModal({
 
     if (form.spesialisasi.includes(value)) {
       setInputValue("");
-
       return;
     }
 
     setForm((prev) => ({
       ...prev,
-
       spesialisasi: [...prev.spesialisasi, value],
     }));
 
@@ -87,7 +99,6 @@ export default function EditProfileModal({
   const removeSpesialisasi = (indexToRemove: number) => {
     setForm((prev) => ({
       ...prev,
-
       spesialisasi: prev.spesialisasi.filter(
         (_, index) => index !== indexToRemove,
       ),
@@ -102,12 +113,30 @@ export default function EditProfileModal({
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 sm:p-6">
         <div className="w-full max-w-5xl h-[90vh] bg-white rounded-md shadow-2xl flex flex-col md:flex-row overflow-hidden border border-slate-200">
           {/* sidebar */}
-          <aside className="w-full md:w-72 bg-slate-50 border-r border-slate-200 p-6 flex flex-col">
+          <aside className="w-full md:w-72 bg-slate-50 border-r border-slate-200 p-6 hidden md:flex flex-col">
             {/* profile preview */}
             <div className="flex flex-col items-center text-center pb-6 border-b border-slate-200">
               <div className="relative h-24 w-24">
-                <div className="h-full w-full rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white text-3xl font-black">
-                  {(form.nama?.charAt(0) || "U").toUpperCase()}
+                {user?.profile_picture ? (
+                  <Image
+                    src={getGoogleDriveImageUrl(user.profile_picture)}
+                    alt="Profil"
+                    width={128}
+                    height={128}
+                    className="h-full w-full rounded-md object-cover border border-slate-200"
+                    unoptimized
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                  />
+                ) : null}
+
+                <div
+                  className={`absolute inset-0 h-full w-full rounded-md bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white text-4xl font-black shadow-inner ${
+                    user?.profile_picture ? "-z-10" : "z-10"
+                  }`}
+                >
+                  {(user?.nama?.trim()?.charAt(0) || "U").toUpperCase()}
                 </div>
                 {/* 
               <button
@@ -129,7 +158,7 @@ export default function EditProfileModal({
             </div>
 
             {/* navigation */}
-            <div className="mt-6 flex h-full flex-col justify-end space-y-3">
+            <div className="hidden mt-6 md:flex h-full flex-col justify-end space-y-3">
               <Link
                 href="/settings"
                 className="flex items-center gap-2 text-sm text-gray-600 hover:text-black"
@@ -151,7 +180,7 @@ export default function EditProfileModal({
           {/* main content */}
           <section className="flex-1 flex flex-col overflow-hidden">
             {/* header */}
-            <div className="px-8 py-5 border-b border-slate-200 flex items-center justify-between bg-white">
+            <div className="  px-8 py-5 border-b border-slate-200 flex items-center justify-between bg-white">
               <div>
                 <h2 className="text-xl font-bold text-slate-900">
                   Edit Profile

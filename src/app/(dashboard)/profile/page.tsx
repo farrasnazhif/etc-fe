@@ -144,17 +144,17 @@ function ProfileContent() {
       <main className=" px-2 py-2 md:px-4 text-black font-sans">
         <div className="mx-auto max-w-[1440px] space-y-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <section className="lg:col-span-2 rounded-md border border-slate-200 p-6 shadow-xs bg-white ">
-              <div className="flex flex-col  md:flex-row md:items-start gap-6">
+            <section className="lg:col-span-2 rounded-md border border-slate-200 bg-white p-6 shadow-xs">
+              <div className="flex flex-col gap-6 md:flex-row md:items-start">
                 {/* profile image */}
-                <div className="relative h-32 w-32 flex-shrink-0 mx-auto md:mx-0">
+                <div className="relative mx-auto h-32 w-32 flex-shrink-0 md:mx-0">
                   {user?.profile_picture ? (
                     <Image
                       src={getGoogleDriveImageUrl(user.profile_picture)}
                       alt="Profil"
                       width={128}
                       height={128}
-                      className="h-full w-full rounded-md object-cover border border-slate-200"
+                      className="h-full w-full rounded-md border border-slate-200 object-cover"
                       unoptimized
                       onError={(e) => {
                         e.currentTarget.style.display = "none";
@@ -162,14 +162,16 @@ function ProfileContent() {
                     />
                   ) : null}
 
+                  {/* fallback avatar */}
                   <div
-                    className={`absolute inset-0 h-full w-full rounded-md bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white text-4xl font-black shadow-inner ${
+                    className={`absolute inset-0 flex h-full w-full items-center justify-center rounded-md bg-gradient-to-br from-blue-400 to-indigo-500 text-4xl font-black text-white shadow-inner ${
                       user?.profile_picture ? "-z-10" : "z-10"
                     }`}
                   >
                     {(user?.nama?.trim()?.charAt(0) || "U").toUpperCase()}
                   </div>
 
+                  {/* upload button */}
                   <label className="absolute -bottom-2 -right-2 z-20 cursor-pointer">
                     <input
                       type="file"
@@ -179,7 +181,7 @@ function ProfileContent() {
                       disabled={isUploadingPhoto}
                     />
 
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-primary text-white shadow-lg transition-transform ">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-primary text-white shadow-lg">
                       {isUploadingPhoto ? (
                         <span className="loading loading-spinner loading-xs"></span>
                       ) : (
@@ -190,18 +192,18 @@ function ProfileContent() {
                 </div>
 
                 {/* content */}
-                <div className="flex-1 min-w-0">
+                <div className="flex min-w-0 flex-1 flex-col">
                   {/* top section */}
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                    <div className="min-w-0">
-                      <h1 className="text-xl text-center md:text-start sm:text-4xl font-extrabold tracking-tight text-slate-900 break-words">
-                        {user?.nama}
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="min-w-0 flex-1">
+                      <h1 className="break-words text-center text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl md:text-left">
+                        {user?.nama || "Unnamed User"}
                       </h1>
                     </div>
 
                     <div
                       data-theme="light"
-                      className="w-full sm:w-auto shrink-0"
+                      className="w-full shrink-0 sm:w-auto"
                     >
                       <Button
                         variant="primary"
@@ -216,28 +218,32 @@ function ProfileContent() {
                   </div>
 
                   {/* balanced info layout */}
-                  <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-3">
-                    <div className="flex items-center gap-2 text-sm font-semibold text-black/60 uppercase tracking-wider min-w-0">
+                  <div className="mt-4 grid grid-cols-1 gap-x-12 gap-y-3 sm:grid-cols-2">
+                    <div className="flex min-w-0 items-center gap-2 text-sm font-semibold uppercase tracking-wider text-black/60">
                       <GraduationCap size={16} className="shrink-0" />
-                      <span className="truncate">{user?.role}</span>
+
+                      <span className="truncate">{user?.role || "-"}</span>
                     </div>
 
-                    <div className="flex items-center gap-2 text-sm font-semibold text-black/60 uppercase tracking-wider min-w-0">
+                    <div className="flex min-w-0 items-center gap-2 text-sm font-semibold uppercase tracking-wider text-black/60">
                       <Phone size={13} className="shrink-0" />
+
                       <span className="truncate">
                         {user?.no_telp || "No phone"}
                       </span>
                     </div>
 
                     {!isDosen && (
-                      <div className="flex items-center gap-2 text-sm font-semibold text-black/60 uppercase tracking-wider min-w-0">
+                      <div className="flex min-w-0 items-center gap-2 text-sm font-semibold uppercase tracking-wider text-black/60">
                         <BookOpen size={14} className="shrink-0" />
+
                         <span className="truncate">{user?.jurusan || "-"}</span>
                       </div>
                     )}
 
-                    <div className="flex items-center gap-2 text-sm font-semibold text-black/60 uppercase tracking-wider min-w-0">
+                    <div className="flex min-w-0 items-center gap-2 text-sm font-semibold uppercase tracking-wider text-black/60">
                       <Users size={13} className="shrink-0" />
+
                       <span className="truncate">
                         {user?.no_pengenal || "No ID"}
                       </span>

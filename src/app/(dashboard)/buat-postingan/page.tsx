@@ -32,6 +32,31 @@ function BuatPostinganContent() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  function validateForm() {
+    const startDate = new Date(formData.tanggal_mulai);
+    const endDate = new Date(formData.tanggal_selesai);
+
+    if (
+      formData.tanggal_mulai &&
+      formData.tanggal_selesai &&
+      startDate > endDate
+    ) {
+      addToast(
+        "Tanggal mulai tidak boleh lebih dari tanggal selesai.",
+
+        "error",
+      );
+      return false;
+    }
+
+    if (Number(formData.fee) < 0) {
+      addToast("Fee tidak boleh bernilai minus.", "error");
+      return false;
+    }
+
+    return true;
+  }
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -46,13 +71,20 @@ function BuatPostinganContent() {
 
     if (!user) {
       addToast("Anda harus login untuk memposting.", "error");
+
+      return;
+    }
+
+    if (!validateForm()) {
       return;
     }
 
     setIsSubmitting(true);
+
     try {
       const formatTanggal = (dateStr: string) => {
         if (!dateStr) return "";
+
         return `${dateStr}T00:00:00Z`;
       };
 
@@ -61,17 +93,18 @@ function BuatPostinganContent() {
         Kriteria: formData.kriteria,
         tanggal_mulai: formatTanggal(formData.tanggal_mulai),
         tanggal_selesai: formatTanggal(formData.tanggal_selesai),
-        fee: parseInt(formData.fee) || 0,
+        fee: Math.max(0, parseInt(formData.fee) || 0),
         role: formData.role,
         contact_person: formData.contact_person,
       });
 
       addToast("Peluang rekrutmen berhasil dipublikasikan!", "success");
+
       router.push("/feed");
     } catch (error: unknown) {
-      // Menggunakan unknown untuk menghindari 'any'
       const err = error as {
         response?: { data?: { message?: string } & Record<string, unknown> };
+
         message?: string;
       };
 
@@ -83,6 +116,7 @@ function BuatPostinganContent() {
         "Terjadi kesalahan pada server";
 
       console.error("Detail Ditolak Backend:", errorMessage);
+
       addToast(`Validasi Gagal: ${errorMessage}`, "error");
     } finally {
       setIsSubmitting(false);
@@ -271,6 +305,7 @@ function BuatPostinganContent() {
                         value={formData.tanggal_mulai}
                         onChange={handleChange}
                         required
+                        max={formData.tanggal_selesai || undefined}
                         className="w-full"
                       />
                     </div>
@@ -283,6 +318,7 @@ function BuatPostinganContent() {
                         value={formData.tanggal_selesai}
                         onChange={handleChange}
                         required
+                        min={formData.tanggal_mulai || undefined}
                         className="w-full"
                       />
                     </div>
@@ -308,7 +344,15 @@ function BuatPostinganContent() {
                         label="Honorarium / Fee (Rp)"
                         name="fee"
                         value={formData.fee}
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          const value = Math.max(0, Number(e.target.value));
+
+                          setFormData((prev) => ({
+                            ...prev,
+                            fee: value.toString(),
+                          }));
+                        }}
+                        min={0}
                         placeholder="Contoh: 500000 (Kosongi jika tidak ada)"
                         className="w-full"
                       />

@@ -1,164 +1,374 @@
 "use client";
 
-import Link from "next/link";
-import DashboardLayout from "@/layouts/dashboard/dashboard-layout";
-import { 
-  BookOpen, 
-  UserPlus, 
-  Users, 
-  Handshake, 
-  ShieldCheck, 
-  Briefcase, 
-  Eye, 
-  MessageSquare,
-  Layers,
-  ArrowRight
-} from "lucide-react";
+import Layout from "@/layouts/Layout";
+import { useEffect, useState } from "react";
+
+const navigationSections = [
+  { id: "tentang-etc", label: "Tentang ETC" },
+  { id: "visi-dan-misi", label: "Visi dan Misi" },
+  { id: "core-features", label: "Core Features" },
+  { id: "user-journey", label: "User Journey" },
+  { id: "competitive-categories", label: "Competitive Categories" },
+  { id: "reputasi-dan-kredibilitas", label: "Reputasi" },
+  { id: "recruitment-architecture", label: "Recruitment" },
+  { id: "etc-philosophy", label: "ETC Philosophy" },
+  { id: "future-expansion", label: "Future Expansion" },
+  { id: "closing-statement", label: "Closing" },
+];
 
 export default function DokumentasiPage() {
+  const [activeSection, setActiveSection] = useState("tentang-etc");
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort(
+            (a, b) =>
+              Math.abs(a.boundingClientRect.top) -
+              Math.abs(b.boundingClientRect.top),
+          );
+
+        if (visible.length > 0) {
+          setActiveSection(visible[0].target.id);
+        }
+      },
+
+      {
+        root: null,
+        rootMargin: "-15% 0px -70% 0px",
+        threshold: [0.1, 0.25, 0.5, 0.75],
+      },
+    );
+
+    const elements = navigationSections
+      .map((section) => document.getElementById(section.id))
+      .filter(Boolean) as HTMLElement[];
+
+    elements.forEach((element) => observer.observe(element));
+
+    // fallback for initial load
+    if (elements.length > 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setActiveSection(elements[0].id);
+    }
+
+    return () => {
+      elements.forEach((element) => observer.unobserve(element));
+
+      observer.disconnect();
+    };
+  }, []);
+
   return (
-    <DashboardLayout withNavbar>
-      <main data-theme="light" className="min-h-screen bg-base-200/30 p-4 md:p-8 font-sans pb-12">
-        <div className="mx-auto max-w-[1000px] space-y-12">
-          
-          {/* ================= HERO BANNER ================= */}
-          <div className="bg-primary rounded-3xl p-10 md:p-14 relative overflow-hidden flex items-center justify-between shadow-sm">
-            <div className="relative z-10 max-w-2xl text-white">
-              <h1 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
-                Pusat Dokumentasi ETC
-              </h1>
-              <p className="text-white/80 text-sm md:text-base leading-relaxed font-medium">
-                Panduan lengkap cara menggunakan platform ETC untuk mempercepat riset akademis dan kolaborasi antar peneliti di seluruh ekosistem kampus.
+    <Layout withNavbar withFooter withBanner>
+      <main className="bg-background">
+        <div className="mx-auto flex max-w-7xl gap-16 px-6 py-20">
+          {/* aside navigation */}
+          <aside className="sticky top-24 hidden h-fit w-72 shrink-0 lg:block">
+            <div className="space-y-5 py-1">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">
+                On This Page
               </p>
+
+              <nav className="space-y-1">
+                {navigationSections.map((section) => (
+                  <a
+                    key={section.id}
+                    href={`#${section.id}`}
+                    className={`block  px-3 py-2 text-sm transition-all ${
+                      activeSection === section.id
+                        ? "border-l-4 border-primary font-semibold text-primary"
+                        : "text-slate-600  hover:text-slate-900"
+                    }`}
+                  >
+                    {section.label}
+                  </a>
+                ))}
+              </nav>
             </div>
-            <BookOpen className="absolute -right-8 top-1/2 -translate-y-1/2 w-64 h-64 text-white/10" strokeWidth={1} />
+          </aside>
+
+          {/* main content */}
+          <div className="min-w-0 flex-1">
+            <div className="mx-auto max-w-4xl">
+              {/* header */}
+              <header className="mb-20 space-y-8">
+                <div className="space-y-4">
+                  <p className="text-sm font-bold uppercase tracking-[0.2em] text-primary">
+                    Official Documentation
+                  </p>
+
+                  <h1 className="text-5xl font-semibold leading-tight tracking-tight text-slate-900">
+                    Elite TC Champions
+                  </h1>
+                </div>
+
+                <div className="space-y-5 text-[16px] leading-8 text-slate-600">
+                  <p>
+                    ETC (Elite TC Champions) adalah platform kolaborasi
+                    kompetitif yang dirancang untuk membangun ekosistem
+                    mahasiswa, akademisi, dan talenta berpotensi tinggi dalam
+                    menemukan peluang, membentuk tim unggul, serta mengeksekusi
+                    projek, lomba, maupun riset secara lebih strategis.
+                  </p>
+
+                  <p>
+                    ETC tidak hanya berfungsi sebagai platform pencarian
+                    anggota. ETC dibangun sebagai competitive collaboration
+                    ecosystem, mempertemukan individu dengan visi, kemampuan,
+                    dan ambisi besar ke dalam satu ruang terstruktur untuk
+                    menciptakan tim yang lebih kredibel, terarah, dan
+                    berorientasi hasil.
+                  </p>
+
+                  <p>
+                    Filosofi utama ETC adalah sederhana: tim hebat tidak
+                    tercipta secara acak, tetapi dibangun melalui koneksi yang
+                    tepat, evaluasi yang jelas, dan eksekusi yang konsisten.
+                  </p>
+                </div>
+
+                <p className="text-sm text-slate-500">
+                  Platform Version: ETC v1.0
+                </p>
+              </header>
+
+              {/* content */}
+              {/* content */}
+              <div className="space-y-16 text-[16px] leading-8 text-slate-700">
+                <Section id="tentang-etc" title="1. Tentang Elite TC Champions">
+                  <p>
+                    Elite TC Champions hadir untuk menjawab permasalahan klasik
+                    dalam dunia kolaborasi: sulit menemukan partner berkualitas,
+                    terbatasnya akses terhadap peluang strategis, dan minimnya
+                    sistem evaluasi yang mampu mencerminkan performa nyata
+                    anggota.
+                  </p>
+
+                  <p>
+                    ETC dirancang sebagai jembatan antara opportunity dan
+                    talent. Melalui platform ini, pengguna dapat membangun tim,
+                    membuka rekrutmen, menilai kandidat, mengevaluasi anggota,
+                    dan menciptakan histori kolaborasi yang memiliki nilai
+                    reputasi.
+                  </p>
+                </Section>
+
+                <Section id="visi-dan-misi" title="2. Visi dan Misi">
+                  <p>
+                    ETC memiliki visi untuk menjadi pusat kolaborasi kompetitif
+                    bagi generasi berprestasi, dengan fokus pada kualitas
+                    koneksi, efektivitas tim, dan keberhasilan eksekusi.
+                  </p>
+
+                  <ul className="list-disc space-y-3 pl-6">
+                    <li>
+                      Menghubungkan individu berbakat dengan peluang bernilai
+                      tinggi
+                    </li>
+                    <li>
+                      Mendorong pembentukan tim yang lebih selektif dan
+                      strategis
+                    </li>
+                    <li>
+                      Menyediakan sistem evaluasi berbasis kontribusi nyata
+                    </li>
+                    <li>
+                      Menjadi ekosistem pertumbuhan untuk projek, lomba, dan
+                      riset
+                    </li>
+                    <li>
+                      Membangun standar baru dalam collaborative excellence
+                    </li>
+                  </ul>
+                </Section>
+
+                <Section id="core-features" title="3. Core Features">
+                  <p>
+                    ETC dibangun dengan fitur-fitur utama yang mendukung
+                    keseluruhan lifecycle kolaborasi:
+                  </p>
+
+                  <ul className="list-disc space-y-3 pl-6">
+                    <li>
+                      <strong>Discovery Dashboard:</strong> Menjelajahi peluang
+                      berdasarkan kategori, kebutuhan, dan role spesifik
+                    </li>
+
+                    <li>
+                      <strong>Smart Recruitment:</strong> Membuat postingan
+                      rekrutmen terstruktur dengan detail kebutuhan tim
+                    </li>
+
+                    <li>
+                      <strong>Applicant Evaluation:</strong> Review CV,
+                      portofolio, motivasi, dan histori kontribusi
+                    </li>
+
+                    <li>
+                      <strong>Team Management:</strong> Mengelola anggota aktif,
+                      pelamar, dan status rekrutmen
+                    </li>
+
+                    <li>
+                      <strong>Member Rating System:</strong> Menilai performa
+                      anggota untuk membangun trust dan accountability
+                    </li>
+
+                    <li>
+                      <strong>Bookmark & Opportunity Tracking:</strong>{" "}
+                      Menyimpan peluang strategis untuk keputusan lebih matang
+                    </li>
+                  </ul>
+                </Section>
+
+                <Section id="user-journey" title="4. User Journey">
+                  <ol className="list-decimal space-y-3 pl-6">
+                    <li>Membuat akun dan membangun identitas profesional</li>
+                    <li>
+                      Menambahkan spesialisasi, pengalaman, dan positioning diri
+                    </li>
+                    <li>Mencari peluang sesuai tujuan personal atau tim</li>
+                    <li>Melamar atau membangun tim sendiri</li>
+                    <li>Menyeleksi kandidat secara lebih objektif</li>
+                    <li>
+                      Menjalankan kolaborasi dengan sistem evaluasi
+                      berkelanjutan
+                    </li>
+                  </ol>
+                </Section>
+
+                <Section
+                  id="competitive-categories"
+                  title="5. Competitive Categories"
+                >
+                  <p>
+                    Elite TC Champions berfokus pada tiga jalur utama
+                    pengembangan:
+                  </p>
+
+                  <ul className="list-disc space-y-3 pl-6">
+                    <li>
+                      <strong>Project:</strong> Startup, product development,
+                      innovation building
+                    </li>
+
+                    <li>
+                      <strong>Competition:</strong> Hackathon, lomba akademik,
+                      challenge nasional maupun internasional
+                    </li>
+
+                    <li>
+                      <strong>Research:</strong> Publikasi, riset ilmiah, dan
+                      pengembangan akademik
+                    </li>
+                  </ul>
+                </Section>
+
+                <Section
+                  id="reputasi-dan-kredibilitas"
+                  title="6. Reputasi dan Kredibilitas"
+                >
+                  <p>
+                    Dalam ETC, profil bukan sekadar identitas, tetapi
+                    representasi reputasi. Jurusan, spesialisasi, histori
+                    kontribusi, hingga rating anggota berfungsi sebagai social
+                    proof dalam proses kolaborasi.
+                  </p>
+
+                  <p>
+                    Dengan pendekatan ini, pengguna dapat mengambil keputusan
+                    berdasarkan evidence, bukan asumsi.
+                  </p>
+                </Section>
+
+                <Section
+                  id="recruitment-architecture"
+                  title="7. Recruitment Architecture"
+                >
+                  <p>
+                    Setiap sistem rekrutmen ETC dibangun dengan transparansi
+                    penuh:
+                  </p>
+
+                  <ul className="list-disc space-y-3 pl-6">
+                    <li>Role dan kebutuhan spesifik</li>
+                    <li>Kriteria kandidat</li>
+                    <li>Kompensasi atau fee</li>
+                    <li>Durasi kerja sama</li>
+                    <li>Timeline mulai hingga deadline</li>
+                    <li>Contact point terverifikasi</li>
+                  </ul>
+
+                  <p>
+                    Tujuannya adalah menciptakan proses seleksi yang lebih
+                    jelas, profesional, dan efisien.
+                  </p>
+                </Section>
+
+                <Section id="etc-philosophy" title="8. ETC Philosophy">
+                  <p>
+                    Elite TC Champions berdiri di atas prinsip bahwa keunggulan
+                    lahir dari tim yang terkurasi, bukan sekadar terkumpul.
+                  </p>
+
+                  <p>
+                    ETC percaya bahwa masa depan kolaborasi bukan hanya tentang
+                    “siapa yang tersedia,” tetapi “siapa yang paling relevan dan
+                    mampu bertumbuh bersama.”
+                  </p>
+                </Section>
+
+                <Section id="future-expansion" title="9. Future Expansion">
+                  <ul className="list-disc space-y-3 pl-6">
+                    <li>AI-powered elite team matchmaking</li>
+                    <li>Performance intelligence dashboard</li>
+                    <li>Verified achievement system</li>
+                    <li>Cross-campus elite collaboration network</li>
+                    <li>Integrated execution workspace</li>
+                  </ul>
+                </Section>
+
+                <Section id="closing-statement" title="10. Closing Statement">
+                  <p>
+                    Elite TC Champions bukan hanya platform teknologi. ETC
+                    adalah fondasi untuk generasi builder, competitor, dan
+                    researcher yang ingin berkembang melalui kolaborasi yang
+                    lebih cerdas.
+                  </p>
+
+                  <p>
+                    Dengan ETC, proses membangun tim tidak lagi sekadar mencari
+                    anggota, tetapi membentuk champions.
+                  </p>
+                </Section>
+              </div>
+            </div>
           </div>
-
-          {/* ================= CARA KERJA SECTION ================= */}
-          <section>
-            <div className="mb-8 border-b-2 border-primary inline-block pb-2">
-              <h2 className="text-base font-bold text-base-content">
-                Cara Kerja ETC (Detail Panduan)
-              </h2>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-base-100 p-8 rounded-3xl shadow-sm border border-base-300 flex flex-col hover:-translate-y-1 transition-transform duration-300">
-                <div className="w-12 h-12 bg-primary/10 text-primary flex items-center justify-center rounded-xl mb-6">
-                  <UserPlus size={24} />
-                </div>
-                <h3 className="text-lg font-bold text-base-content mb-3 leading-snug">
-                  1. Buat dan Lengkapi Profil Anda
-                </h3>
-                <p className="text-sm text-base-content/60 mb-8 flex-grow leading-relaxed">
-                  Tentukan peran Anda dalam tim riset. Pilih spesialisasi seperti UI/UX Design, Data Analyst, Software Engineer, atau Academic Writer.
-                </p>
-                <div className="flex flex-wrap gap-2 mt-auto">
-                  <span className="bg-primary/10 text-primary text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">Data Analyst</span>
-                  <span className="bg-primary/10 text-primary text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">UI/UX Design</span>
-                </div>
-              </div>
-
-              <div className="bg-base-100 p-8 rounded-3xl shadow-sm border border-base-300 flex flex-col hover:-translate-y-1 transition-transform duration-300">
-                <div className="w-12 h-12 bg-primary/10 text-primary flex items-center justify-center rounded-xl mb-6">
-                  <Users size={24} />
-                </div>
-                <h3 className="text-lg font-bold text-base-content mb-3 leading-snug">
-                  2. Temukan Tim atau Buat Rekrutmen
-                </h3>
-                <p className="text-sm text-base-content/60 mb-8 flex-grow leading-relaxed">
-                  Jelajahi proyek yang sedang aktif atau buat rekrutmen baru untuk mencari talenta yang dibutuhkan dalam riset Anda sendiri.
-                </p>
-                <Link href="#" className="text-sm font-bold text-primary hover:text-primary/80 mt-auto inline-flex items-center gap-1 transition-colors group">
-                  Pelajari Rekrutmen <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-
-              <div className="bg-base-100 p-8 rounded-3xl shadow-sm border border-base-300 flex flex-col hover:-translate-y-1 transition-transform duration-300">
-                <div className="w-12 h-12 bg-primary/10 text-primary flex items-center justify-center rounded-xl mb-6">
-                  <Handshake size={24} />
-                </div>
-                <h3 className="text-lg font-bold text-base-content mb-3 leading-snug">
-                  3. Mulai Kolaborasi Terstruktur
-                </h3>
-                <p className="text-sm text-base-content/60 mb-8 flex-grow leading-relaxed">
-                  Gunakan alat bantu manajemen tugas terintegrasi. Pantau progress secara real-time dan komunikasikan setiap milestone tim.
-                </p>
-                <div className="flex -space-x-3 mt-auto">
-                  <div className="w-8 h-8 rounded-full border-2 border-base-100 bg-base-300 flex items-center justify-center text-base-content/50 text-[10px] font-bold z-20 shadow-sm overflow-hidden">
-                     <img src="https://i.pravatar.cc/100?img=1" alt="User 1" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="w-8 h-8 rounded-full border-2 border-base-100 bg-base-300 flex items-center justify-center text-base-content/50 text-[10px] font-bold z-10 shadow-sm overflow-hidden">
-                     <img src="https://i.pravatar.cc/100?img=2" alt="User 2" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="w-8 h-8 rounded-full border-2 border-base-100 bg-primary flex items-center justify-center text-white text-[10px] font-bold z-0 shadow-sm">
-                    +12
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* ================= ATURAN & SYARAT SECTION ================= */}
-          <section>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="bg-base-200/80 p-2.5 rounded-xl text-base-content/70">
-                <Layers size={20} />
-              </div>
-              <h2 className="text-base font-bold text-base-content">
-                Aturan & Syarat Platform
-              </h2>
-            </div>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { icon: ShieldCheck, title: "Integritas Akademik", desc: "Menjaga standar kejujuran tinggi dalam setiap publikasi dan riset." },
-                { icon: Briefcase, title: "Komitmen", desc: "Profesionalisme dalam menjalankan tugas sesuai tenggat waktu." },
-                { icon: Eye, title: "Transparansi Proyek", desc: "Keterbukaan alur kerja dan pembagian peran yang jelas." },
-                { icon: MessageSquare, title: "Etika Berkomunikasi", desc: "Menghargai setiap perbedaan pendapat dalam kolaborasi tim." }
-              ].map((item, idx) => (
-                <div key={idx} className="bg-base-100 p-6 rounded-3xl border border-base-300 shadow-sm hover:-translate-y-1 transition-transform duration-300">
-                  <item.icon size={26} className="text-primary mb-5" />
-                  <h4 className="font-bold text-base-content mb-2.5 text-[15px]">{item.title}</h4>
-                  <p className="text-[13px] text-base-content/60 leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* ================= CTA SECTION (SEKARANG BIRU) ================= */}
-          {/* Mengganti bg-neutral menjadi bg-blue-600 agar cerah dan interaktif */}
-          <section className="bg-blue-600 rounded-[2rem] p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 shadow-xl relative overflow-hidden">
-            {/* Dekorasi cahaya di dalam kotak biru */}
-            <div className="absolute right-0 top-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
-
-            <div className="relative z-10">
-              <h3 className="text-xl md:text-2xl font-bold text-white mb-2">Butuh Bantuan Lebih Lanjut?</h3>
-              <p className="text-blue-100 text-sm md:text-base font-medium">Tim support kami siap membantu Anda 24/7 untuk kendala teknis.</p>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto relative z-10">
-              <button className="flex-1 md:flex-none bg-white text-blue-600 font-bold px-8 py-3.5 rounded-xl text-sm hover:bg-blue-50 transition-all active:scale-95 shadow-md">
-                Buka FAQ
-              </button>
-              <button className="flex-1 md:flex-none bg-blue-800 text-white font-bold px-8 py-3.5 rounded-xl text-sm hover:bg-blue-900 transition-all active:scale-95 shadow-lg border border-blue-700">
-                Hubungi Kami
-              </button>
-            </div>
-          </section>
-
-          {/* ================= FOOTER ================= */}
-          <footer className="pt-8 mt-12 border-t border-base-300 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-medium text-base-content/50">
-            <p>© 2026 ResearchCollab Platform. Academic Excellence Initiative.</p>
-            <div className="flex items-center gap-6">
-              <Link href="#" className="hover:text-base-content transition-colors underline-offset-4 hover:underline">Privacy Policy</Link>
-              <Link href="#" className="hover:text-base-content transition-colors underline-offset-4 hover:underline">Security</Link>
-              <Link href="#" className="hover:text-base-content transition-colors underline-offset-4 hover:underline">Status</Link>
-            </div>
-          </footer>
-
         </div>
       </main>
-    </DashboardLayout>
+    </Layout>
+  );
+}
+
+function Section({
+  id,
+  title,
+  children,
+}: {
+  id: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section id={id} className="scroll-mt-28 space-y-5">
+      <h2 className="text-2xl font-semibold leading-snug tracking-tight text-slate-900">
+        {title}
+      </h2>
+
+      <div className="space-y-5">{children}</div>
+    </section>
   );
 }

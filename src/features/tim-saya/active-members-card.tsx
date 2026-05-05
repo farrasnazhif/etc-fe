@@ -8,6 +8,7 @@ import {
   Phone,
   IdCard,
   GraduationCap,
+  Star,
 } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -25,20 +26,32 @@ import { useParams, useRouter } from "next/navigation";
 
 import type { TimMember } from "@/hooks/useTimMembers";
 import type { Pendaftar } from "@/hooks/useApplicants";
+import { useToast } from "@/components/ui/toaster";
+import { useGiveMemberRating } from "@/hooks/use-rating";
+import RatingMemberModal from "./rating-modal";
+import { useState } from "react";
 
 interface ActiveMembersCardProps {
   members: TimMember[];
   applicants: Pendaftar[];
   isLoading?: boolean;
+  timId?: string;
 }
 
 export default function ActiveMembersCard({
   members,
   applicants,
   isLoading,
+  timId,
 }: ActiveMembersCardProps) {
+  const [selectedMember, setSelectedMember] = useState<{
+    userId: string;
+
+    nama: string;
+  } | null>(null);
   const params = useParams();
   const router = useRouter();
+  const { addToast } = useToast();
 
   const rekrutmenId = params.rekrutmen_id as string;
 
@@ -46,6 +59,9 @@ export default function ActiveMembersCard({
     return applicants.find((applicant) => applicant.user_id === userId)
       ?.pendaftar_id;
   }
+
+  const { mutate: giveRating, isPending: isRatingLoading } =
+    useGiveMemberRating(timId, selectedMember?.userId);
 
   return (
     <Card>
@@ -167,6 +183,21 @@ export default function ActiveMembersCard({
                     <DropdownMenuContent align="end" sideOffset={8}>
                       <DropdownMenuItem
                         className="cursor-pointer gap-2"
+                        onClick={() =>
+                          setSelectedMember({
+                            userId: member.user_id,
+                            nama: member.nama,
+                          })
+                        }
+                      >
+                        <Star className="size-4" />
+                        Rating
+                      </DropdownMenuItem>
+
+                      <DropdownMenuSeparator />
+
+                      <DropdownMenuItem
+                        className="cursor-pointer gap-2"
                         disabled={!pendaftarId}
                         onClick={() => {
                           if (!pendaftarId) return;
@@ -196,6 +227,31 @@ export default function ActiveMembersCard({
             );
           })
         )}
+
+        <RatingMemberModal
+          isOpen={!!selectedMember}
+          onClose={() => setSelectedMember(null)}
+          memberName={selectedMember?.nama || ""}
+          isLoading={isRatingLoading}
+          onSubmit={(payload) => {
+            giveRating(payload, {
+              onSuccess: (res) => {
+                addToast(res.message || "Rating berhasil diberikan", "success");
+
+                setSelectedMember(null);
+              },
+
+              onError: (error) => {
+                addToast(
+                  error instanceof Error
+                    ? error.message
+                    : "Gagal memberikan rating",
+                  "error",
+                );
+              },
+            });
+          }}
+        />
       </CardContent>
     </Card>
   );

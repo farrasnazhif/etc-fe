@@ -174,6 +174,7 @@ export default function TimSayaPage() {
               members={timMembers ?? []}
               applicants={applicantsData?.pendaftar ?? []}
               isLoading={!!timId && isTimMembersLoading}
+              timId={timId}
             />
 
             {/* applicants only visible for maker */}

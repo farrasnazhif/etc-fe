@@ -440,7 +440,7 @@ export default function ApplicantDetailPage() {
                           {/* top section */}
                           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                             {/* reviewer */}
-                            <div className="flex min-w-0 items-start gap-3">
+                            <div className="flex min-w-0 items-center gap-3">
                               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-sm font-bold text-white">
                                 {(
                                   history.reviewer_name?.charAt(0) || "U"
@@ -452,7 +452,7 @@ export default function ApplicantDetailPage() {
                                   {history.reviewer_name}
                                 </h3>
 
-                                <div className="mt-1 flex flex-wrap items-center gap-2">
+                                {/* <div className="mt-1 flex flex-wrap items-center gap-2">
                                   <Badge
                                     variant="secondary"
                                     className="bg-primary/10 text-[10px] font-semibold uppercase tracking-wider text-primary"
@@ -463,15 +463,15 @@ export default function ApplicantDetailPage() {
                                   <span className="text-xs text-slate-400">
                                     Tim ID: {history.tim_id.slice(0, 8)}
                                   </span>
-                                </div>
+                                </div> */}
                               </div>
                             </div>
 
                             {/* rating */}
                             <div className="flex shrink-0 flex-col items-start sm:items-end">
-                              <Badge className="border-yellow-200 bg-yellow-50 text-yellow-700">
+                              {/* <Badge className="border-yellow-200 bg-yellow-50 text-yellow-700">
                                 ⭐ {history.rating}/5
-                              </Badge>
+                              </Badge> */}
 
                               <div className="mt-2 text-xs text-yellow-500">
                                 {"★".repeat(history.rating)}

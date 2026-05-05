@@ -69,8 +69,10 @@ export default function TimSayaPage() {
       <div className="mx-auto max-w-7xl space-y-6 px-2 py-2 md:px-4">
         <Breadcrumbs
           customLabels={{
-            feed: "Feed",
-            [rekrutmenId]: `${rekrutmenId.slice(0, 8)}`,
+            [rekrutmenId]: rekrutmenDetail?.kegiatan
+              ? rekrutmenDetail.kegiatan.charAt(0).toUpperCase() +
+                rekrutmenDetail.kegiatan.slice(1)
+              : "Detail Rekrutmen",
           }}
         />
 

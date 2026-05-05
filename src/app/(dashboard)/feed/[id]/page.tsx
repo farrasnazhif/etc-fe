@@ -242,8 +242,9 @@ export default function FeedDetailPage() {
         <div className="mx-auto max-w-7xl space-y-6 px-2 py-2 md:px-4">
           <Breadcrumbs
             customLabels={{
-              feed: "Feed",
-              [recruitmentId]: `${recruitmentId.slice(0, 8)}`,
+              [recruitmentId]: data?.kegiatan
+                ? data.kegiatan.charAt(0).toUpperCase() + data.kegiatan.slice(1)
+                : "Detail Rekrutmen",
             }}
           />
 

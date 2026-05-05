@@ -23,6 +23,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
 import { useApplicantDetail } from "@/hooks/use-detail-applicant";
+import { useRekrutmenDetail } from "@/hooks/useRekrutmenDetail";
 
 function formatDate(date: string) {
   return new Date(date).toLocaleDateString("id-ID", {
@@ -62,6 +63,8 @@ export default function ApplicantDetailPage() {
 
   const rekrutmenId = params?.rekrutmen_id as string;
   const pendaftarId = params?.pendaftar_id as string;
+
+  const { data: rekrutmenDetail } = useRekrutmenDetail(rekrutmenId);
 
   const { data, isLoading, error } = useApplicantDetail(
     rekrutmenId,
@@ -114,7 +117,10 @@ export default function ApplicantDetailPage() {
           <Breadcrumbs
             customLabels={{
               "tim-saya": "Tim Saya",
-              [rekrutmenId]: rekrutmenId.slice(0, 8),
+              [rekrutmenId]: rekrutmenDetail?.kegiatan
+                ? rekrutmenDetail.kegiatan.charAt(0).toUpperCase() +
+                  rekrutmenDetail.kegiatan.slice(1)
+                : "Detail Rekrutmen",
               applicants: "Pelamar",
               [pendaftarId]: data.nama_pendaftar,
             }}

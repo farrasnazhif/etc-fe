@@ -86,7 +86,7 @@ export default function TimSayaPage() {
   if (isDetailLoading || !rekrutmenDetail) {
     return (
       <DashboardLayout withNavbar withSidebar>
-        <div className="flex min-h-[60vh] items-center justify-center">
+        <div className="flex min-h-[80vh] items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
       </DashboardLayout>

@@ -106,21 +106,114 @@ function ProfileContent() {
     return `https://lh3.googleusercontent.com/d/${fileId}`;
   }
 
-  const { data: myRekrutmen } = useMyRekrutmen();
+  const { data: myRekrutmen, isPending: isMyRekrutmenPending } =
+    useMyRekrutmen();
 
   const currentTeams = myRekrutmen?.slice(0, 3) ?? [];
 
   if (isLoadingUser) {
     return (
       <DashboardLayout withNavbar withSidebar>
-        <div className="flex min-h-screen items-center justify-center bg-white">
-          <div className="flex flex-col items-center gap-4 text-center">
-            <span className="loading loading-spinner loading-lg text-primary"></span>
-            <p className="text-sm font-medium text-black/60 italic">
-              Memuat data user...
-            </p>
+        <main className="px-2 py-2 md:px-4">
+          <div className="mx-auto max-w-[1440px] animate-pulse space-y-4">
+            {/* top profile section */}
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+              {/* profile card */}
+              <section className="rounded-md border border-slate-200 bg-white p-6 shadow-xs lg:col-span-2">
+                <div className="flex flex-col gap-6 md:flex-row">
+                  {/* avatar */}
+                  <div className="mx-auto h-32 w-32 rounded-md bg-slate-200 md:mx-0" />
+
+                  {/* profile info */}
+                  <div className="flex flex-1 flex-col space-y-5">
+                    {/* name + button */}
+                    <div className="flex flex-col gap-4 sm:flex-row sm:justify-between">
+                      <div className="space-y-3">
+                        <div className="h-8 w-48 rounded-md bg-slate-200" />
+                      </div>
+
+                      <div className="h-9 w-24 rounded-md bg-slate-200" />
+                    </div>
+
+                    {/* info grid */}
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                      <div className="h-4 w-32 rounded bg-slate-200" />
+                      <div className="h-4 w-36 rounded bg-slate-200" />
+                      <div className="h-4 w-40 rounded bg-slate-200" />
+                      <div className="h-4 w-28 rounded bg-slate-200" />
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* spesialisasi */}
+              <section className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
+                <div className="mb-5 h-4 w-24 rounded bg-slate-200" />
+
+                <div className="flex flex-wrap gap-2">
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="h-8 w-20 rounded-lg bg-slate-200" />
+                  ))}
+                </div>
+              </section>
+            </div>
+
+            {/* bottom cards */}
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+              {/* tim saat ini */}
+              <section className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
+                <div className="mb-5 flex items-center justify-between">
+                  <div className="h-4 w-24 rounded bg-slate-200" />
+                  <div className="h-4 w-16 rounded bg-slate-200" />
+                </div>
+
+                <div className="space-y-3">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-3 rounded-md border border-slate-200 p-3"
+                    >
+                      <div className="h-10 w-10 rounded-md bg-slate-200" />
+
+                      <div className="flex-1 space-y-2">
+                        <div className="h-4 w-24 rounded bg-slate-200" />
+                        <div className="h-3 w-20 rounded bg-slate-200" />
+                      </div>
+
+                      <div className="h-3 w-24 rounded bg-slate-200" />
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* bookmark */}
+              <section className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
+                <div className="mb-5 flex items-center justify-between">
+                  <div className="h-4 w-24 rounded bg-slate-200" />
+                  <div className="h-4 w-16 rounded bg-slate-200" />
+                </div>
+
+                <div className="space-y-3">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-3 rounded-md border border-slate-200 p-3"
+                    >
+                      <div className="h-10 w-10 rounded-md bg-slate-200" />
+
+                      <div className="flex-1 space-y-2">
+                        <div className="h-4 w-24 rounded bg-slate-200" />
+                        <div className="h-3 w-20 rounded bg-slate-200" />
+                      </div>
+
+                      <div className="h-3 w-24 rounded bg-slate-200" />
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </div>
           </div>
-        </div>
+        </main>
       </DashboardLayout>
     );
   }
@@ -295,7 +388,26 @@ function ProfileContent() {
                   </Link>
                 </div>
 
-                {currentTeams.length === 0 ? (
+                {isMyRekrutmenPending ? (
+                  <div className="animate-pulse space-y-3">
+                    {Array.from({ length: 3 }).map((_, i) => (
+                      <div
+                        key={i}
+                        className="flex items-center gap-3 rounded-md border border-slate-200 p-3"
+                      >
+                        <div className="h-10 w-10 rounded-md bg-slate-200" />
+
+                        <div className="flex-1 space-y-2">
+                          <div className="h-4 w-24 rounded bg-slate-200" />
+
+                          <div className="h-3 w-20 rounded bg-slate-200" />
+                        </div>
+
+                        <div className="h-3 w-24 rounded bg-slate-200" />
+                      </div>
+                    ))}
+                  </div>
+                ) : currentTeams.length === 0 ? (
                   <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 py-8 text-center">
                     <p className="text-sm font-medium text-black/50">
                       Belum memiliki tim aktif
@@ -370,12 +482,23 @@ function ProfileContent() {
               </div>
 
               {isPending ? (
-                <div className="flex flex-col items-center justify-center py-8">
-                  <span className="loading loading-spinner loading-md text-primary"></span>
+                <div className="animate-pulse space-y-3">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-3 rounded-md border border-slate-200 p-3"
+                    >
+                      <div className="h-10 w-10 rounded-md bg-slate-200" />
 
-                  <p className="mt-3 text-sm text-black/50">
-                    Memuat bookmark...
-                  </p>
+                      <div className="flex-1 space-y-2">
+                        <div className="h-4 w-24 rounded bg-slate-200" />
+
+                        <div className="h-3 w-20 rounded bg-slate-200" />
+                      </div>
+
+                      <div className="h-3 w-24 rounded bg-slate-200" />
+                    </div>
+                  ))}
                 </div>
               ) : isError ? (
                 <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-red-200 py-8 text-center">

@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/components/ui/toaster";
 import axios from "axios";
+import Logo from "@/components/ui/logo";
 
 export default function LoginPage() {
   const [noPengenal, setNoPengenal] = useState("");
@@ -93,9 +94,10 @@ export default function LoginPage() {
       className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-b from-blue-100 via-blue-50 to-white"
     >
       <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-sm space-y-6">
-        <div className="text-center">
+        <div className="text-center flex flex-col items-center space-y-2">
+          <Logo />
           <h1 className="text-2xl font-bold">Masuk ke ETC</h1>
-          <p className="text-sm text-gray-500 mt-2">
+          <p className="text-sm text-gray-500 ">
             Masukkan NRP/NIP dan password Anda
           </p>
         </div>

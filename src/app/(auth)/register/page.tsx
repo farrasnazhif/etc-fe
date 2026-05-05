@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import Input from "@/components/ui/input";
 import Button from "@/components/ui/button";
 import { OnboardingFormData } from "@/types/onboarding";
+import Logo from "@/components/ui/logo";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -41,10 +42,11 @@ export default function RegisterPage() {
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-100 via-blue-50 to-white px-4">
-      <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-sm">
-        <div className="mb-6 text-center">
+      <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-sm space-y-6">
+        <div className="text-center flex flex-col items-center space-y-2">
+          <Logo />
           <h1 className="text-2xl font-bold">Daftar ke ETC</h1>
-          <p className="text-sm mt-2 text-gray-500">
+          <p className="text-sm text-gray-500">
             Buat akun untuk mulai berkolaborasi
           </p>
         </div>

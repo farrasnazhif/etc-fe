@@ -158,39 +158,40 @@ export default function ActiveMembersCard({
                   </div>
                 </div>
 
-                {/* dropdown */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger className="cursor-pointer rounded-md p-1 outline-none transition-colors hover:bg-muted">
-                    <MoreVertical className="size-4 text-muted-foreground" />
-                  </DropdownMenuTrigger>
+                {pendaftarId && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger className="cursor-pointer rounded-md p-1 outline-none transition-colors hover:bg-muted">
+                      <MoreVertical className="size-4 text-muted-foreground" />
+                    </DropdownMenuTrigger>
 
-                  <DropdownMenuContent align="end" sideOffset={8}>
-                    <DropdownMenuItem
-                      className="cursor-pointer gap-2"
-                      disabled={!pendaftarId}
-                      onClick={() => {
-                        if (!pendaftarId) return;
+                    <DropdownMenuContent align="end" sideOffset={8}>
+                      <DropdownMenuItem
+                        className="cursor-pointer gap-2"
+                        disabled={!pendaftarId}
+                        onClick={() => {
+                          if (!pendaftarId) return;
 
-                        router.push(
-                          `/tim-saya/${rekrutmenId}/pelamar/${pendaftarId}`,
-                        );
-                      }}
-                    >
-                      <Archive className="size-4" />
-                      Berkas
-                    </DropdownMenuItem>
+                          router.push(
+                            `/tim-saya/${rekrutmenId}/pelamar/${pendaftarId}`,
+                          );
+                        }}
+                      >
+                        <Archive className="size-4" />
+                        Berkas
+                      </DropdownMenuItem>
 
-                    <DropdownMenuSeparator />
+                      <DropdownMenuSeparator />
 
-                    <DropdownMenuItem
-                      variant="destructive"
-                      className="cursor-pointer gap-2"
-                    >
-                      <Trash2 className="size-4" />
-                      Hapus
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                      <DropdownMenuItem
+                        variant="destructive"
+                        className="cursor-pointer gap-2"
+                      >
+                        <Trash2 className="size-4" />
+                        Hapus
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
               </div>
             );
           })

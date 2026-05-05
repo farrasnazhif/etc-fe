@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/components/ui/toaster";
+import axios from "axios";
 
 export default function LoginPage() {
   const [noPengenal, setNoPengenal] = useState("");
@@ -47,10 +48,42 @@ export default function LoginPage() {
       addToast("Login berhasil!", "success");
       router.push("/feed");
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "Login gagal. Coba lagi.";
+      let rawMessage = "Login gagal. Coba lagi.";
 
-      addToast(message, "error");
+      // check backend error response
+      if (axios.isAxiosError(err)) {
+        rawMessage =
+          err.response?.data?.error ||
+          err.response?.data?.message ||
+          err.message;
+      } else if (err instanceof Error) {
+        rawMessage = err.message;
+      }
+
+      const message = rawMessage.toLowerCase();
+
+      if (err instanceof Error && err.message.includes("400")) {
+        setError("NRP/NIP atau password salah.");
+        addToast("NRP/NIP atau password salah.", "error");
+        return;
+      }
+
+      if (
+        message.includes("credentials salah") ||
+        message.includes("credential") ||
+        message.includes("invalid") ||
+        message.includes("unauthorized") ||
+        message.includes("password") ||
+        message.includes("nrp") ||
+        message.includes("nip")
+      ) {
+        setError("NRP/NIP atau password salah.");
+        addToast("NRP/NIP atau password salah.", "error");
+        return;
+      }
+
+      setError(rawMessage);
+      addToast(rawMessage, "error");
     }
   }
 

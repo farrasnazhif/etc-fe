@@ -162,46 +162,33 @@ export default function FeedDetailPage() {
 
     try {
       // upload cv file
-
       const cvResponse = await applyCvMutation.mutateAsync({
         recruitmentId,
-
         file: cvFile,
       });
 
       // upload portfolio file
-
       const portfolioResponse = await applyPortfolioMutation.mutateAsync({
         recruitmentId,
-
         file: portfolioFile,
       });
 
       // submit final application
-
       await applyRecruitmentMutation.mutateAsync({
         recruitmentId,
-
         alasan_mendaftar: alasanMendaftar,
-
         cv_url: cvResponse.url,
-
         portofolio_url: portfolioResponse.url,
       });
 
       addToast("Berhasil mendaftar rekrutmen!", "success");
-
       setAlasanMendaftar("");
-
       setCvFile(null);
-
       setPortfolioFile(null);
-
       setShowApplyForm(false);
     } catch (error) {
       addToast(
         error instanceof Error ? error.message : "Gagal mengajukan lamaran.",
-
         "error",
       );
     }
@@ -227,7 +214,6 @@ export default function FeedDetailPage() {
     const trimmedContact = contact.trim();
 
     // cek apakah diawali angka (wa)
-
     const isPhoneNumber = /^[0-9]/.test(trimmedContact);
 
     if (isPhoneNumber) {
@@ -235,20 +221,15 @@ export default function FeedDetailPage() {
 
       return {
         href: `https://wa.me/${normalizedPhone}`,
-
         label: trimmedContact,
-
         type: "whatsapp",
       };
     }
 
     // fallback email
-
     return {
       href: `mailto:${trimmedContact}`,
-
       label: trimmedContact,
-
       type: "email",
     };
   }

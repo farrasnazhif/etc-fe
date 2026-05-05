@@ -43,7 +43,6 @@ function BuatPostinganContent() {
     ) {
       addToast(
         "Tanggal mulai tidak boleh lebih dari tanggal selesai.",
-
         "error",
       );
       return false;

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Button from "@/components/ui/button";
-import Input from "@/components/ui/input";
+// import Input from "@/components/ui/input";
 // import Select from "@/components/ui/select";
 import {
   FileText,
@@ -24,11 +24,14 @@ import {
 import { useToast } from "@/components/ui/toaster";
 import {
   useApplyRecruitment,
+  useApplyRecruitmentCv,
+  useApplyRecruitmentPortfolio,
   useGetAppliedRecruitments,
 } from "@/hooks/use-recruitment";
 import TextArea from "@/components/ui/text-area";
 import { useAuth } from "@/hooks/use-auth";
 import Breadcrumbs from "@/components/ui/breadcrumbs";
+import DropzoneInput from "@/components/ui/dropzone-input";
 
 function formatCurrency(amount: number) {
   return new Intl.NumberFormat("id-ID", {
@@ -60,14 +63,16 @@ export default function FeedDetailPage() {
   const [bookmarked, setBookmarked] = useState(false);
   const [showApplyForm, setShowApplyForm] = useState(false);
   const [alasanMendaftar, setAlasanMendaftar] = useState("");
-  const [cvUrl, setCvUrl] = useState("");
-  const [portfolioUrl, setPortfolioUrl] = useState("");
+  const [cvFile, setCvFile] = useState<File | null>(null);
+  const [portfolioFile, setPortfolioFile] = useState<File | null>(null);
 
   const { isAuthenticated, user } = useAuth();
 
   const isDosen = user?.role === "dosen";
 
   const applyRecruitmentMutation = useApplyRecruitment();
+  const applyCvMutation = useApplyRecruitmentCv();
+  const applyPortfolioMutation = useApplyRecruitmentPortfolio();
 
   const router = useRouter();
   const params = useParams();
@@ -138,42 +143,68 @@ export default function FeedDetailPage() {
     });
   }
 
-  function handleApplyRecruitment() {
+  async function handleApplyRecruitment() {
     if (!recruitmentId) return;
 
     if (!isAuthenticated) {
       addToast("Silakan login terlebih dahulu.", "error");
+
       router.push("/login");
+
       return;
     }
 
-    if (!alasanMendaftar || !cvUrl || !portfolioUrl) {
+    if (!alasanMendaftar || !cvFile || !portfolioFile) {
       addToast("Semua field wajib diisi.", "error");
+
       return;
     }
 
-    applyRecruitmentMutation.mutate(
-      {
+    try {
+      // upload cv file
+
+      const cvResponse = await applyCvMutation.mutateAsync({
         recruitmentId,
+
+        file: cvFile,
+      });
+
+      // upload portfolio file
+
+      const portfolioResponse = await applyPortfolioMutation.mutateAsync({
+        recruitmentId,
+
+        file: portfolioFile,
+      });
+
+      // submit final application
+
+      await applyRecruitmentMutation.mutateAsync({
+        recruitmentId,
+
         alasan_mendaftar: alasanMendaftar,
-        cv_url: cvUrl,
-        portofolio_url: portfolioUrl,
-      },
 
-      {
-        onSuccess: () => {
-          addToast("Berhasil mendaftar rekrutmen!", "success");
-          setAlasanMendaftar("");
-          setCvUrl("");
-          setPortfolioUrl("");
-          setShowApplyForm(false);
-        },
+        cv_url: cvResponse.url,
 
-        onError: (error) => {
-          addToast(error.message, "error");
-        },
-      },
-    );
+        portofolio_url: portfolioResponse.url,
+      });
+
+      addToast("Berhasil mendaftar rekrutmen!", "success");
+
+      setAlasanMendaftar("");
+
+      setCvFile(null);
+
+      setPortfolioFile(null);
+
+      setShowApplyForm(false);
+    } catch (error) {
+      addToast(
+        error instanceof Error ? error.message : "Gagal mengajukan lamaran.",
+
+        "error",
+      );
+    }
   }
 
   if (isLoading || isLoadingApplied) {
@@ -416,7 +447,7 @@ export default function FeedDetailPage() {
 
             {/* right */}
             {!isDosen && !isMaker && (
-              <aside data-theme="light" className="space-y-6">
+              <aside data-theme="light" className="space-y-6 bg-slate-50">
                 {/* role card */}
                 {/* <div className="rounded-md border border-slate-200 bg-white p-6 shadow-xs">
                 <h2 className="flex items-center gap-2 text-lg font-semibold">
@@ -468,15 +499,12 @@ export default function FeedDetailPage() {
                     onClick={() => {
                       if (alreadyApplied) {
                         router.push("/tim-saya");
-
                         return;
                       }
 
                       if (!isAuthenticated) {
                         addToast("Silakan login terlebih dahulu.", "error");
-
                         router.push("/login");
-
                         return;
                       }
 
@@ -532,7 +560,7 @@ export default function FeedDetailPage() {
                         className="w-full"
                       />
 
-                      <Input
+                      {/* <Input
                         label="Link CV"
                         placeholder="https://drive.google.com/..."
                         value={cvUrl}
@@ -546,13 +574,36 @@ export default function FeedDetailPage() {
                         value={portfolioUrl}
                         onChange={(e) => setPortfolioUrl(e.target.value)}
                         required
+                      /> */}
+
+                      <DropzoneInput
+                        label="Upload CV"
+                        required
+                        accept=".pdf"
+                        onFileChange={setCvFile}
+                      />
+
+                      <DropzoneInput
+                        label="Upload Portfolio"
+                        required
+                        accept=".pdf"
+                        helperText="Jika berupa link, harap masukkan ke dalam file PDF."
+                        onFileChange={setPortfolioFile}
                       />
 
                       <Button
                         className="w-full"
                         onClick={handleApplyRecruitment}
-                        isLoading={applyRecruitmentMutation.isPending}
-                        disabled={applyRecruitmentMutation.isPending}
+                        isLoading={
+                          applyRecruitmentMutation.isPending ||
+                          applyCvMutation.isPending ||
+                          applyPortfolioMutation.isPending
+                        }
+                        disabled={
+                          applyRecruitmentMutation.isPending ||
+                          applyCvMutation.isPending ||
+                          applyPortfolioMutation.isPending
+                        }
                       >
                         Submit Application
                       </Button>

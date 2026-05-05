@@ -30,7 +30,7 @@ export default function DropzoneInput({
   }
 
   return (
-    <div className="form-control w-full max-w-md">
+    <div className="form-control w-full ">
       {/* label */}
       {label && (
         <label className="label">
@@ -44,7 +44,7 @@ export default function DropzoneInput({
       {/* dropzone */}
       <label
         className={cn(
-          "flex flex-col items-center justify-center gap-2 p-6 border-2 border-dashed rounded-xl cursor-pointer transition",
+          "flex flex-col items-center justify-center gap-2 p-6 border-1 border-dashed rounded-xl cursor-pointer transition",
           "bg-base-100 hover:bg-base-200",
           dragActive && "border-primary bg-base-200",
           error && "border-error",
@@ -96,7 +96,7 @@ export default function DropzoneInput({
         <label className="label">
           <span
             className={cn(
-              "label-text-alt",
+              "label-text-alt whitespace-normal break-words text-wrap w-full",
               error ? "text-error" : "text-base-content/60",
             )}
           >

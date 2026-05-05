@@ -18,7 +18,13 @@ export type Recruitment = {
 
 export type AppliedRecruitment = {
   pendaftar_id: string;
+  rekrutmen_id: string;
+  user_id: string;
+  alasan_mendaftar: string;
+  cv_url: string;
+  portofolio_url: string;
   status: "pending" | "accepted" | "rejected";
+  nama_pendaftar: string;
   rekrutmen: Recruitment;
 };
 
@@ -42,12 +48,12 @@ export type ApplyRecruitmentResponse = {
 
 export type ApplyCvInput = {
   recruitmentId: string;
-  url: string;
+  file: File;
 };
 
 export type ApplyPortfolioInput = {
   recruitmentId: string;
-  url: string;
+  file: File;
 };
 
 export type ApplyFileResponse = {
@@ -111,13 +117,21 @@ async function applyRecruitment({
 
 async function applyRecruitmentCv({
   recruitmentId,
-  url,
+  file,
 }: ApplyCvInput): Promise<ApplyFileResponse> {
   try {
+    const formData = new FormData();
+
+    // be body expects key = cv
+    formData.append("cv", file);
+
     const response = await api.post<ApplyFileResponse>(
       `/api/rekrutmen/${recruitmentId}/apply/cv`,
+      formData,
       {
-        url,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       },
     );
 
@@ -135,13 +149,21 @@ async function applyRecruitmentCv({
 
 async function applyRecruitmentPortfolio({
   recruitmentId,
-  url,
+  file,
 }: ApplyPortfolioInput): Promise<ApplyFileResponse> {
   try {
+    const formData = new FormData();
+
+    // be body expects key = portfolio
+    formData.append("portfolio", file);
+
     const response = await api.post<ApplyFileResponse>(
       `/api/rekrutmen/${recruitmentId}/apply/portfolio`,
+      formData,
       {
-        url,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       },
     );
 
@@ -158,7 +180,6 @@ async function applyRecruitmentPortfolio({
 }
 
 // hooks
-
 export function useApplyRecruitment() {
   const queryClient = useQueryClient();
 

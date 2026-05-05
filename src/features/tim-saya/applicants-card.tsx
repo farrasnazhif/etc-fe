@@ -85,26 +85,28 @@ export default function ApplicantsCard({
               key={applicant.pendaftar_id}
               className="ring-1 ring-border/60 shadow-none"
             >
-              <CardContent className="flex flex-col items-start gap-4 px-4 py-4 sm:flex-row sm:items-center">
-                {/* avatar */}
-                <Avatar size="lg" className="rounded-lg after:rounded-lg">
-                  <AvatarFallback className="rounded-lg">
-                    {applicant.nama_pendaftar
-                      ? applicant.nama_pendaftar
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")
-                          .slice(0, 2)
-                          .toUpperCase()
-                      : "??"}
-                  </AvatarFallback>
-                </Avatar>
+              <CardContent className="flex flex-col justify-between items-start gap-4 px-4 py-4 sm:flex-row sm:items-center">
+                <div className="flex items-center gap-4">
+                  {/* avatar */}
+                  <Avatar size="lg" className="rounded-lg after:rounded-lg">
+                    <AvatarFallback className="rounded-lg">
+                      {applicant.nama_pendaftar
+                        ? applicant.nama_pendaftar
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")
+                            .slice(0, 2)
+                            .toUpperCase()
+                        : "??"}
+                    </AvatarFallback>
+                  </Avatar>
 
-                {/* info */}
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-semibold text-foreground">
-                    {applicant.nama_pendaftar || "Tanpa Nama"}
-                  </p>
+                  {/* info */}
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-semibold text-foreground">
+                      {applicant.nama_pendaftar || "Tanpa Nama"}
+                    </p>
+                  </div>
                 </div>
 
                 {/* actions */}

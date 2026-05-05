@@ -38,6 +38,18 @@ export default function RekrutmenCard({
     }
   };
 
+  const kegiatanStyle = {
+    projek: "bg-blue-100 text-blue-700 border-blue-200",
+    lomba: "bg-orange-100 text-orange-700 border-orange-200",
+    riset: "bg-emerald-100 text-emerald-700 border-emerald-200",
+  };
+
+  const kegiatanLabel = {
+    projek: "Projek",
+    lomba: "Lomba",
+    riset: "Riset",
+  };
+
   return (
     <Link
       href={href ?? `/feed/${item.rekrutmen_id}`}
@@ -45,9 +57,17 @@ export default function RekrutmenCard({
     >
       <div className="group rounded-md border border-border bg-card p-5 shadow-xs hover:shadow-sm hover:border-primary/30 transition-all duration-300 flex flex-col h-full">
         <div className="flex items-start justify-between mb-3 gap-2">
-          <span className="shrink-0 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
-            {item.kegiatan}
+          <span
+            className={cn(
+              "shrink-0 rounded-full border px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider",
+              kegiatanStyle[item.kegiatan as keyof typeof kegiatanStyle] ||
+                "bg-primary/10 text-primary border-primary/20",
+            )}
+          >
+            {kegiatanLabel[item.kegiatan as keyof typeof kegiatanLabel] ||
+              item.kegiatan}
           </span>
+
           {status && (
             <span
               className={cn(
@@ -55,7 +75,7 @@ export default function RekrutmenCard({
                 status === "pending" &&
                   "bg-yellow-100 text-yellow-700 border-yellow-200",
                 status === "approved" &&
-                  "bg-green-100 text-green-700 border-green-200",
+                  "bg-green-300 text-green-700 border-green-200",
                 status === "rejected" &&
                   "bg-red-100 text-red-700 border-red-200",
               )}

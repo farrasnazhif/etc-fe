@@ -23,7 +23,7 @@ export type AppliedRecruitment = {
   alasan_mendaftar: string;
   cv_url: string;
   portofolio_url: string;
-  status: "pending" | "accepted" | "rejected";
+  status: "pending" | "approved" | "rejected";
   nama_pendaftar: string;
   rekrutmen: Recruitment;
 };
@@ -42,7 +42,7 @@ export type ApplyRecruitmentResponse = {
   alasan_mendaftar: string;
   cv_url: string;
   portofolio_url: string;
-  status: "pending" | "accepted" | "rejected";
+  status: "pending" | "approved" | "rejected";
   nama_pendaftar: string;
 };
 

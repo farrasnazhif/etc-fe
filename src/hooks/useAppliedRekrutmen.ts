@@ -24,7 +24,7 @@ export function useAppliedRekrutmen() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       return response.data;
     },

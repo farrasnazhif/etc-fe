@@ -10,14 +10,14 @@ import { useGetAppliedRecruitments } from "@/hooks/use-recruitment";
 
 import Link from "next/link";
 
-import { Loader2, Clock3, CheckCircle2, XCircle } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 import Button from "@/components/ui/button";
 import RekrutmenCard from "@/components/ui/rekrutmen-card";
 import Select from "@/components/ui/select";
 
 type ViewMode = "created" | "applied";
-type AppliedFilter = "all" | "pending" | "accepted" | "rejected";
+type AppliedFilter = "all" | "pending" | "approved" | "rejected";
 
 export default function TimSayaListPage() {
   const [mounted, setMounted] = useState(false);
@@ -40,38 +40,6 @@ export default function TimSayaListPage() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
-
-  function getStatusBadge(status: "pending" | "accepted" | "rejected") {
-    switch (status) {
-      case "pending":
-        return {
-          label: "Pending",
-          icon: <Clock3 className="size-3.5" />,
-          className: "border-yellow-200 bg-yellow-50 text-yellow-700",
-        };
-
-      case "accepted":
-        return {
-          label: "Diterima",
-          icon: <CheckCircle2 className="size-3.5" />,
-          className: "border-green-200 bg-green-50 text-green-700",
-        };
-
-      case "rejected":
-        return {
-          label: "Ditolak",
-          icon: <XCircle className="size-3.5" />,
-          className: "border-red-200 bg-red-50 text-red-700",
-        };
-
-      default:
-        return {
-          label: status,
-          icon: null,
-          className: "border-green-200 bg-green-200 text-green-700",
-        };
-    }
-  }
 
   const filteredAppliedRecruitments = useMemo(() => {
     if (!appliedRecruitments) return [];
@@ -181,7 +149,7 @@ export default function TimSayaListPage() {
                       },
                       {
                         label: "Diterima",
-                        value: "accepted",
+                        value: "approved",
                       },
                       {
                         label: "Ditolak",
@@ -282,24 +250,25 @@ export default function TimSayaListPage() {
                   filteredAppliedRecruitments.length > 0 && (
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                       {filteredAppliedRecruitments.map((application) => {
-                        const status = getStatusBadge(application.status);
+                        // const status = getStatusBadge(application.status);
 
                         return (
                           <div
                             key={application.pendaftar_id}
                             className="relative"
                           >
-                            <div className="absolute right-3 top-3 z-20">
+                            {/* <div className="absolute right-3 top-3 z-20">
                               <span
                                 className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-[10px] font-bold uppercase tracking-wide shadow-sm ${status.className}`}
                               >
                                 {status.icon}
                                 {status.label}
                               </span>
-                            </div>
+                            </div> */}
 
                             <RekrutmenCard
                               item={application.rekrutmen}
+                              status={application.status}
                               href={`/tim-saya/${application.rekrutmen.rekrutmen_id}`}
                             />
                           </div>

@@ -1,6 +1,14 @@
 "use client";
 
-import { Calendar, HandCoins, User, FileText } from "lucide-react";
+import {
+  Calendar,
+  HandCoins,
+  User,
+  FileText,
+  Clock3,
+  CheckCircle2,
+  XCircle,
+} from "lucide-react";
 import { Rekrutmen } from "@/hooks/useRekrutmen";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -28,6 +36,7 @@ export default function RekrutmenCard({
   const formatDate = (dateStr: string) => {
     try {
       const date = new Date(dateStr);
+
       return date.toLocaleDateString("id-ID", {
         day: "numeric",
         month: "long",
@@ -50,73 +59,109 @@ export default function RekrutmenCard({
     riset: "Riset",
   };
 
+  function getStatusConfig(currentStatus: "pending" | "approved" | "rejected") {
+    switch (currentStatus) {
+      case "pending":
+        return {
+          label: "Pending",
+          icon: <Clock3 className="size-3" />,
+          className: "bg-yellow-100 text-yellow-700 border-yellow-200",
+        };
+
+      case "approved":
+        return {
+          label: "Diterima",
+          icon: <CheckCircle2 className="size-3" />,
+          className: "bg-green-100 text-green-700 border-green-200",
+        };
+
+      case "rejected":
+        return {
+          label: "Ditolak",
+          icon: <XCircle className="size-3" />,
+          className: "bg-red-100 text-red-700 border-red-200",
+        };
+
+      default:
+        return {
+          label: currentStatus,
+          icon: null,
+          className: "bg-green-100 text-green-700 border-green-200",
+        };
+    }
+  }
+
+  const statusConfig = status ? getStatusConfig(status) : null;
+
   return (
     <Link
       href={href ?? `/feed/${item.rekrutmen_id}`}
       className="block h-full cursor-pointer"
     >
-      <div className="group rounded-md border border-border bg-card p-5 shadow-xs hover:shadow-sm hover:border-primary/30 transition-all duration-300 flex flex-col h-full">
-        <div className="flex items-start justify-between mb-3 gap-2">
+      <div className="group flex h-full flex-col rounded-md border border-border bg-card p-5 shadow-xs transition-all duration-300 hover:border-primary/30 hover:shadow-sm">
+        <div className="mb-3 flex items-start justify-between gap-2">
           <span
             className={cn(
               "shrink-0 rounded-full border px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider",
               kegiatanStyle[item.kegiatan as keyof typeof kegiatanStyle] ||
-                "bg-primary/10 text-primary border-primary/20",
+                "border-primary/20 bg-primary/10 text-primary",
             )}
           >
             {kegiatanLabel[item.kegiatan as keyof typeof kegiatanLabel] ||
               item.kegiatan}
           </span>
 
-          {status && (
+          {statusConfig && (
             <span
               className={cn(
-                "shrink-0 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border",
-                status === "pending" &&
-                  "bg-yellow-100 text-yellow-700 border-yellow-200",
-                status === "approved" &&
-                  "bg-green-300 text-green-700 border-green-200",
-                status === "rejected" &&
-                  "bg-red-100 text-red-700 border-red-200",
+                "inline-flex shrink-0 items-center gap-1 rounded-full border px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider",
+                statusConfig.className,
               )}
             >
-              {status}
+              {statusConfig.icon}
+              {statusConfig.label}
             </span>
           )}
         </div>
 
-        <h4 className="text-[15px] font-bold text-foreground mb-3 leading-snug group-hover:text-primary transition-colors duration-200">
+        <h4 className="mb-3 text-[15px] font-bold leading-snug text-foreground transition-colors duration-200 group-hover:text-primary">
           {item.role}
         </h4>
 
-        <div className="text-sm text-muted-foreground mb-4 grow space-y-2">
+        <div className="mb-4 grow space-y-2 text-sm text-muted-foreground">
           <div className="flex items-start gap-2">
-            <FileText className="w-4 h-4 mt-0.5 shrink-0 text-muted-foreground" />
+            <FileText className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+
             <p className="line-clamp-3 leading-relaxed">
-              {item.Kriteria ? item.Kriteria : "Tidak ada kriteria"}
+              {item.Kriteria || "Tidak ada kriteria"}
             </p>
           </div>
+
           <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4 shrink-0 text-muted-foreground" />
+            <Calendar className="h-4 w-4 shrink-0 text-muted-foreground" />
+
             <p>
               {formatDate(item.tanggal_mulai)} –{" "}
               {formatDate(item.tanggal_selesai)}
             </p>
           </div>
+
           <div className="flex items-center gap-2">
-            <HandCoins className="w-4 h-4 shrink-0 text-muted-foreground" />
+            <HandCoins className="h-4 w-4 shrink-0 text-muted-foreground" />
+
             <p className="font-semibold text-foreground">
               {formatRupiah(item.fee)}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center justify-between pt-3 border-t border-border mt-auto">
+        <div className="mt-auto flex items-center justify-between border-t border-border pt-3">
           <div className="flex items-center gap-2">
-            <div className="flex items-center justify-center h-7 w-7 rounded-full bg-muted">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-muted">
               <User className="h-4 w-4 text-muted-foreground" />
             </div>
-            <span className="text-xs font-medium text-foreground truncate max-w-[150px]">
+
+            <span className="max-w-[150px] truncate text-xs font-medium text-foreground">
               {item.contact_person}
             </span>
           </div>

@@ -1,7 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Search, Users, ClipboardList, Sparkles, Loader2 } from "lucide-react";
+import {
+  Search,
+  Users,
+  ClipboardList,
+  Sparkles,
+  Loader2,
+  ChevronRight,
+  ChevronLeft,
+} from "lucide-react";
 import DashboardLayout from "@/layouts/dashboard/dashboard-layout";
 import Button from "@/components/ui/button";
 import TypewriterSubtitle from "@/features/feed/typewriter-subtitle";
@@ -216,31 +224,36 @@ export default function FeedPage() {
             {/* Search bar + Tab switcher */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
               {/* Tabs */}
-              <div className="flex items-center rounded-md border border-border bg-card p-1 shrink-0 shadow-xs">
-                <Button
-                  variant="ghost"
-                  onClick={() => setActiveTab("all")}
-                  className={cn(
-                    "px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer h-auto",
-                    activeTab === "all"
-                      ? "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 hover:text-primary-foreground"
-                      : "text-muted-foreground hover:text-foreground hover:bg-transparent",
-                  )}
-                >
-                  Semua Rekrutan
-                </Button>
-                <Button
-                  variant="ghost"
-                  onClick={() => setActiveTab("my")}
-                  className={cn(
-                    "px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer h-auto",
-                    activeTab === "my"
-                      ? "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 hover:text-primary-foreground"
-                      : "text-muted-foreground hover:text-foreground hover:bg-transparent",
-                  )}
-                >
-                  Aplikasi Saya
-                </Button>
+              <div className="flex gap-2 items-center rounded-md border border-border bg-card p-1 shrink-0 shadow-xs">
+                <div data-theme="light">
+                  <Button
+                    variant="ghost"
+                    onClick={() => setActiveTab("all")}
+                    className={cn(
+                      "px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer h-auto",
+                      activeTab === "all"
+                        ? "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 hover:text-primary-foreground"
+                        : "text-muted-foreground hover:text-foreground hover:bg-transparent",
+                    )}
+                  >
+                    Semua Rekrutan
+                  </Button>
+                </div>
+
+                <div data-theme="light">
+                  <Button
+                    variant="ghost"
+                    onClick={() => setActiveTab("my")}
+                    className={cn(
+                      "px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer h-auto",
+                      activeTab === "my"
+                        ? "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 hover:text-primary-foreground"
+                        : "text-muted-foreground hover:text-foreground hover:bg-transparent",
+                    )}
+                  >
+                    Aplikasi Saya
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -306,29 +319,35 @@ export default function FeedPage() {
                         {/* Pagination controls */}
                         {data.total_pages > 1 && (
                           <div className="flex items-center justify-center gap-4 mt-8 pt-6 border-t border-border">
-                            <Button
-                              variant="outline"
-                              onClick={() => setPage((p) => Math.max(1, p - 1))}
-                              disabled={page === 1}
-                              className="cursor-pointer"
-                            >
-                              Sebelumnya
-                            </Button>
+                            <div data-theme="light">
+                              {" "}
+                              <Button
+                                variant="primary"
+                                onClick={() =>
+                                  setPage((p) => Math.max(1, p - 1))
+                                }
+                                disabled={page === 1}
+                              >
+                                <ChevronLeft />
+                              </Button>
+                            </div>
+
                             <span className="text-sm font-medium text-muted-foreground">
                               Halaman {data.page} dari {data.total_pages}
                             </span>
-                            <Button
-                              variant="outline"
-                              onClick={() =>
-                                setPage((p) =>
-                                  Math.min(data.total_pages, p + 1),
-                                )
-                              }
-                              disabled={page === data.total_pages}
-                              className="cursor-pointer"
-                            >
-                              Selanjutnya
-                            </Button>
+                            <div data-theme="light">
+                              <Button
+                                variant="primary"
+                                onClick={() =>
+                                  setPage((p) =>
+                                    Math.min(data.total_pages, p + 1),
+                                  )
+                                }
+                                disabled={page === data.total_pages}
+                              >
+                                <ChevronRight />
+                              </Button>
+                            </div>
                           </div>
                         )}
                       </>

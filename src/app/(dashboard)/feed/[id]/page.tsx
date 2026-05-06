@@ -82,6 +82,34 @@ export default function FeedDetailPage() {
   const { data: appliedRecruitments, isLoading: isLoadingApplied } =
     useGetAppliedRecruitments();
 
+  // get applied recruitment --> status; based on recruitmentId
+  const appliedRecruitment = appliedRecruitments?.find(
+    (item) => item.rekrutmen.rekrutmen_id === recruitmentId,
+  );
+
+  const applicationStatus = appliedRecruitment?.status;
+
+  function getStatusConfig(status?: string) {
+    switch (status) {
+      case "approved":
+        return {
+          label: "Lamaran Disetujui",
+        };
+
+      case "rejected":
+        return {
+          label: "Lamaran Ditolak",
+        };
+
+      default:
+        return {
+          label: "Memverifikasi Lamaran",
+        };
+    }
+  }
+
+  const statusConfig = getStatusConfig(applicationStatus);
+
   const alreadyApplied = appliedRecruitments?.some(
     (item) => item.rekrutmen.rekrutmen_id === recruitmentId,
   );
@@ -478,11 +506,9 @@ export default function FeedDetailPage() {
 
                   <Button
                     type="button"
+                    variant={alreadyApplied ? "ghost" : "primary"}
                     onClick={() => {
-                      if (alreadyApplied) {
-                        router.push("/tim-saya");
-                        return;
-                      }
+                      if (alreadyApplied) return;
 
                       if (!isAuthenticated) {
                         addToast("Silakan login terlebih dahulu.", "error");
@@ -492,13 +518,22 @@ export default function FeedDetailPage() {
 
                       setShowApplyForm(!showApplyForm);
                     }}
-                    className={`mt-4 w-full ${
-                      alreadyApplied ? "btn-primary  " : ""
+                    className={`mt-4 w-full border-0 shadow-none ${
+                      alreadyApplied
+                        ? applicationStatus === "approved"
+                          ? "bg-green-600 text-white hover:bg-green-600"
+                          : applicationStatus === "rejected"
+                            ? "bg-red-600 text-white hover:bg-red-600"
+                            : "bg-primary text-white hover:bg-primary"
+                        : ""
+                    } ${
+                      alreadyApplied ? "pointer-events-none cursor-default" : ""
                     }`}
                   >
                     {alreadyApplied ? (
                       <div className="flex items-center justify-center gap-2">
-                        Check Status
+                        <Info className="size-4" />
+                        {statusConfig.label}
                       </div>
                     ) : showApplyForm ? (
                       <div className="flex items-center justify-center gap-2">

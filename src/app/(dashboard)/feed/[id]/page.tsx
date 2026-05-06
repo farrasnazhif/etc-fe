@@ -96,7 +96,7 @@ export default function FeedDetailPage() {
     switch (status) {
       case "approved":
         return {
-          label: "Lamaran Disetujui",
+          label: "Lamaran Diterima",
           icon: <CheckCircle2 className="size-4" />,
         };
 

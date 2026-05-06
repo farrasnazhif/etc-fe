@@ -5,7 +5,7 @@ import {
   Settings,
   HelpCircle,
   X,
-  PanelRight,
+  // PanelRight,
   Home,
   Bell,
   Bookmark,
@@ -34,12 +34,12 @@ export default function DashboardSidebar() {
   return (
     <>
       {/* mobile trigger */}
-      <button
+      {/* <button
         onClick={() => setOpen(true)}
         className="fixed left-4 top-4 z-40 rounded-md bg-white p-2 shadow md:hidden"
       >
         <PanelRight />
-      </button>
+      </button> */}
 
       {/* desktop sidebar */}
       <div className="hidden lg:block">

@@ -11,6 +11,9 @@ import {
   Bookmark,
   UserPlusIcon,
   Info,
+  CheckCircle2,
+  XCircle,
+  Clock3,
 } from "lucide-react";
 import DashboardLayout from "@/layouts/dashboard/dashboard-layout";
 import { useState } from "react";
@@ -94,16 +97,19 @@ export default function FeedDetailPage() {
       case "approved":
         return {
           label: "Lamaran Disetujui",
+          icon: <CheckCircle2 className="size-4" />,
         };
 
       case "rejected":
         return {
           label: "Lamaran Ditolak",
+          icon: <XCircle className="size-4" />,
         };
 
       default:
         return {
           label: "Memverifikasi Lamaran",
+          icon: <Clock3 className="size-4" />,
         };
     }
   }
@@ -532,7 +538,7 @@ export default function FeedDetailPage() {
                   >
                     {alreadyApplied ? (
                       <div className="flex items-center justify-center gap-2">
-                        <Info className="size-4" />
+                        {statusConfig.icon}
                         {statusConfig.label}
                       </div>
                     ) : showApplyForm ? (

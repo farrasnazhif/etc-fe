@@ -3,7 +3,6 @@
 import {
   Users,
   MoreVertical,
-  Trash2,
   Archive,
   Phone,
   IdCard,
@@ -46,7 +45,6 @@ export default function ActiveMembersCard({
 }: ActiveMembersCardProps) {
   const [selectedMember, setSelectedMember] = useState<{
     userId: string;
-
     nama: string;
   } | null>(null);
   const params = useParams();
@@ -209,16 +207,6 @@ export default function ActiveMembersCard({
                       >
                         <Archive className="size-4" />
                         Berkas
-                      </DropdownMenuItem>
-
-                      <DropdownMenuSeparator />
-
-                      <DropdownMenuItem
-                        variant="destructive"
-                        className="cursor-pointer gap-2"
-                      >
-                        <Trash2 className="size-4" />
-                        Hapus
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

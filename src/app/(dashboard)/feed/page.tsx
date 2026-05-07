@@ -66,6 +66,9 @@ export default function FeedPage() {
     error: appliedError,
   } = useAppliedRekrutmen();
 
+  const pendingCount =
+    appliedData?.filter((item) => item.status === "pending").length ?? 0;
+
   return (
     <DashboardLayout withNavbar withSidebar>
       <div className="max-w-7xl mx-auto px-2 py-2 md:px-4">
@@ -105,7 +108,7 @@ export default function FeedPage() {
                 <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
                   Aplikasi Tertunda
                 </p>
-                <p className="text-xl font-bold text-foreground">0</p>
+                <p className="text-xl font-bold text-foreground">{pendingCount}</p>
               </div>
             </div>
           </div>

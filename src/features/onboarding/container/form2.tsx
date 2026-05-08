@@ -46,7 +46,7 @@ export default function Form2Page({
       sessionStorage.removeItem("register-draft");
 
       addToast("Berhasil membuat akun!", "success");
-      router.push("/dashboard");
+      router.push("/feed");
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Login gagal. Coba lagi.";

@@ -237,7 +237,9 @@ function ProfileContent() {
       <main className=" px-2 py-2 md:px-4 text-black font-sans">
         <div className="mx-auto max-w-[1440px] space-y-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <section className="lg:col-span-2 rounded-md border border-slate-200 bg-white p-6 shadow-xs">
+            <section
+              className={`${isDosen && "lg:col-span-3"} lg:col-span-2 rounded-md border border-slate-200 bg-white p-6 shadow-xs`}
+            >
               <div className="flex flex-col gap-6 md:flex-row md:items-start">
                 {/* profile image */}
                 <div className="relative mx-auto h-32 w-32 flex-shrink-0 md:mx-0">

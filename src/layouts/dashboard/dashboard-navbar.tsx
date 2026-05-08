@@ -130,13 +130,13 @@ export default function DashboardNavbar() {
                         Profile
                       </Link>
 
-                      <Link
+                      {/* <Link
                         href="/settings"
                         className="block px-4 py-2 text-sm hover:bg-gray-100 mb-2"
                         onClick={() => setOpen(false)}
                       >
                         Settings
-                      </Link>
+                      </Link> */}
 
                       <div className="my-1 border-t" />
 

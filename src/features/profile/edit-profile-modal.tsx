@@ -4,7 +4,7 @@ import { useState } from "react";
 import Button from "@/components/ui/button";
 import {
   User,
-  Settings,
+  // Settings,
   Plus,
   X,
   Briefcase,
@@ -159,13 +159,13 @@ export default function EditProfileModal({
 
             {/* navigation */}
             <div className="hidden mt-6 md:flex h-full flex-col justify-end space-y-3">
-              <Link
+              {/* <Link
                 href="/settings"
                 className="flex items-center gap-2 text-sm text-gray-600 hover:text-black"
               >
                 <Settings className="size-4" />
                 Settings
-              </Link>
+              </Link> */}
 
               <Link
                 href="/support"

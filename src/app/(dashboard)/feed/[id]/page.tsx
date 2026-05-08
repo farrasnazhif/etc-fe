@@ -333,7 +333,7 @@ export default function FeedDetailPage() {
           <section className="grid gap-6 lg:grid-cols-3">
             {/* left */}
             <div
-              className={`space-y-6 lg:col-span-2 ${isDosen || (isMaker && "lg:col-span-3")}`}
+              className={`space-y-6 lg:col-span-2 ${(isDosen || isMaker) && "lg:col-span-3"}`}
             >
               <div className="space-y-6 lg:col-span-2">
                 {/* overview */}

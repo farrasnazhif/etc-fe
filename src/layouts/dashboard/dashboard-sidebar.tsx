@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import {
-  Settings,
+  // Settings,
   HelpCircle,
   X,
   // PanelRight,
@@ -158,13 +158,13 @@ function DesktopSidebar({
 
       {/* bottom */}
       <div className="space-y-3 border-t p-4">
-        <Link
+        {/* <Link
           href="/settings"
           className="flex items-center gap-2 text-sm text-gray-600 transition hover:text-black"
         >
           <Settings className="size-4" />
           Settings
-        </Link>
+        </Link> */}
 
         <Link
           href="/support"

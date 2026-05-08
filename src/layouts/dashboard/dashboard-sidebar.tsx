@@ -167,7 +167,7 @@ function DesktopSidebar({
         </Link> */}
 
         <Link
-          href="/support"
+          href="https://wa.me/6281245529712"
           className="flex items-center gap-2 text-sm text-gray-600 transition hover:text-black"
         >
           <HelpCircle className="size-4" />

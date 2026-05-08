@@ -168,7 +168,7 @@ export default function EditProfileModal({
               </Link> */}
 
               <Link
-                href="/support"
+                href="https://wa.me/6281234567890"
                 className="flex items-center gap-2 text-sm text-gray-600 hover:text-black"
               >
                 <HelpCircle className="size-4" />

@@ -11,6 +11,7 @@ import { OnboardingFormData } from "@/types/onboarding";
 import Form3Page from "@/features/onboarding/container/form3";
 import Button from "@/components/ui/button";
 import Logo from "@/components/ui/logo";
+import Link from "next/link";
 
 export default function OnboardingPage() {
   const [step, setStep] = useState(1);
@@ -126,9 +127,12 @@ export default function OnboardingPage() {
               Jika ada kendala, kami siap membantu Anda melanjutkan proses ini.
             </p>
 
-            <div className="mt-4 flex items-center gap-2">
+            <Link
+              href="https://wa.me/6281245529712"
+              className="mt-4 flex items-center gap-2"
+            >
               <Button>Contact us</Button>
-            </div>
+            </Link>
           </motion.div>
         </aside>
 
